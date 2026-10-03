@@ -17,7 +17,7 @@
   --edge: clamp(16px, 4vw, 56px);
   --header-h: clamp(64px, 6vw, 76px);
   --btn-h: 42px;                              /* height of the cart, menu and mode buttons */
-  --logo-f: calc(var(--btn-h) / 0.507);       /* the e is 0.507em tall in Agbalumo, so this makes it exactly button height */
+  --logo-f: calc(var(--btn-h) * 0.8 / 0.507); /* the e is 0.507em tall in Agbalumo, so this makes it 80% of the button height */
   --radius: 4px;
   color-scheme: light;
 }
