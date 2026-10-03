@@ -104,13 +104,24 @@
     st = { fs, S: fs * 1.5, S2: fs * 0.6, g: fs * 9, hit, keep, dot, dotTarget, dotLift, cx, cy, ink, fired1: false, fired2: false };
   }
 
+  // Where the flying "e" must end up: exactly on top of the header's (hidden) logo e,
+  // so swapping one for the other at the end is invisible. Measured once, when the e has settled.
+  function measureLanding() {
+    const logoE = logoStatic.querySelector(".e");
+    const sL = parseFloat(getComputedStyle(logoStatic).fontSize) / (st.fs * EG);
+    const before = hero.style.transform;
+    hero.style.transform = `translate(0px, 0px) scale(${sL})`;
+    const a = st.keep.el.getBoundingClientRect(), b = logoE.getBoundingClientRect();
+    hero.style.transform = before;
+    return { x: b.left - a.left, y: b.top - a.top, s: sL };
+  }
+
   // transform for the hero: k = 0 → centred big, k = 1 → parked in the header logo
   function heroTarget(k) {
-    const { cx, cy, ink, fs } = st;
+    const { cx, cy, ink } = st;
     const cT = { x: innerWidth / 2 - ink(ZC).x - cx, y: innerHeight / 2 - ink(ZC).y - cy, s: ZC };
-    const r = slot.getBoundingClientRect();
-    const sL = r.height * 0.82 / (0.53 * fs * EG);   // e fills ~82% of the slot height
-    const lT = { x: r.left + r.width / 2 - ink(sL).x - cx, y: r.top + r.height / 2 - ink(sL).y - cy, s: sL };
+    if (k <= 0) return cT;
+    const lT = st.landing || (st.landing = measureLanding());
     return { x: cT.x + (lT.x - cT.x) * k, y: cT.y + (lT.y - cT.y) * k, s: cT.s + (lT.s - cT.s) * k };
   }
   function placeHero(k) { const t = heroTarget(k); hero.style.transform = `translate(${t.x}px, ${t.y}px) scale(${t.s})`; }

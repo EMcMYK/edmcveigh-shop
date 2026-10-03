@@ -81,8 +81,9 @@ button { font: inherit; color: inherit; }
   position: absolute; left: 50%; top: 50%;
   font-family: var(--display); font-size: var(--logo-f); line-height: 1; color: var(--ink);
   white-space: nowrap;
-  /* the letter's ink sits 0.47em below the top of its text box; pull that point onto the bar's centre */
-  transform: translate(-50%, -0.472em);
+  /* the middle of the e's ink sits 0.708em below the top of its text box (measured from Agbalumo);
+     pull that point onto the bar's centre */
+  transform: translate(-50%, -0.708em);
 }
 .logo-static .e { display: inline-block; transform: rotate(-9deg); transform-origin: 10% 85%; }
 .logo-static .d { display: inline-block; transform: translateY(-0.12em); }
