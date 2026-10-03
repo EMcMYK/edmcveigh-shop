@@ -71,8 +71,30 @@
   // The header itself lives in index.html so the logo intro can land in it; this fills it in.
   function renderChrome(active) {
     document.getElementById("banner").textContent = CONFIG.shippingNote || "Free US shipping";
+    const current = (c) => active === c.id ? 'aria-current="page"' : "";
     document.getElementById("nav").innerHTML = CATEGORIES.map((c) =>
-      `<a href="#${esc(c.id)}" ${active === c.id ? 'aria-current="page"' : ""}>${esc(c.title)}</a>`).join("");
+      `<a href="#${esc(c.id)}" ${current(c)}>${esc(c.title)}</a>`).join("");
+    document.getElementById("menuPanel").innerHTML =
+      `<a href="#" ${active === "" ? 'aria-current="page"' : ""}><span class="label">Everything</span><span class="sub">The whole shop</span><span class="arrow" aria-hidden="true">→</span></a>` +
+      CATEGORIES.map((c) =>
+        `<a href="#${esc(c.id)}" ${current(c)}><span class="label">${esc(c.title)}</span><span class="sub">${esc(c.note)}</span><span class="arrow" aria-hidden="true">→</span></a>`).join("");
+    closeMenu();
+  }
+
+  // Menu button (small screens): opens the section list under the header.
+  function setMenu(open) {
+    const btn = document.getElementById("menuBtn"), panel = document.getElementById("menuPanel");
+    panel.hidden = !open;
+    btn.setAttribute("aria-expanded", String(open));
+    btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  }
+  function closeMenu() { setMenu(false); }
+  function wireMenu() {
+    const btn = document.getElementById("menuBtn"), panel = document.getElementById("menuPanel");
+    btn.addEventListener("click", () => setMenu(panel.hidden));
+    panel.addEventListener("click", (e) => { if (e.target.closest("a")) closeMenu(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !panel.hidden) { closeMenu(); btn.focus(); } });
+    document.addEventListener("click", (e) => { if (!panel.hidden && !e.target.closest(".header")) closeMenu(); });
   }
   function renderFooter() {
     document.getElementById("footer").innerHTML = `<div class="wrap">
@@ -350,7 +372,7 @@
     route();
   }
   // Header pieces work even before the products load.
-  renderChrome(""); renderFooter(); wireModeToggle(); renderCartCount();
-  document.getElementById("open-cart").onclick = () => openCart();
+  renderChrome(""); renderFooter(); wireModeToggle(); wireMenu(); renderCartCount();
+  document.getElementById("open-cart").onclick = () => { closeMenu(); openCart(); };
   start();
 })();

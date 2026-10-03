@@ -44,9 +44,13 @@
           <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
           <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g></svg>
         </button>
-        <button class="cart-btn" id="open-cart" type="button" aria-label="Open cart">Cart <span class="count" id="cart-count">0</span></button>
+        <button class="cart-btn" id="open-cart" type="button" aria-label="Open cart"><span class="cart-word">Cart</span> <span class="count" id="cart-count">0</span></button>
+        <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuPanel" aria-label="Open menu" title="Menu">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h16"/></g></svg>
+        </button>
       </div>
     </div>
+    <nav class="menu-panel" id="menuPanel" aria-label="Shop sections" hidden></nav>
   </header>
 
   <!-- Pages are drawn here by assets/shop.js. Products come from data/products.json. -->
