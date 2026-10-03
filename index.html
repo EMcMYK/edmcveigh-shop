@@ -14,6 +14,8 @@
     // Runs before the page paints, so there's no flash of the wrong colors.
     (function () {
       var root = document.documentElement;
+      // Always open at the top of the page, rather than wherever the browser last left off.
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
       // Light or dark: the visitor's saved choice, otherwise their device setting.
       var m = null;
       try { m = localStorage.getItem("edm-mode"); } catch (e) {}
