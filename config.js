@@ -1,7 +1,6 @@
 // Shop settings you might want to change. The website reads this file.
 window.SHOP_CONFIG = {
   // Shown on the site so portrait customers know where to send their house photos.
-  // TODO: replace with the email address you want customers to use.
   contactEmail: "edmcveigh.art@gmail.com",
 
   // Links shown in the footer.
