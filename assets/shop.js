@@ -67,27 +67,36 @@
     return `<div class="mat" style="${style}">${art}<span class="ph-note">Photo coming</span></div>`;
   }
 
-  // ---------- layout ----------
-  function shell(content, active) {
-    return `
-      <div class="banner">${esc(CONFIG.shippingNote || "Free US shipping")}</div>
-      <header class="header"><div class="wrap">
-        <a class="wordmark" href="#">ed.mcveigh<small>shop</small></a>
-        <nav class="nav" aria-label="Shop sections">
-          ${CATEGORIES.map((c) => `<a href="#${esc(c.id)}" ${active === c.id ? 'aria-current="page"' : ""}>${esc(c.title)}</a>`).join("")}
-        </nav>
-        <button class="cart-btn" id="open-cart" type="button" aria-label="Open cart">Cart <span class="count" id="cart-count">0</span></button>
-      </div></header>
-      <main>${content}</main>
-      <footer class="footer"><div class="wrap">
-        <span>Drawn, printed and cut by hand in the Philadelphia area. No AI.</span>
-        <nav aria-label="Elsewhere">
-          ${CONFIG.etsyUrl ? `<a href="${esc(CONFIG.etsyUrl)}" target="_blank" rel="noopener">Etsy</a>` : ""}
-          ${CONFIG.instagramUrl ? `<a href="${esc(CONFIG.instagramUrl)}" target="_blank" rel="noopener">Instagram</a>` : ""}
-          ${CONFIG.contactEmail ? `<span>${esc(CONFIG.contactEmail)}</span>` : ""}
-        </nav>
-      </div></footer>
-      <div id="drawer-root"></div>`;
+  // ---------- page chrome (header nav, banner, footer, light/dark) ----------
+  // The header itself lives in index.html so the logo intro can land in it; this fills it in.
+  function renderChrome(active) {
+    document.getElementById("banner").textContent = CONFIG.shippingNote || "Free US shipping";
+    document.getElementById("nav").innerHTML = CATEGORIES.map((c) =>
+      `<a href="#${esc(c.id)}" ${active === c.id ? 'aria-current="page"' : ""}>${esc(c.title)}</a>`).join("");
+  }
+  function renderFooter() {
+    document.getElementById("footer").innerHTML = `<div class="wrap">
+      <span>Drawn, painted, printed and cut by hand in Philadelphia. No AI.</span>
+      <nav aria-label="Elsewhere">
+        ${CONFIG.etsyUrl ? `<a href="${esc(CONFIG.etsyUrl)}" target="_blank" rel="noopener">Etsy</a>` : ""}
+        ${CONFIG.instagramUrl ? `<a href="${esc(CONFIG.instagramUrl)}" target="_blank" rel="noopener">Instagram</a>` : ""}
+        ${CONFIG.contactEmail ? `<span>${esc(CONFIG.contactEmail)}</span>` : ""}
+      </nav>
+    </div>`;
+  }
+  function wireModeToggle() {
+    const btn = document.getElementById("modeToggle");
+    const root = document.documentElement;
+    const label = () => {
+      const next = root.dataset.mode === "dark" ? "light" : "dark";
+      btn.setAttribute("aria-label", `Switch to ${next} mode`); btn.title = `Switch to ${next} mode`;
+    };
+    label();
+    btn.addEventListener("click", () => {
+      root.dataset.mode = root.dataset.mode === "dark" ? "light" : "dark";
+      try { localStorage.setItem("edm-mode", root.dataset.mode); } catch (e) { /* not saved, still switches */ }
+      label();
+    });
   }
 
   function card(p) {
@@ -96,7 +105,7 @@
     const priceText = low === high ? money(low) : `${money(low)}–${money(high)}`;
     return `
       <a class="card ${p.soldOut ? "sold-out" : ""}" href="#${esc(p.id)}">
-        <div style="position:relative">${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ""}${picture(p)}</div>
+        <div class="frame">${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ""}${picture(p)}</div>
         <div class="card-body">
           <span class="card-title">${esc(p.name)}</span>
           ${p.size ? `<span class="card-meta">${esc(p.size)}</span>` : ""}
@@ -116,9 +125,9 @@
         </div></section>` : "";
     }).join("");
     return `
-      ${filter ? "" : `<section class="intro"><div class="wrap">
-        <h1>Philly stickers, paintings and house portraits, <em>made by hand.</em></h1>
-        <p>Every sticker is drawn, printed and cut by me. Every painting and portrait is an original. Mix and match in one order, and shipping is always free in the US.</p>
+      ${filter ? "" : `<section class="hello"><div class="wrap">
+        <h1>ed.mcveigh shop</h1>
+        <p>Hand-drawn stickers for your stuff, one-of-a-kind art for your walls. Mix and match in one order, and shipping is always free in the US.</p>
       </div></section>`}
       ${sections}`;
   }
@@ -132,7 +141,7 @@
         <a class="back" href="#${esc(p.category)}">← All ${esc(categoryOf(p.category).title.toLowerCase())}</a>
         <div class="product">
           <div class="gallery">
-            <div id="main-pic">${picture(p, 0)}</div>
+            <div class="frame" id="main-pic">${picture(p, 0)}</div>
             ${photos.length > 1 ? `<div class="thumbs">${photos.map((src, i) =>
               `<button type="button" data-pic="${i}" aria-pressed="${i === 0}" aria-label="Photo ${i + 1}"><img src="${esc(src)}" alt=""></button>`).join("")}</div>` : ""}
           </div>
@@ -312,21 +321,20 @@
     const hash = decodeURIComponent(location.hash.slice(1));
     const p = byId(hash);
     if (p) {
-      app.innerHTML = shell(productPage(p), p.category);
+      app.innerHTML = productPage(p); renderChrome(p.category);
       document.title = `${p.name} · ed.mcveigh shop`;
       wireProduct(p);
     } else if (hash === "thanks") {
-      app.innerHTML = shell(thanksPage());
+      app.innerHTML = thanksPage(); renderChrome("");
       document.title = "Thank you · ed.mcveigh shop";
     } else {
       const filter = CATEGORIES.some((c) => c.id === hash) ? hash : "";
-      app.innerHTML = shell(homePage(filter), filter);
+      app.innerHTML = homePage(filter); renderChrome(filter);
       document.title = "ed.mcveigh shop";
       if (hash === "cart") setTimeout(openCart);
     }
-    document.getElementById("open-cart").onclick = () => openCart();
     renderCartCount();
-    window.scrollTo(0, 0);
+    if (!document.documentElement.classList.contains("intro")) window.scrollTo(0, 0);
   }
 
   async function start() {
@@ -341,5 +349,8 @@
     window.addEventListener("hashchange", route);
     route();
   }
+  // Header pieces work even before the products load.
+  renderChrome(""); renderFooter(); wireModeToggle(); renderCartCount();
+  document.getElementById("open-cart").onclick = () => openCart();
   start();
 })();

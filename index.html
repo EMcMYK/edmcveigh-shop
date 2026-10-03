@@ -9,13 +9,51 @@
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Figtree:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+  <script>
+    // Runs before the page paints, so there's no flash of the wrong colors.
+    (function () {
+      var root = document.documentElement;
+      // Light or dark: the visitor's saved choice, otherwise their device setting.
+      var m = null;
+      try { m = localStorage.getItem("edm-mode"); } catch (e) {}
+      if (m !== "light" && m !== "dark") m = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      root.dataset.mode = m;
+      // The logo intro plays once per visit, only on the shop's front page, and never for reduced motion.
+      var played = false;
+      try { played = sessionStorage.getItem("edm-intro") === "1"; } catch (e) {}
+      var page = location.hash.slice(1);
+      var front = page === "" || page === "stickers" || page === "originals" || page === "portraits";
+      if (!played && front && !matchMedia("(prefers-reduced-motion: reduce)").matches) root.classList.add("intro");
+    })();
+  </script>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <!-- The page is filled in by assets/shop.js. Products come from data/products.json. -->
-  <div id="app"></div>
+  <div class="banner reveal" id="banner" style="--d:0">Free US shipping on everything</div>
+  <header class="header">
+    <div class="header-inner">
+      <a class="logo-slot" id="logoSlot" href="#" aria-label="ed.mcveigh shop home">
+        <span class="logo-static" id="logoStatic" aria-hidden="true"><span class="e">e</span><span class="d">.</span></span>
+      </a>
+      <nav class="nav reveal" id="nav" style="--d:1" aria-label="Shop sections"></nav>
+      <div class="header-right reveal" style="--d:1">
+        <button class="mode" id="modeToggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
+          <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
+          <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g></svg>
+        </button>
+        <button class="cart-btn" id="open-cart" type="button" aria-label="Open cart">Cart <span class="count" id="cart-count">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pages are drawn here by assets/shop.js. Products come from data/products.json. -->
+  <main id="app" class="reveal" style="--d:2"></main>
+  <footer class="footer reveal" id="footer" style="--d:3"></footer>
+  <div id="drawer-root"></div>
+
   <script src="config.js"></script>
   <script src="assets/shop.js"></script>
+  <script src="assets/intro.js"></script>
 </body>
 </html>

@@ -13,6 +13,7 @@ Hosting is free on Cloudflare Pages. You pay only Stripe's fee on each sale.
 | `index.html` | The page shell | Rarely |
 | `assets/style.css` | Colors, fonts and layout | Only to change the look |
 | `assets/shop.js` | Shows the products and runs the cart | No |
+| `assets/intro.js` | The ed.mcveigh logo animation (plays once per visit on the front page) | No |
 | `functions/api/checkout.js` | Sends the cart to Stripe (runs on Cloudflare's servers) | No |
 
 ---
