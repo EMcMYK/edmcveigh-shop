@@ -15,8 +15,9 @@
   --ui: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --edge: clamp(16px, 4vw, 56px);
-  --header-h: clamp(64px, 7vw, 84px);
-  --logo-f: calc(var(--header-h) * 1.547);   /* e fills 82% of the bar: 0.82 ÷ 0.53 (the font's e height) */
+  --header-h: clamp(64px, 6vw, 76px);
+  --btn-h: 42px;                              /* height of the cart, menu and mode buttons */
+  --logo-f: calc(var(--btn-h) / 0.507);       /* the e is 0.507em tall in Agbalumo, so this makes it exactly button height */
   --radius: 4px;
   color-scheme: light;
 }
@@ -97,11 +98,11 @@ button { font: inherit; color: inherit; }
 
 .mode, .cart-btn, .menu-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  height: 42px; border: 2px solid var(--ink); border-radius: var(--radius);
+  height: var(--btn-h); border: 2px solid var(--ink); border-radius: var(--radius);
   background: transparent; color: var(--ink); cursor: pointer; font-weight: 600;
   transition: transform .2s cubic-bezier(.2,.7,.2,1), background .2s, color .2s;
 }
-.mode, .menu-btn { width: 42px; padding: 0; }
+.mode, .menu-btn { width: var(--btn-h); padding: 0; }
 .cart-btn { padding: 0 14px; }
 .mode:hover, .mode:focus-visible, .cart-btn:hover, .cart-btn:focus-visible,
 .menu-btn:hover, .menu-btn:focus-visible, .menu-btn[aria-expanded="true"] {
@@ -194,7 +195,9 @@ button { font: inherit; color: inherit; }
   display: grid; place-items: center;
 }
 .mat img { width: 100%; height: 100%; object-fit: cover; }
-.mat.contain img { object-fit: contain; }
+/* Product pages show paintings whole; every grid and cart thumbnail is a square, filled and centred. */
+.gallery .mat.contain img { object-fit: contain; }
+.mat img { object-position: 50% 50%; }
 .sticker {
   width: 66%; aspect-ratio: var(--ratio, 1); max-height: 72%;
   background: var(--swatch, #18602a); color: #fffaf0;

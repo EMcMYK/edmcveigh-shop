@@ -125,38 +125,6 @@
       "disclaimer": ""
     },
     {
-      "id": "go-birds-250",
-      "name": "Go Birds 250 Sticker",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "size": "3\" × 3\"",
-      "images": [
-        "https://i.etsystatic.com/54756024/r/il/534117/8187806183/il_794xN.8187806183_8odc.jpg",
-        "https://i.etsystatic.com/54756024/r/il/c2212e/8187827115/il_794xN.8187827115_qp3b.jpg"
-      ],
-      "swatch": "#2f5d3a",
-      "soldOut": false,
-      "description": [
-        "A green eagle on a presidential-style seal with a Go Birds banner. Celebrate America's 250th and show your love for the Birds at the same time."
-      ],
-      "details": [
-        "Waterproof, die cut, glossy laminated finish (or holographic)",
-        "Great on water bottles, laptops, notebooks and car windows",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any professional sports team or league."
-    },
-    {
       "id": "cheesesteak",
       "name": "Philly Cheesesteak Sticker",
       "category": "stickers",
