@@ -150,7 +150,7 @@ button { font: inherit; color: inherit; }
 @media (max-width: 820px) {
   .nav { display: none; }
 }
-@media (max-width: 380px) {
+@media (max-width: 340px) {
   .cart-btn { padding: 0 10px; }
   .cart-btn .cart-word { display: none; }
 }
