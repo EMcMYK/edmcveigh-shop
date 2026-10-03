@@ -31,6 +31,7 @@ export async function onRequestPost({ request, env }) {
     const form = new URLSearchParams();
     let hasPortrait = false;
     const summary = [];
+    const seen = new Set();
 
     items.slice(0, 30).forEach((item, i) => {
       const product = products.find((p) => p.id === item.id);
@@ -38,7 +39,9 @@ export async function onRequestPost({ request, env }) {
       if (!product || !variant) throw new UserError("Something in your cart is no longer available. Please remove it and try again.");
       if (product.soldOut) throw new UserError(`${product.name} just sold out. Please remove it and try again.`);
 
-      const qty = product.deposit ? 1 : Math.max(1, Math.min(MAX_QTY, Math.floor(Number(item.qty) || 1)));
+      if (product.oneOfAKind && seen.has(product.id)) throw new UserError(`There's only one ${product.name}. Please keep just one in your cart.`);
+      seen.add(product.id);
+      const qty = (product.deposit || product.oneOfAKind) ? 1 : Math.max(1, Math.min(MAX_QTY, Math.floor(Number(item.qty) || 1)));
       const dollars = product.deposit ? variant.price * product.deposit : variant.price;
       const name = product.deposit ? `${product.name}: 50% deposit` : product.name;
       const description = product.deposit

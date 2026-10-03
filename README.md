@@ -53,11 +53,12 @@ Hosting is free on Cloudflare Pages. You pay only Stripe's fee on each sale.
 What each line means:
 
 - **id**: a unique short name, lowercase with dashes. It becomes the product's address: `shop.edmcveigh.com/#ninja-cat`.
-- **category**: `"stickers"` or `"portraits"`, which decides the section it shows up in.
+- **category**: `"stickers"`, `"originals"` or `"portraits"`, which decides the section it shows up in. The sections themselves are listed in `config.js`.
+- **oneOfAKind** (optional): set to `true` for originals. Buyers can only get one, and the page says "only 1 available". When it sells, set `"soldOut": true` here **and** deactivate it on Etsy, since the same painting is listed in both places.
 - **variants**: the options a buyer picks from, each with its own price. One variant means no dropdown appears. For two finishes, list two:
   `[{ "name": "Glossy", "price": 4.00 }, { "name": "Holographic", "price": 5.00 }]`. Then set `"variantLabel": "Finish"`.
 - **size**: shown on the card and the product page. Write it as `width × height` so the placeholder drawing gets the right shape.
-- **images**: paths to your photos. Leave it as `[]` and a drawn placeholder shows instead.
+- **images**: paths to your photos, or full web addresses. The imported products currently use your Etsy photo addresses (`https://i.etsystatic.com/...`). They work, but if you delete a listing on Etsy its photos disappear here too, so move them into `images/` before that happens. Leave it as `[]` and a drawn placeholder shows instead.
 - **swatch**: a color (hex code) for the mat behind the product.
 - **soldOut**: set to `true` to show "Sold out" and turn off the Add to cart button.
 - **badge** (optional): a small label on the card, like `"Best seller"` or `"New"`.

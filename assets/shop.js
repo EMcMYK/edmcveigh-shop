@@ -25,6 +25,13 @@
   const money = (n) => "$" + n.toFixed(2).replace(/\.00$/, "");
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const byId = (id) => PRODUCTS.find((p) => p.id === id);
+  const CATEGORIES = CONFIG.categories || [
+    { id: "stickers", title: "Stickers", note: "" },
+    { id: "portraits", title: "House portraits", note: "" }
+  ];
+  const categoryOf = (id) => CATEGORIES.find((c) => c.id === id) || { id, title: id, note: "" };
+  // Portraits and one-of-a-kind originals are always sold one at a time.
+  const singleOnly = (p) => Boolean(p.deposit || p.oneOfAKind);
 
   function loadCart() {
     try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; }
@@ -51,9 +58,11 @@
   function picture(p, index = 0) {
     const style = `--swatch:${esc(p.swatch || "#2e6b47")}`;
     const img = p.images && p.images[index];
-    if (img) return `<div class="mat" style="${style}"><img src="${esc(img)}" alt="${esc(p.name)}" loading="lazy"></div>`;
-    const art = p.category === "portraits"
-      ? `<div class="portrait-ph"><span>Your home here</span></div>`
+    // Paintings are shown whole (no cropping); everything else fills the square.
+    const fit = p.category === "stickers" ? "" : " contain";
+    if (img) return `<div class="mat${fit}" style="${style}"><img src="${esc(img)}" alt="${esc(p.name)}" loading="lazy"></div>`;
+    const art = p.category !== "stickers"
+      ? `<div class="portrait-ph"><span>${p.category === "portraits" ? "Your home here" : esc(p.name)}</span></div>`
       : `<div class="sticker" style="--ratio:${ratioFromSize(p.size)}">${esc(p.name.replace(/ Sticker( Sheet)?$/, ""))}</div>`;
     return `<div class="mat" style="${style}">${art}<span class="ph-note">Photo coming</span></div>`;
   }
@@ -65,8 +74,7 @@
       <header class="header"><div class="wrap">
         <a class="wordmark" href="#">ed.mcveigh<small>shop</small></a>
         <nav class="nav" aria-label="Shop sections">
-          <a href="#stickers" ${active === "stickers" ? 'aria-current="page"' : ""}>Stickers</a>
-          <a href="#portraits" ${active === "portraits" ? 'aria-current="page"' : ""}>House portraits</a>
+          ${CATEGORIES.map((c) => `<a href="#${esc(c.id)}" ${active === c.id ? 'aria-current="page"' : ""}>${esc(c.title)}</a>`).join("")}
         </nav>
         <button class="cart-btn" id="open-cart" type="button" aria-label="Open cart">Cart <span class="count" id="cart-count">0</span></button>
       </div></header>
@@ -91,7 +99,7 @@
         <div style="position:relative">${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ""}${picture(p)}</div>
         <div class="card-body">
           <span class="card-title">${esc(p.name)}</span>
-          <span class="card-meta">${esc(p.size)}</span>
+          ${p.size ? `<span class="card-meta">${esc(p.size)}</span>` : ""}
           <span class="card-price">${p.soldOut ? "Sold out" : priceText}</span>
         </div>
       </a>`;
@@ -99,20 +107,20 @@
 
   // ---------- pages ----------
   function homePage(filter) {
-    const stickers = PRODUCTS.filter((p) => p.category === "stickers");
-    const portraits = PRODUCTS.filter((p) => p.category === "portraits");
-    const section = (title, note, list, id) => list.length ? `
-      <section class="section" id="sec-${id}"><div class="wrap">
-        <div class="section-head"><h2>${title}</h2><p>${note}</p></div>
-        <div class="grid">${list.map(card).join("")}</div>
-      </div></section>` : "";
+    const sections = CATEGORIES.filter((c) => !filter || c.id === filter).map((c) => {
+      const list = PRODUCTS.filter((p) => p.category === c.id);
+      return list.length ? `
+        <section class="section" id="sec-${esc(c.id)}"><div class="wrap">
+          <div class="section-head"><h2>${esc(c.title)}</h2><p>${esc(c.note)}</p></div>
+          <div class="grid">${list.map(card).join("")}</div>
+        </div></section>` : "";
+    }).join("");
     return `
       ${filter ? "" : `<section class="intro"><div class="wrap">
-        <h1>Philly stickers and house portraits, <em>drawn by hand.</em></h1>
-        <p>Every sticker is drawn, printed and cut by me. Every portrait is an original pen and ink drawing. Mix and match designs in one order, and shipping is always free in the US.</p>
+        <h1>Philly stickers, paintings and house portraits, <em>made by hand.</em></h1>
+        <p>Every sticker is drawn, printed and cut by me. Every painting and portrait is an original. Mix and match in one order, and shipping is always free in the US.</p>
       </div></section>`}
-      ${filter !== "portraits" ? section("Stickers", "Glossy, waterproof, die cut", stickers, "stickers") : ""}
-      ${filter !== "stickers" ? section("House portraits", "Original 8×10 pen and ink", portraits, "portraits") : ""}`;
+      ${sections}`;
   }
 
   function productPage(p) {
@@ -121,7 +129,7 @@
     const photos = (p.images || []);
     return `
       <div class="wrap">
-        <a class="back" href="#${p.category === "portraits" ? "portraits" : "stickers"}">← All ${p.category === "portraits" ? "house portraits" : "stickers"}</a>
+        <a class="back" href="#${esc(p.category)}">← All ${esc(categoryOf(p.category).title.toLowerCase())}</a>
         <div class="product">
           <div class="gallery">
             <div id="main-pic">${picture(p, 0)}</div>
@@ -134,13 +142,14 @@
               <span class="price" id="price">${money(v0.price)}</span>
               ${p.deposit ? `<span class="deposit-note" id="deposit-note">${money(dueToday(p, v0))} deposit today, the rest when it's finished</span>` : ""}
             </div>
-            <div class="size">Size: <b>${esc(p.size)}</b></div>
+            ${p.size ? `<div class="size">Size: <b>${esc(p.size)}</b></div>` : ""}
+            ${p.oneOfAKind && !p.soldOut ? `<div class="size">One of a kind: <b>only 1 available</b></div>` : ""}
             ${many ? `<div class="field">
               <label for="variant">${esc(p.variantLabel || "Option")}</label>
               <select id="variant">${p.variants.map((v, i) => `<option value="${i}">${esc(v.name)} — ${money(v.price)}</option>`).join("")}</select>
             </div>` : ""}
             <div class="buy-row">
-              ${p.deposit ? "" : `<div class="qty" role="group" aria-label="Quantity">
+              ${singleOnly(p) ? "" : `<div class="qty" role="group" aria-label="Quantity">
                 <button type="button" id="qty-minus" aria-label="One fewer">−</button>
                 <output id="qty" aria-live="polite">1</output>
                 <button type="button" id="qty-plus" aria-label="One more">+</button>
@@ -197,9 +206,16 @@
   // ---------- cart ----------
   function addToCart(id, variant, qty) {
     const p = byId(id);
+    if (p.oneOfAKind) {
+      // Only one exists, so a second framing choice replaces the first instead of adding another.
+      cart = cart.filter((l) => l.id !== id);
+      cart.push({ id, variant, qty: 1 });
+      saveCart();
+      return;
+    }
     const existing = cart.find((l) => l.id === id && l.variant === variant);
-    if (existing && !p.deposit) existing.qty = Math.min(50, existing.qty + qty);
-    else if (!existing) cart.push({ id, variant, qty: p.deposit ? 1 : qty });
+    if (existing && !singleOnly(p)) existing.qty = Math.min(50, existing.qty + qty);
+    else if (!existing) cart.push({ id, variant, qty: singleOnly(p) ? 1 : qty });
     saveCart();
   }
   function validLines() {
@@ -223,9 +239,9 @@
         ${picture(p)}
         <div>
           <div class="line-name">${esc(p.name)}</div>
-          <div class="line-variant">${esc(p.variants.length > 1 ? v.name : p.size)}${p.deposit ? " · 50% deposit" : ""}</div>
+          <div class="line-variant">${esc(p.variants.length > 1 ? v.name : (p.size || v.name))}${p.deposit ? " · 50% deposit" : ""}${p.oneOfAKind ? " · one of a kind" : ""}</div>
           <div class="line-actions">
-            ${p.deposit ? "" : `<div class="qty" role="group" aria-label="Quantity of ${esc(p.name)}">
+            ${singleOnly(p) ? "" : `<div class="qty" role="group" aria-label="Quantity of ${esc(p.name)}">
               <button type="button" data-dec="${i}" aria-label="One fewer">−</button><output>${l.qty}</output><button type="button" data-inc="${i}" aria-label="One more">+</button>
             </div>`}
             <button type="button" class="link-btn" data-remove="${i}">Remove</button>
@@ -303,7 +319,7 @@
       app.innerHTML = shell(thanksPage());
       document.title = "Thank you · ed.mcveigh shop";
     } else {
-      const filter = hash === "stickers" || hash === "portraits" ? hash : "";
+      const filter = CATEGORIES.some((c) => c.id === hash) ? hash : "";
       app.innerHTML = shell(homePage(filter), filter);
       document.title = "ed.mcveigh shop";
       if (hash === "cart") setTimeout(openCart);
