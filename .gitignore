@@ -1,0 +1,10 @@
+# Mac
+.DS_Store
+
+# Local test secrets (only used if you run the shop on your own computer)
+.dev.vars
+.env
+
+# Tool folders
+node_modules/
+.wrangler/

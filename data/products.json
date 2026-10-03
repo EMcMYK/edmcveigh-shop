@@ -1,0 +1,138 @@
+{
+  "_help": "Every product in the shop lives in this file. To add one, copy a whole product block (from { to }), paste it into the list, and change the details. Prices are in US dollars. The id must be unique, lowercase, with dashes instead of spaces. See README.md for the full guide.",
+
+  "products": [
+    {
+      "id": "fly-eagles-fly",
+      "name": "Fly Eagles Fly Sticker",
+      "category": "stickers",
+      "variantLabel": "Finish",
+      "variants": [
+        { "name": "Glossy", "price": 4.00 },
+        { "name": "Holographic", "price": 5.00 }
+      ],
+      "size": "3.23\" wide × 1.32\" tall",
+      "images": [],
+      "swatch": "#1f5c4a",
+      "soldOut": false,
+      "summary": "Wings and a football, for the birds and for Philly fans.",
+      "description": [
+        "Fly Eagles Fly! This wings-and-football sticker is for the birds, for Philly fans, and for anyone who likes football or bird-watching.",
+        "Choose glossy for bold color with a glossy laminated finish, or holographic for sparkly, light-catching glitter. Holographic stickers sparkle differently depending on the light."
+      ],
+      "details": [
+        "Waterproof, die cut",
+        "Great on a laptop, water bottle, notebook or skateboard",
+        "Drawn, designed, printed and cut by me. No AI was used."
+      ],
+      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any professional sports team or league."
+    },
+    {
+      "id": "philly-goose",
+      "name": "Philly Goose Sticker",
+      "category": "stickers",
+      "variantLabel": "",
+      "variants": [
+        { "name": "Glossy", "price": 4.00 }
+      ],
+      "size": "2.7\" wide × 2.03\" tall",
+      "images": [],
+      "swatch": "#b5532c",
+      "soldOut": false,
+      "summary": "A nod to one of the city's most iconic mascots.",
+      "description": [
+        "Show your love for Philadelphia with this die-cut Philly goose sticker, a nod to one of the city's most iconic mascots, combined with hand-drawn lettering and artwork.",
+        "It makes a fun gift for the Philadelphia fan in your life, or anyone who moved away but never really left."
+      ],
+      "details": [
+        "Glossy, waterproof, die cut to the shape of the goose",
+        "Great on laptops, water bottles, skateboards, notebooks and coolers",
+        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
+      ],
+      "disclaimer": ""
+    },
+    {
+      "id": "its-a-philly-thing-sheet",
+      "name": "It's A Philly Thing Sticker Sheet",
+      "category": "stickers",
+      "variantLabel": "",
+      "variants": [
+        { "name": "Holographic glitter", "price": 10.00 }
+      ],
+      "size": "3.06\" wide × 4.57\" tall sheet, 9 stickers",
+      "images": [],
+      "swatch": "#6a4c8c",
+      "soldOut": false,
+      "badge": "Best seller",
+      "summary": "Nine hand-drawn Philly stickers on one glittery sheet.",
+      "description": [
+        "It's a Philly thing! This holographic glitter sticker sheet has 9 hand-drawn Philadelphia-inspired stickers: a soft pretzel, a cheesesteak, a Philly-style water ice cup, a Philly candy bar, a highway sign, a City Hall skyline piece, a Fly Eagles Fly wings piece, and more.",
+        "Peel them off one at a time for laptops, water bottles, notebooks, planners and phone cases. Glitter catches light differently in every room, so your sheet will sparkle a little differently than the photos."
+      ],
+      "details": [
+        "Glossy laminated, waterproof vinyl with a holographic glitter finish",
+        "Each sticker is die cut with a white border",
+        "Drawn, designed, printed and cut by me. No AI was used."
+      ],
+      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any professional sports team, league, or brand."
+    },
+    {
+      "id": "cat-burger",
+      "name": "Cat Burger Sticker",
+      "category": "stickers",
+      "variantLabel": "",
+      "variants": [
+        { "name": "Glossy", "price": 4.00 }
+      ],
+      "size": "2.98\" wide × 3\" tall",
+      "images": [],
+      "swatch": "#8a3b2e",
+      "soldOut": false,
+      "summary": "A cat, a bun, and all the fixings.",
+      "description": [
+        "A cat tucked into a burger bun with all the fixings. For cat people, burger people, and anyone who is both."
+      ],
+      "details": [
+        "Glossy laminated, waterproof, die cut",
+        "Great on laptops, water bottles and notebooks",
+        "Drawn, designed, printed and cut by me. No AI was used."
+      ],
+      "disclaimer": ""
+    },
+    {
+      "id": "house-portrait",
+      "name": "Custom House Portrait",
+      "category": "portraits",
+      "variantLabel": "Style and finish",
+      "variants": [
+        { "name": "Pen & ink + watercolor, matted", "price": 225.00 },
+        { "name": "Pen & ink + watercolor, matted & framed", "price": 250.00 },
+        { "name": "Pen & ink only, matted", "price": 185.00 },
+        { "name": "Pen & ink only, matted & framed", "price": 210.00 }
+      ],
+      "deposit": 0.5,
+      "size": "Original 8×10 drawing, matted to fit an 11×14 frame",
+      "images": [],
+      "swatch": "#2e6b47",
+      "soldOut": false,
+      "summary": "An original pen and ink portrait of your home, with or without watercolor.",
+      "description": [
+        "A hand-drawn portrait of a home: a closing gift clients actually keep, and a one-of-a-kind keepsake for anyone who loves their house. I'm based in the Philadelphia area and love drawing the region's stone homes, rowhouses and twins.",
+        "Closing gifts for clients, first homes, housewarmings, a childhood home before it's sold, anniversaries and holidays."
+      ],
+      "details": [
+        "An original 8×10 drawing: never a print, no AI, no digital tools",
+        "Pen and ink on cotton-blend watercolor paper, signed by me",
+        "Matted to fit a standard 11×14 frame, or matted and framed, ready to hang"
+      ],
+      "steps": [
+        "Pay the 50% deposit here, then email me a clear, straight-on photo of the home (send a few if you have them).",
+        "I draw a pencil sketch and send you a photo to approve. Changes at this stage are included.",
+        "Once you approve it, I ink and paint the final piece.",
+        "I send you a photo of the finished portrait and an invoice for the other 50%. It ships free once that's paid."
+      ],
+      "policy": "Turnaround is usually 2 to 4 weeks from sketch approval. The deposit covers my time and materials and is non-refundable once I've started the sketch. Want a larger size or more than one house? Email me for a custom quote.",
+      "disclaimer": ""
+    }
+  ]
+}
