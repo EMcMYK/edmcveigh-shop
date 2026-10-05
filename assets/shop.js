@@ -9,6 +9,7 @@
       shop.edmcveigh.com/#portraits  → house portraits only
       shop.edmcveigh.com/#cat-burger → one product (uses the product's id)
       shop.edmcveigh.com/#thanks     → shown after someone pays
+      shop.edmcveigh.com/#policies   → shipping, returns and commission policies (text: data/policies.html)
   - Keeps a cart in the visitor's browser and sends it to /api/checkout,
     which hands the customer off to Stripe's secure checkout page.
 */
@@ -100,6 +101,7 @@
     document.getElementById("footer").innerHTML = `<div class="wrap">
       <span>Drawn, painted, printed and cut by hand in Philadelphia. No AI.</span>
       <nav aria-label="Elsewhere">
+        <a href="#policies">Shop policies</a>
         ${CONFIG.etsyUrl ? `<a href="${esc(CONFIG.etsyUrl)}" target="_blank" rel="noopener">Etsy</a>` : ""}
         ${CONFIG.instagramUrl ? `<a href="${esc(CONFIG.instagramUrl)}" target="_blank" rel="noopener">Instagram</a>` : ""}
         ${CONFIG.contactEmail ? `<span>${esc(CONFIG.contactEmail)}</span>` : ""}
@@ -173,6 +175,7 @@
               <span class="price" id="price">${money(v0.price)}</span>
               ${p.deposit ? `<span class="deposit-note" id="deposit-note">${money(dueToday(p, v0))} deposit today, the rest when it's finished</span>` : ""}
             </div>
+            ${p.deposit ? `<a class="policy-link" href="#policies-commissions">How the deposit, sketch and final payment work →</a>` : ""}
             ${p.size ? `<div class="size">Size: <b>${esc(p.size)}</b></div>` : ""}
             ${p.oneOfAKind && !p.soldOut ? `<div class="size">One of a kind: <b>only 1 available</b></div>` : ""}
             ${many ? `<div class="field">
@@ -222,6 +225,20 @@
       toast("Added to cart");
       openCart();
     });
+  }
+
+  // ---------- shop policies (text lives in data/policies.html) ----------
+  let policiesHtml = null;
+  async function showPolicies(section) {
+    app.innerHTML = `<div class="wrap"><article class="policies" id="policies-body"><p class="fineprint">Loading…</p></article></div>`;
+    try {
+      if (policiesHtml === null) policiesHtml = await (await fetch("data/policies.html", { cache: "no-cache" })).text();
+      document.getElementById("policies-body").innerHTML = policiesHtml;
+    } catch (e) {
+      document.getElementById("policies-body").innerHTML = `<p class="msg error">The policies couldn't load. Please refresh the page.</p>`;
+    }
+    const target = section && document.getElementById(section);
+    if (target) target.scrollIntoView({ block: "start" });
   }
 
   function thanksPage() {
@@ -346,6 +363,13 @@
       app.innerHTML = productPage(p); renderChrome(p.category);
       document.title = `${p.name} · ed.mcveigh shop`;
       wireProduct(p);
+    } else if (hash === "policies" || hash.startsWith("policies-")) {
+      renderChrome("");
+      document.title = "Shop policies · ed.mcveigh shop";
+      showPolicies(hash.slice("policies-".length));
+      renderCartCount();
+      if (hash === "policies") window.scrollTo(0, 0);
+      return;
     } else if (hash === "thanks") {
       app.innerHTML = thanksPage(); renderChrome("");
       document.title = "Thank you · ed.mcveigh shop";
