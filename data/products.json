@@ -789,11 +789,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95.0
+          "price": 95
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120.0
+          "price": 120
         }
       ],
       "oneOfAKind": true,
@@ -823,11 +823,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95.0
+          "price": 95
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120.0
+          "price": 120
         }
       ],
       "oneOfAKind": true,
@@ -857,11 +857,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95.0
+          "price": 95
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120.0
+          "price": 120
         }
       ],
       "oneOfAKind": true,
@@ -892,11 +892,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95.0
+          "price": 95
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120.0
+          "price": 120
         }
       ],
       "oneOfAKind": true,
@@ -927,11 +927,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95.0
+          "price": 95
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120.0
+          "price": 120
         }
       ],
       "oneOfAKind": true,
@@ -962,11 +962,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95.0
+          "price": 95
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120.0
+          "price": 120
         }
       ],
       "oneOfAKind": true,
@@ -996,11 +996,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95.0
+          "price": 95
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120.0
+          "price": 120
         }
       ],
       "oneOfAKind": true,
@@ -1029,11 +1029,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95.0
+          "price": 95
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120.0
+          "price": 120
         }
       ],
       "oneOfAKind": true,
@@ -1063,11 +1063,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95.0
+          "price": 95
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120.0
+          "price": 120
         }
       ],
       "oneOfAKind": true,
@@ -1099,7 +1099,7 @@
       "variants": [
         {
           "name": "Framed",
-          "price": 120.0
+          "price": 120
         }
       ],
       "oneOfAKind": true,
@@ -1129,7 +1129,7 @@
       "variants": [
         {
           "name": "Framed",
-          "price": 120.0
+          "price": 120
         }
       ],
       "oneOfAKind": true,
@@ -1159,7 +1159,7 @@
       "variants": [
         {
           "name": "Framed",
-          "price": 120.0
+          "price": 120
         }
       ],
       "oneOfAKind": true,
@@ -1191,19 +1191,19 @@
       "variants": [
         {
           "name": "Pen & ink + watercolor, matted",
-          "price": 225.0
+          "price": 225
         },
         {
           "name": "Pen & ink + watercolor, matted & framed",
-          "price": 250.0
+          "price": 250
         },
         {
           "name": "Pen & ink only, matted",
-          "price": 185.0
+          "price": 185
         },
         {
           "name": "Pen & ink only, matted & framed",
-          "price": 210.0
+          "price": 210
         }
       ],
       "deposit": 0.5,
