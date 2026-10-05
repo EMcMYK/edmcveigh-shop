@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ed.mcveigh</title>
+<meta name="description" content="ed.mcveigh: hand-drawn Philly stickers, original paintings and custom house portraits, made in Philadelphia.">
+<!-- Keeps search engines from listing the page before launch. Delete this line when you go live. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="brand/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<meta name="theme-color" content="#18602a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ed.mcveigh">
+<meta property="og:title" content="ed.mcveigh">
+<meta property="og:description" content="Hand-drawn Philly stickers, original paintings and custom house portraits. Made in Philadelphia.">
+<meta property="og:url" content="https://edmcveigh.com/">
+<meta property="og:image" content="https://edmcveigh.com/brand/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Instrument+Sans:wght@400;500;600&display=swap">
+<script>
+  // hide the page content until the intro hands over (only when the intro will actually run)
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('intro');
+  // pick light or dark before anything paints: saved choice, else the viewer's own setting
+  (() => {
+    let m = null;
+    try { m = localStorage.getItem('edm-mode'); } catch (e) {}
+    if (m !== 'light' && m !== 'dark') {
+      const host = document.documentElement.getAttribute('data-theme');
+      m = host === 'dark' || host === 'light' ? host : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    }
+    document.documentElement.dataset.mode = m;
+  })();
+</script>
+<style>
+/* Layout: a single narrow column of link rows under a corner logo; the crash intro plays over it first. Brand look, single theme by choice. */
+:root {
+  --cream: #fcf8ec;                            /* page background */
+  --ink: #18602a;                              /* lettering, borders, icons */
+  --ink-soft: #4f7a58;
+  --shadow: rgba(24, 96, 42, .16);
+  --shadow-lift: rgba(24, 96, 42, .32);
+  --line: #d9e3d2;
+  --tint: #f1f1e0;
+  --display: "Agbalumo", "Cooper Black", Georgia, serif;
+  --ui: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  /* layout: the logo hugs the top-left corner; content starts indented to its right */
+  --edge: clamp(20px, 4vw, 64px);              /* logo's distance from the page edge */
+  --inset: clamp(18px, 6vw, 56px);            /* content always sits this far inside the logo / Philadelphia edges */
+  --logo-h: clamp(44px, 4.5vw, 60px);          /* logo slot height; the e is ~82% of it */
+  color-scheme: light;
+}
+/* dark mode: maroon and sky blue */
+:root[data-mode="dark"] {
+  --cream: #2b0610;
+  --ink: #86d8ef;
+  --ink-soft: #79b3c7;
+  --line: #4a2230;
+  --tint: #3a0d19;
+  --shadow: rgba(0, 0, 0, .35);
+  --shadow-lift: rgba(0, 0, 0, .55);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--ui);
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 100svh;
+}
+.intro body { overflow: hidden; }
+
+header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-block: 22px 0; padding-inline: var(--edge);
+}
+.header-right { display: flex; align-items: center; gap: 14px; }
+.mode {
+  display: grid; place-items: center; width: 40px; height: 40px; padding: 0;
+  border: 2px solid var(--ink); border-radius: 4px; background: transparent; color: var(--ink); cursor: pointer;
+  transition: transform .2s cubic-bezier(.2,.7,.2,1), background .2s, color .2s;
+}
+.mode:hover, .mode:focus-visible { transform: translateY(-2px); background: var(--ink); color: var(--cream); outline: none; }
+.mode svg { width: 20px; height: 20px; }
+.mode .moon { display: block; } .mode .sun { display: none; }
+:root[data-mode="dark"] .mode .moon { display: none; } :root[data-mode="dark"] .mode .sun { display: block; }
+body { transition: background .35s ease, color .35s ease; }
+.logo-slot { display: block; height: var(--logo-h); width: calc(var(--logo-h) * 1.3); border-radius: 10px; }
+.logo-slot:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+.logo-static {
+  font-family: var(--display); font-size: calc(var(--logo-h) * 0.79); line-height: var(--logo-h); color: var(--ink); text-decoration: none;
+}
+.logo-static .e { display: inline-block; transform: rotate(-9deg); transform-origin: 10% 85%; }
+.logo-static .d { display: inline-block; transform: translateY(-0.12em); }
+.place { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+
+/* content sits inside the logo/Philadelphia margins, centred on the page */
+main {
+  padding-inline: calc(var(--edge) + var(--inset)); padding-block: 40px 64px;
+  display: flex; flex-direction: column; align-items: center; gap: 28px;
+}
+.who { width: 100%; max-width: 520px; }
+@media (min-width: 600px) and (max-width: 1024px) { .who { max-width: min(520px, 60vw); } }
+.who h1 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(34px, 8vw, 46px); line-height: 1.05; margin: 0 0 10px;
+  text-wrap: balance;
+}
+.who p { margin: 0; color: var(--ink-soft); font-size: 17px; }
+
+/* one shared column: every button is the same width, never narrower than the longest label */
+.links { width: 100%; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(max-content, 440px); justify-content: center; gap: 12px; max-width: 100%; }
+.links a, .links .soon {
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 16px;
+  padding: 16px 20px; border: 2px solid var(--ink); border-radius: 4px;
+  white-space: nowrap;
+  color: var(--ink); text-decoration: none; background: var(--cream);
+  box-shadow: 0 2px 4px var(--shadow);
+  transition: background .18s, color .18s, border-color .3s, transform .22s cubic-bezier(.2,.7,.2,1), box-shadow .22s cubic-bezier(.2,.7,.2,1);
+}
+.links a:hover, .links a:focus-visible { background: var(--ink); color: var(--cream); transform: translateY(-4px); box-shadow: 0 10px 18px -6px var(--shadow-lift); outline: none; }
+.links a:active { transform: translateY(-1px); box-shadow: 0 2px 4px var(--shadow); }
+.links a:hover .sub, .links a:focus-visible .sub { color: var(--cream); opacity: .8; }
+.links .soon { border-style: dashed; box-shadow: none; opacity: .65; cursor: default; }
+.links .label { font-weight: 600; font-size: 18px; min-width: 0; }
+.links .sub { grid-column: 1; font-size: 14px; color: var(--ink-soft); }
+.links .arrow { grid-row: 1 / span 2; grid-column: 2; font-size: 22px; transition: transform .18s; }
+.links a:hover .arrow { transform: translateX(4px); }
+
+@media (max-width: 480px) { .links a, .links .soon { padding-inline: 16px; gap: 4px 12px; } .links .sub { font-size: 13px; } .links .label { font-size: 17px; } }
+@media (max-width: 380px) { :root { --edge: 16px; --inset: 12px; } .links a, .links .soon { padding-inline: 12px; gap: 4px 10px; } }
+
+footer {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  font-size: 13px; color: var(--ink-soft); text-align: center;
+  padding-block: 0 36px; padding-inline: var(--edge);
+}
+.social { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.social a {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 4px;
+  color: var(--ink); text-decoration: none;
+  transition: transform .2s cubic-bezier(.2,.7,.2,1), background .2s, color .2s;
+}
+.social svg { height: 22px; width: 22px; }
+.social a:hover, .social a:focus-visible { transform: translateY(-3px); background: var(--ink); color: var(--cream); outline: none; }
+.copy { margin: 0; }
+
+
+/* content reveal after the intro */
+.intro .reveal { opacity: 0; transform: translateY(16px); }
+.reveal { transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); transition-delay: calc(var(--d, 0) * 70ms); }
+.intro.show .reveal { opacity: 1; transform: none; }
+.intro .logo-static { visibility: hidden; }
+
+/* intro layers */
+.overlay { position: fixed; inset: 0; z-index: 20; background: var(--cream); overflow: hidden; transition: opacity .5s ease; }
+.overlay.gone { opacity: 0; pointer-events: none; }
+.word { position: absolute; left: 0; top: 0; font-family: var(--display); line-height: 1; letter-spacing: -0.01em; white-space: nowrap; color: var(--ink); }
+.ch { display: inline-block; transform-origin: 50% 60%; will-change: transform, opacity; }
+.spark { position: absolute; left: 0; top: 0; border-radius: 50%; background: var(--ink); pointer-events: none; }
+.hero { position: absolute; left: 0; top: 0; z-index: 30; font-family: var(--display); line-height: 1; color: var(--ink); pointer-events: none; will-change: transform; }
+.skip {
+  position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40;
+  font: 500 13px var(--ui); color: var(--ink-soft); background: transparent; border: 0; padding: 8px 10px; cursor: pointer;
+}
+.skip:focus-visible { outline: 2px solid var(--ink); border-radius: 8px; }
+</style>
+</head>
+<body>
+
+
+<header>
+  <a class="logo-slot" id="logoSlot" href="#top" aria-label="ed.mcveigh, back to top">
+    <span class="logo-static" id="logoStatic" aria-hidden="true"><span class="e">e</span><span class="d">.</span></span>
+  </a>
+  <div class="header-right reveal" style="--d:0">
+    <button class="mode" id="modeToggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
+      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g></svg>
+    </button>
+    <span class="place">Philadelphia</span>
+  </div>
+</header>
+
+<main id="top">
+  <section class="who">
+    <h1 class="reveal" style="--d:1">ed.mcveigh</h1>
+    <p class="reveal" style="--d:2">Artist and designer. Hand-drawn stickers for your stuff, one-of-a-kind art for your walls.</p>
+  </section>
+
+  <ul class="links" id="links"></ul>
+</main>
+
+<footer class="reveal" style="--d:9">
+  <ul class="social" aria-label="Elsewhere">
+    <li><a href="https://www.instagram.com/ed.mcveigh/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a></li>
+    <li><a href="https://www.threads.com/@ed.mcveigh" target="_blank" rel="noopener" aria-label="Threads" title="Threads"><svg aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M331.5 235.7c2.2 .9 4.2 1.9 6.3 2.8c29.2 14.1 50.6 35.2 61.8 61.4c15.7 36.5 17.2 95.8-30.3 143.2c-36.2 36.2-80.3 52.5-142.6 53h-.3c-70.2-.5-124.1-24.1-160.4-70.2c-32.3-41-48.9-98.1-49.5-169.6V256v-.2C17 184.3 33.6 127.2 65.9 86.2C102.2 40.1 156.2 16.5 226.4 16h.3c70.3 .5 124.9 24 162.3 69.9c18.4 22.7 32 50 40.6 81.7l-40.4 10.8c-7.1-25.8-17.8-47.8-32.2-65.4c-29.2-35.8-73-54.2-130.5-54.6c-57 .5-100.1 18.8-128.2 54.4C72.1 146.1 58.5 194.3 58 256c.5 61.7 14.1 109.9 40.3 143.3c28 35.6 71.2 53.9 128.2 54.4c51.4-.4 85.4-12.6 113.7-40.9c32.3-32.2 31.7-71.8 21.4-95.9c-6.1-14.2-17.1-26-31.9-34.9c-3.7 26.9-11.8 48.3-24.7 64.8c-17.1 21.8-41.4 33.6-72.7 35.3c-23.6 1.3-46.3-4.4-63.9-16c-20.8-13.8-33-34.8-34.3-59.3c-2.5-48.3 35.7-83 95.2-86.4c21.1-1.2 40.9-.3 59.2 2.8c-2.4-14.8-7.3-26.6-14.6-35.2c-10-11.7-25.6-17.7-46.2-17.8H227c-16.6 0-39 4.6-53.3 26.3l-34.4-23.6c19.2-29.1 50.3-45.1 87.8-45.1h.8c62.6 .4 99.9 39.5 103.7 107.7l-.2 .2zm-156 68.8c1.3 25.1 28.4 36.8 54.6 35.3c25.6-1.4 54.6-11.4 59.5-73.2c-13.2-2.9-27.8-4.4-43.4-4.4c-4.8 0-9.6 .1-14.4 .4c-42.9 2.4-57.2 23.2-56.2 41.8l-.1 .1z"/></svg></a></li>
+    <li><a href="https://www.facebook.com/ed.mcveigh.9" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z"/></svg></a></li>
+    <li><a href="https://www.etsy.com/shop/EdMcveighArt" target="_blank" rel="noopener" aria-label="Etsy" title="Etsy"><svg aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M384 348c-1.75 10.75-13.75 110-15.5 132-117.879-4.299-219.895-4.743-368.5 0v-25.5c45.457-8.948 60.627-8.019 61-35.25 1.793-72.322 3.524-244.143 0-322-1.029-28.46-12.13-26.765-61-36v-25.5c73.886 2.358 255.933 8.551 362.999-3.75-3.5 38.25-7.75 126.5-7.75 126.5H332C320.947 115.665 313.241 68 277.25 68h-137c-10.25 0-10.75 3.5-10.75 9.75V241.5c58 .5 88.5-2.5 88.5-2.5 29.77-.951 27.56-8.502 40.75-65.251h25.75c-4.407 101.351-3.91 61.829-1.75 160.25H257c-9.155-40.086-9.065-61.045-39.501-61.5 0 0-21.5-2-88-2v139c0 26 14.25 38.25 44.25 38.25H263c63.636 0 66.564-24.996 98.751-99.75H384z"/></svg></a></li>
+  </ul>
+  <p class="copy">© ed.mcveigh · Icons by <a href="https://fontawesome.com" target="_blank" rel="noopener" style="color:inherit">Font Awesome</a></p>
+</footer>
+
+<script>
+/* ---------- Your links: replace each "#" with the real address ---------- */
+// The shop's address. While previewing on the pages.dev address, links go to the preview shop instead.
+const SHOP = location.hostname.endsWith('pages.dev') ? 'https://edmcveigh-shop.pages.dev' : 'https://shop.edmcveigh.com';
+
+const LINKS = [
+  { label: 'Sticker shop',    sub: 'Glossy, waterproof, die-cut',         href: SHOP + '/#stickers' },
+  { label: 'Original art',    sub: 'One-of-a-kind gouache paintings',     href: SHOP + '/#originals' },
+  { label: 'House portraits', sub: 'Commission a portrait of your home',  href: SHOP + '/#portraits' },
+  { label: 'Shop on Etsy',    sub: 'Prefer Etsy? Same stickers and art',  href: 'https://www.etsy.com/shop/EdMcveighArt', external: true },
+  { label: 'Wholesale',       sub: 'Faire · for shops and stockists',     href: 'https://faire.com/direct/edmcveighart', external: true },
+  // not live yet: set soon to false (or delete the line) once design.edmcveigh.com is up
+  { label: 'Portfolio',       sub: 'Design work · coming soon',           href: 'https://design.edmcveigh.com', soon: true },
+];
+
+const list = document.getElementById('links');
+LINKS.forEach((l, i) => {
+  const li = document.createElement('li');
+  li.className = 'reveal'; li.style.setProperty('--d', 3 + i);
+  li.innerHTML = l.soon
+    ? `<span class="soon" aria-disabled="true"><span class="label"></span><span class="sub"></span><span class="arrow" aria-hidden="true">·</span></span>`
+    : `<a href="${l.href}"${l.external ? ' target="_blank" rel="noopener"' : ''}><span class="label"></span><span class="sub"></span><span class="arrow" aria-hidden="true">→</span></a>`;
+  li.querySelector('.label').textContent = l.label;
+  li.querySelector('.sub').textContent = l.sub;
+  list.appendChild(li);
+});
+
+/* ---------- Light / dark toggle ---------- */
+(() => {
+  const btn = document.getElementById('modeToggle');
+  const root = document.documentElement;
+  const label = () => {
+    const next = root.dataset.mode === 'dark' ? 'light' : 'dark';
+    btn.setAttribute('aria-label', `Switch to ${next} mode`); btn.title = `Switch to ${next} mode`;
+  };
+  label();
+  btn.addEventListener('click', () => {
+    root.dataset.mode = root.dataset.mode === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('edm-mode', root.dataset.mode); } catch (e) {}
+    label();
+  });
+})();
+
+/* ---------- Intro: the crash, then "e." flies up into the logo spot ---------- */
+(() => {
+  const root = document.documentElement;
+  if (!root.classList.contains('intro')) return;
+
+  const slot = document.getElementById('logoSlot');
+  const logoStatic = document.getElementById('logoStatic');
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const kick = m => (Math.random() < 0.5 ? -1 : 1) * rand(0.4 * m, m);
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const easeOut = x => 1 - Math.pow(1 - x, 3);
+  const easeInOut = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  const knock = (u, amp) => u <= 0 ? 0 : (u < 0.03 ? -amp * u / 0.03 : -amp * Math.exp(-11 * (u - 0.03)) * Math.cos(20 * (u - 0.03)));
+  const squash = (u, amt) => u <= 0 ? 0 : amt * Math.exp(-22 * u);
+  const env = (u, k) => u <= 0 ? 0 : (u < 0.025 ? u / 0.025 : Math.exp(-k * (u - 0.025)));
+  const set = (el, x, y, r, sx, sy, o = 1) => { el.style.transform = `translate(${x}px, ${y}px) rotate(${r}deg) scale(${sx}, ${sy})`; el.style.opacity = o; };
+
+  // timeline in animation seconds (real = anim / SPEED)
+  const SPEED = 0.75;
+  const A = 0.35, B = 0.72, C = 0.86, D = 1.04, E = 1.15, Ex = E + 0.07;
+  const F0 = E + 0.95, F1 = F0 + 0.6;    // fly to the corner
+  const EG = 1.4, TILT = 9, ZC = 1.7;    // e grows at impact; group zoom while centred
+
+  const overlay = document.createElement('div'); overlay.className = 'overlay';
+  const word = document.createElement('div'); word.className = 'word'; word.setAttribute('aria-hidden', 'true');
+  overlay.appendChild(word);
+  const hero = document.createElement('div'); hero.className = 'hero'; hero.setAttribute('aria-hidden', 'true');
+  const skip = document.createElement('button'); skip.className = 'skip'; skip.type = 'button'; skip.textContent = 'Skip intro';
+  document.body.append(overlay, hero, skip);
+
+  let letters, sparks = [], st, raf = 0, finished = false;
+
+  function finish() {
+    if (finished) return; finished = true;
+    cancelAnimationFrame(raf);
+    overlay.remove(); skip.remove();
+    // keep the animated "e." as the logo if it made it into place; otherwise show the static one
+    if (st && st.landed) { st.parked = true; placeHero(1); logoStatic.style.visibility = 'hidden'; }
+    else { hero.remove(); logoStatic.style.visibility = 'visible'; }
+    root.classList.add('show');
+    setTimeout(() => root.classList.remove('intro'), 1200);
+  }
+  skip.addEventListener('click', finish);
+
+  function setup() {
+    const vw = innerWidth, vh = innerHeight;
+    const fs = Math.min(132, (vw - 40) / 6.6, vh / 5);
+    word.style.fontSize = fs + 'px';
+    const text = 'ed.mcveigh', chars = [...text], dotIdx = chars.indexOf('.');
+    letters = chars.map((ch, i) => {
+      const el = document.createElement('span'); el.className = 'ch'; el.textContent = ch; word.appendChild(el);
+      return { el, role: i === 0 ? 'keep' : i === dotIdx ? 'dot' : i > dotIdx ? 'tail' : 'fly' };
+    });
+    const ww = word.getBoundingClientRect().width;
+    word.style.left = (vw - ww) / 2 + 'px';
+    word.style.top = (vh / 2 - fs * 0.55) + 'px';
+
+    const keep = letters[0], dot = letters[dotIdx], firstTail = letters[dotIdx + 1];
+    const hitR = firstTail.el.getBoundingClientRect();
+    const hit = { x: hitR.left, y: hitR.top + hitR.height * 0.55 };
+    letters.forEach((l, i) => {
+      const r = l.el.getBoundingClientRect();
+      const ang = Math.atan2(r.top + r.height / 2 - hit.y + rand(-0.6, 0.6) * fs, r.left + r.width / 2 - hit.x) + rand(-1.6, 1.6);
+      const v = rand(8, 17) * fs;
+      l.vx = Math.cos(ang) * v; l.vy = Math.sin(ang) * v - rand(2, 6) * fs;
+      l.vr = rand(-650, 650); l.grow = rand(-0.25, 0.45);
+      l.j1 = { x: kick(0.11), y: kick(0.22), r: kick(22) };
+      l.j2 = { x: kick(0.12), y: kick(0.24), r: kick(26) };
+      l.cdir = i > dotIdx ? -(i - dotIdx) : (dotIdx - i);
+      l.px = l.py = l.pr = 0;
+    });
+
+    // "e." moves into its own layer so it can zoom and fly without dragging the other letters along
+    hero.style.fontSize = fs + 'px';
+    hero.style.left = word.style.left; hero.style.top = word.style.top;
+    const w0 = word.getBoundingClientRect();
+    [keep, dot].forEach(l => {
+      const r = l.el.getBoundingClientRect(), c = l.el.cloneNode(true);
+      c.style.position = 'absolute'; c.style.left = (r.left - w0.left) + 'px'; c.style.top = (r.top - w0.top) + 'px';
+      hero.appendChild(c); l.el.style.visibility = 'hidden'; l.el = c;
+    });
+    const kr = keep.el.getBoundingClientRect(), dotLeft = dot.el.getBoundingClientRect().left;
+    const dotTarget = gr => (kr.left + kr.width * gr * 0.97 + fs * 0.06 * gr) - dotLeft;
+    const dotLift = kr.width * EG * Math.sin(TILT * Math.PI / 180) * 0.75 + fs * 0.03;
+    keep.el.style.transformOrigin = '10% 85%'; dot.el.style.transformOrigin = '0% 85%';
+
+    // where "e." sits at rest, so zooms and flights can aim at its centre
+    set(keep.el, 0, 0, -TILT, EG, EG); set(dot.el, dotTarget(EG), -dotLift, 0, EG, EG);
+    const a = keep.el.getBoundingClientRect(), b = dot.el.getBoundingClientRect(), hr = hero.getBoundingClientRect();
+    const cx = (Math.min(a.left, b.left) + Math.max(a.right, b.right)) / 2;
+    const cy = (Math.min(a.top, b.top) + Math.max(a.bottom, b.bottom)) / 2;
+    keep.el.style.transform = dot.el.style.transform = '';
+    hero.style.transformOrigin = `${cx - hr.left}px ${cy - hr.top}px`;
+
+    // the text box sits off the visible ink; these ratios (measured from the font) re-centre on the ink
+    const ink = s => ({ x: 0.058 * fs * EG * s, y: 0.207 * fs * EG * s, h: 0.53 * fs * EG * s });
+    st = { fs, S: fs * 1.5, S2: fs * 0.6, g: fs * 9, hit, keep, dot, dotTarget, dotLift, cx, cy, ink, fired1: false, fired2: false, landed: false };
+  }
+
+  // transform for the hero: k = 0 → centred big, k = 1 → parked in the logo slot
+  function heroTarget(k) {
+    const { cx, cy, ink, fs } = st;
+    const cT = { x: innerWidth / 2 - ink(ZC).x - cx, y: innerHeight / 2 - ink(ZC).y - cy, s: ZC };
+    const r = slot.getBoundingClientRect();
+    const sL = r.height * 0.82 / (0.53 * fs * EG);   // e fills ~82% of the slot height
+    const sx = scrollX, sy = scrollY;
+    const lT = { x: r.left + sx + r.width / 2 - ink(sL).x - cx, y: r.top + sy + r.height / 2 - ink(sL).y - cy, s: sL };
+    return { x: cT.x + (lT.x - cT.x) * k, y: cT.y + (lT.y - cT.y) * k, s: cT.s + (lT.s - cT.s) * k };
+  }
+  function placeHero(k) { const t = heroTarget(k); hero.style.transform = `translate(${t.x}px, ${t.y}px) scale(${t.s})`; }
+  addEventListener('resize', () => { if (st && st.parked) placeHero(1); });
+
+  function burst(n, power) {
+    for (let i = 0; i < n; i++) {
+      const el = document.createElement('div'); el.className = 'spark';
+      const size = rand(0.04, 0.13) * st.fs * power; el.style.width = el.style.height = size + 'px';
+      overlay.appendChild(el);
+      const a = rand(0, Math.PI * 2), v = rand(4, 13) * st.fs * power;
+      sparks.push({ el, x: st.hit.x - size / 2, y: st.hit.y - size / 2, vx: Math.cos(a) * v, vy: Math.sin(a) * v, t0: null, life: rand(0.35, 0.7) });
+    }
+  }
+
+  function frame(t) {
+    const { fs, S, S2, g, dotTarget, dotLift } = st;
+    const u1 = t - C, u2 = t - E;
+    if (!st.fired1 && t >= C) { st.fired1 = true; burst(5, 0.6); }
+    if (!st.fired2 && t >= E) { st.fired2 = true; burst(13, 0.8); }
+
+    let tailX = 0;
+    if (t >= A && t < B) tailX = S * easeOut((t - A) / (B - A));
+    else if (t >= B && t < C) tailX = S * (1 - Math.pow((t - B) / (C - B), 3));
+    else if (t >= C && t < D) tailX = S2 * easeOut((t - C) / (D - C));
+    else if (t >= D && t < E) tailX = S2 * (1 - Math.pow((t - D) / (E - D), 2.5));
+
+    const headX = knock(u1, fs * 0.09) * (t < E ? 1 : 0) + knock(u2, fs * 0.2);
+    const sq = Math.max(squash(u1, 0.14) * (t < E ? 1 : 0), squash(u2, 0.24));
+    const gv = u2 - 0.06;
+    const grow = gv > 0 ? 1 + (EG - 1) * (1 - Math.exp(-6 * gv) * Math.cos(11 * gv)) : 1;
+    const gp = (grow - 1) / (EG - 1);
+
+    const shake = (u1 > 0 && t < E ? 3 * Math.exp(-16 * u1) : 0) + (u2 > 0 ? 7 * Math.exp(-10 * u2) : 0);
+    overlay.style.transform = shake > 0.3 ? `translate(${rand(-1, 1) * shake}px, ${rand(-1, 1) * shake}px)` : '';
+
+    const e1 = env(u1, 5), e2 = env(u2, 8), comp = fs * (0.14 * e1 + 0.2 * e2);
+    letters.forEach(l => {
+      const j = { x: (l.j1.x * e1 + l.j2.x * e2) * fs + comp * l.cdir, y: (l.j1.y * e1 + l.j2.y * e2) * fs, r: l.j1.r * e1 + l.j2.r * e2 };
+      if (l.role === 'keep') { set(l.el, headX + j.x, j.y, headX / fs * 5 + j.r - TILT * gp, (1 - sq) * grow, (1 + sq * 0.7) * grow); return; }
+      if (l.role === 'dot') {
+        const f = u2 > 0.1 ? 1 - Math.exp(-8 * (u2 - 0.1)) * Math.cos(9 * (u2 - 0.1)) : 0;
+        set(l.el, headX + dotTarget(grow) * f + j.x, j.y - dotLift * clamp(gp, 0, 1.1) * f, j.r * 0.5, (1 - sq) * grow, (1 + sq * 0.7) * grow); return;
+      }
+      if (t < Ex) {
+        const base = l.role === 'tail' ? tailX : headX;
+        const tsq = l.role === 'tail' ? Math.max(squash(u1, 0.25), squash(u2, 0.3)) : sq;
+        l.px = base + j.x; l.py = j.y; l.pr = j.r;
+        set(l.el, l.px, l.py, l.pr, 1 - tsq, 1 + tsq * 0.6); return;
+      }
+      const u = t - Ex, sc = 1 + l.grow * clamp(u * 2, 0, 1);
+      set(l.el, l.px + l.vx * u, l.py + l.vy * u + 0.5 * g * u * u, l.pr + l.vr * u, sc, sc, clamp(1.6 - u * 1.6, 0, 1));
+    });
+    sparks.forEach(p => {
+      if (p.t0 === null) p.t0 = t;
+      const u = t - p.t0, k = Math.exp(-3 * u);
+      set(p.el, p.x + p.vx * (1 - k) / 3, p.y + p.vy * (1 - k) / 3 + 0.5 * g * u * u, 0, 1, 1, clamp(1 - u / p.life, 0, 1));
+    });
+
+    // "e." punches to the centre on the second impact…
+    const v = u2 - 0.1;
+    if (v > 0 && t < F0) {
+      const c = heroTarget(0);
+      const kp = 1 - (1 + 11 * v) * Math.exp(-11 * v);
+      const ks = 1 - Math.exp(-7 * v) * Math.cos(10 * v);
+      hero.style.transform = `translate(${c.x * kp}px, ${c.y * kp}px) scale(${1 + (c.s - 1) * ks})`;
+    }
+    // …then flies up into the corner as the page arrives
+    if (t >= F0) {
+      const k = easeInOut(clamp((t - F0) / (F1 - F0), 0, 1));
+      placeHero(k);
+      if (!overlay.classList.contains('gone')) { overlay.classList.add('gone'); root.classList.add('show'); }
+      if (k >= 1) { st.landed = true; finish(); return false; }
+    }
+    return true;
+  }
+
+  function start() {
+    scrollTo(0, 0);
+    setup();
+    const t0 = performance.now();
+    const loop = now => {
+      if (finished) return;
+      if (frame((now - t0) / 1000 * SPEED)) raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+  }
+
+  const fontReady = document.fonts ? document.fonts.load('80px Agbalumo') : Promise.resolve();
+  Promise.race([fontReady, new Promise(r => setTimeout(r, 2000))]).then(() => setTimeout(start, 350));
+})();
+</script>
+</body>
+</html>

@@ -15,6 +15,8 @@ Hosting is free on Cloudflare Pages. You pay only Stripe's fee on each sale.
 | `assets/shop.js` | Shows the products and runs the cart | No |
 | `assets/intro.js` | The ed.mcveigh logo animation (plays once per visit on the front page) | No |
 | `functions/api/checkout.js` | Sends the cart to Stripe (runs on Cloudflare's servers) | No |
+| `assets/brand/`, `favicon.ico`, `site.webmanifest` | Tab icon, phone home-screen icon, and the image shown when the shop link is shared | Only to change the logo |
+| `landing/` | The links page for edmcveigh.com (its own small site, see below) | To change its links |
 
 ---
 
@@ -134,3 +136,19 @@ Etsy and Faire collect and pay sales tax for you. This shop doesn't do that auto
 ## Prices to confirm
 
 Sticker prices in `data/products.json` are placeholders ($4 single, $5 holographic, $10 for the sheet). Portrait prices match your Etsy listing. Change any of them to what you charge.
+
+---
+
+## The landing page (edmcveigh.com)
+
+`landing/` holds the links page that will live at edmcveigh.com. Its links point at the shop's sections, plus Etsy and Faire. To change a link, edit the `LINKS` list near the bottom of `landing/index.html`.
+
+**Preview it now:** https://edmcveigh-shop.pages.dev/landing/ (its shop links go to the preview shop while you're on a pages.dev address).
+
+**Hosting it, when you're ready to point the domain:** create a second Cloudflare Pages project from this same GitHub repo:
+- Project name: `edmcveigh-landing`
+- Framework preset: None, build command blank
+- **Root directory (under Advanced): `landing`**
+- Build output directory: `/`
+
+Then add `edmcveigh.com` (and `www.edmcveigh.com`) under that project's Custom domains. The root directory setting keeps the shop's checkout code out of the landing site.
