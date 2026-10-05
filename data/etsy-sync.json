@@ -1,5 +1,5 @@
 {
-  "_help": "Settings for the Etsy sync (scripts/etsy-sync.mjs), which only adds NEW Etsy listings. skipTitles: listings whose title starts with any of these are never added. ignoreListingIds: Etsy listing ids to never add. sectionCategories: which shop section a new listing goes in, matched against its Etsy section name. maxNewPerRun: safety stop. newBadgeDays: how long a new item shows the 'New' badge.",
+  "_help": "Settings for the Etsy sync (scripts/etsy-sync.mjs), which adds new Etsy listings, updates existing ones and marks ones gone from Etsy as sold out. skipTitles: listings whose title starts with any of these are never added. ignoreListingIds: Etsy listing ids to never add. sectionCategories: which shop section a new listing goes in, matched against its Etsy section name. maxNewPerRun and maxSoldOutPerRun: safety stops. newBadgeDays: how long a new item shows the 'New' badge.",
   "shopName": "EdMcveighArt",
   "skipTitles": [
     "Happy Birthday Hedgehog",
@@ -15,5 +15,6 @@
     "portrait": "portraits"
   },
   "maxNewPerRun": 5,
-  "newBadgeDays": 30
+  "newBadgeDays": 30,
+  "maxSoldOutPerRun": 3
 }

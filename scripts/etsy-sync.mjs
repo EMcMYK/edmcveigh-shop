@@ -1,19 +1,23 @@
 /*
-  Etsy → shop: adds NEW Etsy listings to the shop. Run by .github/workflows/etsy-sync.yml every
-  morning and whenever you press "Run workflow" on GitHub. You don't need to run it yourself.
+  Etsy → shop. Run by .github/workflows/etsy-sync.yml every morning and whenever you press
+  "Run workflow" on GitHub. You don't need to run it yourself.
 
-  • Only adds listings the shop doesn't have yet. Products already in the shop are never changed.
-  • A new product is copied exactly from Etsy: title, full description, tags, every photo
-    (saved into images/<product-id>/), options and prices, and its Etsy shop section.
-  • Each product remembers its Etsy listing id (etsyListingId), which is how the sync knows
-    what's already in the shop.
-  • Safety stop: if a run finds more than `maxNewPerRun` new listings at once, it changes nothing
-    and fails, so a hiccup can't flood the shop with duplicates.
+  • New Etsy listings are added to the shop, copied exactly: title, full description, tags, every
+    photo (saved into images/<product-id>/), options and prices, and its Etsy shop section.
+  • Products already in the shop take Etsy's title, description, tags, photos, options and prices
+    whenever those change on Etsy. Shop-only things stay as they are: the product's web address
+    (id), category, size line, badge, details, disclaimer, and the portrait's deposit and steps.
+  • A product whose Etsy listing is no longer active (sold, deactivated, expired) is marked sold
+    out. If it comes back on Etsy it's available again, unless it sold through the shop itself.
+  • Each product remembers its Etsy listing id (etsyListingId); that's how the two are matched.
+  • Safety stops: if a run finds more than `maxNewPerRun` new listings, or would mark more than
+    `maxSoldOutPerRun` products sold out at once, it changes nothing and fails. A photo set only
+    gets replaced when every new photo downloaded.
 
   Settings: data/etsy-sync.json. Keys (GitHub → Settings → Secrets → Actions):
     ETSY_API_KEY, ETSY_SHARED_SECRET
 */
-import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { readFile, writeFile, mkdir, readdir, rm } from "node:fs/promises";
 import path from "node:path";
 
 const API = process.env.ETSY_API_BASE || "https://openapi.etsy.com/v3/application";
@@ -22,7 +26,9 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
   const key = process.env.ETSY_API_KEY, secret = process.env.ETSY_SHARED_SECRET;
   if (!key || !secret) throw new Error("Missing ETSY_API_KEY or ETSY_SHARED_SECRET (add them under GitHub → Settings → Secrets and variables → Actions).");
   const headers = { "x-api-key": `${key}:${secret}`, accept: "application/json" };
+  const pause = Number(process.env.ETSY_PAUSE_MS ?? 150); // stay well under Etsy's rate limit
   const etsy = async (p, { optional = false } = {}) => {
+    if (pause) await new Promise((r) => setTimeout(r, pause));
     const res = await fetch(API + p, { headers });
     if (!res.ok) {
       const msg = `Etsy said ${res.status} for ${p}: ${(await res.text()).slice(0, 200)}`;
@@ -36,7 +42,7 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
   const data = JSON.parse(await readFile(productsPath, "utf8"));
   const settings = JSON.parse(await readFile(path.join(root, "data/etsy-sync.json"), "utf8"));
   const products = data.products;
-  const report = { added: [], skipped: [], problems: [] };
+  const report = { added: [], updated: [], soldOut: [], back: [], skipped: [], problems: [] };
 
   // Every Etsy listing the shop already knows about, plus ones to ignore on purpose.
   const known = new Set(products.map((p) => String(p.etsyListingId || "")).filter(Boolean));
@@ -72,7 +78,75 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
       `If they really are all new, raise "maxNewPerRun" in data/etsy-sync.json and run again. New: ${fresh.map((l) => decode(l.title)).join(" | ")}`);
   }
 
-  // 3. Copy each new listing exactly: photos, options and prices, then the product itself.
+  // 3. Listings that left Etsy → sold out (checked one by one before anything is marked).
+  if (!listings.length && products.some((p) => p.etsyListingId)) throw new Error("Etsy returned no active listings at all, so nothing was changed.");
+  const active = new Map(listings.map((l) => [String(l.listing_id), l]));
+  const ignored = new Set((settings.ignoreListingIds || []).map(String));
+  const gone = [];
+  for (const p of products) {
+    const lid = String(p.etsyListingId || "");
+    if (!lid || active.has(lid) || ignored.has(lid) || p.soldOut) continue;
+    const res = await fetch(`${API}/listings/${lid}`, { headers });
+    if (res.status === 404) { gone.push([p, "removed"]); continue; }
+    if (!res.ok) { report.problems.push(`${p.name}: couldn't check its Etsy listing (${res.status}), left as is.`); continue; }
+    const l = await res.json();
+    if (l.state !== "active" || Number(l.quantity) < 1) gone.push([p, l.state || "inactive"]);
+    else active.set(lid, l); // active after all (e.g. missed by paging): treat as a normal listing
+  }
+  const maxGone = settings.maxSoldOutPerRun ?? 3;
+  if (gone.length > maxGone) {
+    throw new Error(`${gone.length} shop products would be marked sold out in one run (the limit is ${maxGone}), so nothing was changed. ` +
+      `If that's right, raise "maxSoldOutPerRun" in data/etsy-sync.json and run again. They are: ${gone.map(([p]) => p.name).join(" | ")}`);
+  }
+  for (const [p, why] of gone) {
+    p.soldOut = true; p.soldWhere = "etsy"; p.soldOn = today.toISOString().slice(0, 10);
+    report.soldOut.push(`${p.name} (${why} on Etsy)`);
+  }
+
+  // 4. Products already in the shop: take Etsy's title, description, tags, photos, options and prices.
+  for (const p of products) {
+    const l = active.get(String(p.etsyListingId || ""));
+    if (!l) continue;
+    const changed = [];
+    const title = decode(l.title);
+    if (title && p.name !== title) { p.name = title; changed.push("title"); }
+    const description = paragraphs(l.description);
+    if (description.length && JSON.stringify(p.description) !== JSON.stringify(description)) { p.description = description; changed.push("description"); }
+    const tags = (l.tags || []).map(decode);
+    if (JSON.stringify(p.tags || []) !== JSON.stringify(tags)) { p.tags = tags; changed.push("tags"); }
+
+    const inventory = await etsy(`/listings/${l.listing_id}/inventory`, { optional: true });
+    if (inventory) {
+      const { label, variants } = optionsFrom(inventory, money(l.price));
+      if (JSON.stringify(p.variants) !== JSON.stringify(variants) || (p.variantLabel || "") !== label) {
+        p.variants = variants; p.variantLabel = label; changed.push("options and prices");
+      }
+    }
+
+    const images = (await etsy(`/listings/${l.listing_id}/images`, { optional: true }))
+      || (await etsy(`/shops/${shopId}/listings/${l.listing_id}/images`, { optional: true }));
+    const want = (images?.results || []).slice().sort((a, b) => a.rank - b.rank);
+    if (want.length) {
+      const wantPaths = want.map((img) => `images/${p.id}/${img.listing_image_id}.jpg`);
+      if (JSON.stringify(p.images) !== JSON.stringify(wantPaths)) {
+        const have = new Set(await readdir(path.join(root, "images", p.id)).catch(() => []));
+        const missing = want.filter((img) => !have.has(`${img.listing_image_id}.jpg`));
+        const got = await savePhotos(root, p.id, missing, fetch, log);
+        if (got.length === missing.length) {
+          for (const f of have) if (!wantPaths.includes(`images/${p.id}/${f}`)) await rm(path.join(root, "images", p.id, f));
+          p.images = wantPaths; changed.push("photos");
+        } else report.problems.push(`${p.name}: some new photos didn't download, kept the current ones. It will be tried again next run.`);
+      }
+    } else if (images) report.problems.push(`${p.name}: Etsy returned no photos, kept the current ones.`);
+
+    if (Number(l.quantity) < 1 && !p.soldOut) { p.soldOut = true; p.soldWhere = "etsy"; p.soldOn = today.toISOString().slice(0, 10); report.soldOut.push(`${p.name} (out of stock on Etsy)`); }
+    else if (Number(l.quantity) >= 1 && p.soldOut && p.soldWhere !== "shop") {
+      p.soldOut = false; delete p.soldWhere; delete p.soldOn; report.back.push(p.name);
+    }
+    if (changed.length) report.updated.push(`${p.name}: ${changed.join(", ")}`);
+  }
+
+  // 5. Copy each new listing exactly: photos, options and prices, then the product itself.
   for (const l of fresh) {
     const title = decode(l.title);
     const id = uniqueId(title, products);
@@ -87,7 +161,7 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
 
     const section = sections.get(String(l.shop_section_id)) || "";
     const category = categoryFor(section, title, settings);
-    const description = decode(l.description || "").replace(/\r/g, "").split(/\n\s*\n/).map((s) => s.replace(/[ \t]+\n/g, "\n").trim()).filter(Boolean);
+    const description = paragraphs(l.description);
     const p = {
       id,
       name: title,
@@ -111,7 +185,7 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
     report.added.push(`${title} → ${category}`);
   }
 
-  // 4. Retire automatic "New" badges after their time is up.
+  // 6. Retire automatic "New" badges after their time is up.
   const day = today.toISOString().slice(0, 10);
   for (const p of products) if (p.newUntil && day > p.newUntil) { if (p.badge === "New") delete p.badge; delete p.newUntil; }
 
@@ -126,6 +200,10 @@ export function decode(s) {
     .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
     .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
     .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+}
+
+function paragraphs(text) {
+  return decode(text || "").replace(/\r/g, "").split(/\n\s*\n/).map((s) => s.replace(/[ \t]+\n/g, "\n").trim()).filter(Boolean);
 }
 
 function money(price) { return price ? Math.round((price.amount / price.divisor) * 100) / 100 : 0; }
@@ -197,6 +275,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const lines = [
     "## Etsy sync",
     `- Added to the shop: ${report.added.join(", ") || "nothing new on Etsy"}`,
+    `- Updated from Etsy: ${report.updated.length ? "\n  - " + report.updated.join("\n  - ") : "nothing changed"}`,
+    `- Marked sold out: ${report.soldOut.join(", ") || "none"}`,
+    `- Available again: ${report.back.join(", ") || "none"}`,
     `- Skipped on purpose: ${report.skipped.join(", ") || "none"}`,
     ...report.problems.map((p) => `- ⚠️ ${p}`),
   ].join("\n");

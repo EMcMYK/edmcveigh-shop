@@ -157,13 +157,17 @@ Then add `edmcveigh.com` (and `www.edmcveigh.com`) under that project's Custom d
 
 ## Etsy sync
 
-Every morning (and whenever you press the button) a GitHub job checks your active Etsy listings and **adds any new ones** to the shop. Products already in the shop are never changed by it.
+Every morning (and whenever you press the button) a GitHub job checks your Etsy shop and keeps the shop matching it. **Etsy is the source of truth**, so make changes there, not in `products.json`:
+
+- **New listings** are added to the shop.
+- **Changes to existing listings** come across: title, description, tags, photos (added, removed or reordered), options and prices. Shop-only things stay as they are: the product's web address, its category, the size line, badges, details, the disclaimer, and the portrait's deposit and steps.
+- **A listing that's no longer active** on Etsy (sold, deactivated, out of stock or expired) shows as sold out. If it comes back on Etsy, it's available again, unless it sold through the shop.
 
 A new product is copied exactly from Etsy: the title, the full description, tags, every photo (saved into `images/`), the options and their prices, and which section it belongs in (from its Etsy shop section). It gets a "New" badge for 30 days.
 
-Each product stores its Etsy listing number (`etsyListingId`), which is how the sync knows what's already here. If a run ever finds more than 5 new listings at once, it stops without changing anything (raise `maxNewPerRun` in `data/etsy-sync.json` if you really did add that many). Listings to never import, like the hedgehog card, are listed there too.
+Each product stores its Etsy listing number (`etsyListingId`), which is how the sync knows what's already here. Two safety stops: if a run finds more than 5 new listings, or would mark more than 3 products sold out at once, it stops without changing anything (raise `maxNewPerRun` or `maxSoldOutPerRun` in `data/etsy-sync.json` if that's really what happened). Photos only get replaced when every new one downloaded. Listings to never import, like the hedgehog card, are listed there too.
 
-**Run it now:** github.com/EMcMYK/edmcveigh-shop → **Actions** → **Sync from Etsy** → **Run workflow**. The GitHub phone app has the same button. The run page shows what was added, and the shop updates a minute later.
+**Run it now:** github.com/EMcMYK/edmcveigh-shop → **Actions** → **Sync from Etsy** → **Run workflow**. The GitHub phone app has the same button. The run page lists what was added, updated or marked sold out, and the shop updates a minute later.
 
 When a one-of-a-kind painting sells **on the shop**, Stripe tells the shop, the painting is marked sold, and GitHub emails you a reminder (an issue that mentions you) with a link to deactivate it on Etsy. At checkout the shop also asks Etsy whether each painting is still for sale, so one that sold on Etsy can't sell here too.
 
