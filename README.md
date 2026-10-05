@@ -160,10 +160,10 @@ Then add `edmcveigh.com` (and `www.edmcveigh.com`) under that project's Custom d
 Every morning (and whenever you press the button) a GitHub job checks your Etsy shop and keeps the shop matching it. **Etsy is the source of truth**, so make changes there, not in `products.json`:
 
 - **New listings** are added to the shop.
-- **Changes to existing listings** come across: title, description, tags, photos (added, removed or reordered), options and prices. Shop-only things stay as they are: the product's web address, its category, the size line, badges, details, the disclaimer, and the portrait's deposit and steps.
+- **Changes to existing listings** come across: description, tags, photos (added, removed or reordered), options and prices. Shop-only things stay as they are: the product's name, its web address, its category, the size line, badges, details, the disclaimer, and the portrait's deposit and steps.
 - **A listing that's no longer active** on Etsy (sold, deactivated, out of stock or expired) shows as sold out. If it comes back on Etsy, it's available again, unless it sold through the shop.
 
-A new product is copied exactly from Etsy: the title, the full description, tags, every photo (saved into `images/`), the options and their prices, and which section it belongs in (from its Etsy shop section). It gets a "New" badge for 30 days.
+A new product is copied exactly from Etsy: the full description, tags, every photo (saved into `images/`), the options and their prices, and which section it belongs in (from its Etsy shop section). Its name is the short start of the Etsy title, up to the first comma or "|" ("Sushi Cats Sticker, Cute Cat Gift…" becomes "Sushi Cats Sticker"); rename it in `products.json` whenever you like and the sync will leave it alone. It gets a "New" badge for 30 days.
 
 Each product stores its Etsy listing number (`etsyListingId`), which is how the sync knows what's already here. Two safety stops: if a run finds more than 5 new listings, or would mark more than 3 products sold out at once, it stops without changing anything (raise `maxNewPerRun` or `maxSoldOutPerRun` in `data/etsy-sync.json` if that's really what happened). Photos only get replaced when every new one downloaded. Listings to never import, like the hedgehog card, are listed there too.
 

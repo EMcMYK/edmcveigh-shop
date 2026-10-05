@@ -2,11 +2,14 @@
   Etsy → shop. Run by .github/workflows/etsy-sync.yml every morning and whenever you press
   "Run workflow" on GitHub. You don't need to run it yourself.
 
-  • New Etsy listings are added to the shop, copied exactly: title, full description, tags, every
+  • New Etsy listings are added to the shop, copied exactly: full description, tags, every
     photo (saved into images/<product-id>/), options and prices, and its Etsy shop section.
-  • Products already in the shop take Etsy's title, description, tags, photos, options and prices
-    whenever those change on Etsy. Shop-only things stay as they are: the product's web address
-    (id), category, size line, badge, details, disclaimer, and the portrait's deposit and steps.
+  • Products already in the shop take Etsy's description, tags, photos, options and prices
+    whenever those change on Etsy. Shop-only things stay as they are: the product's name, web
+    address (id), category, size line, badge, details, disclaimer, and the portrait's deposit
+    and steps.
+  • A new product's name is the short start of its Etsy title, up to the first comma or "|"
+    ("Sushi Cats Sticker, Cute Cat..." → "Sushi Cats Sticker"). Edit it in products.json anytime.
   • A product whose Etsy listing is no longer active (sold, deactivated, expired) is marked sold
     out. If it comes back on Etsy it's available again, unless it sold through the shop itself.
   • Each product remembers its Etsy listing id (etsyListingId); that's how the two are matched.
@@ -108,8 +111,6 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
     const l = active.get(String(p.etsyListingId || ""));
     if (!l) continue;
     const changed = [];
-    const title = decode(l.title);
-    if (title && p.name !== title) { p.name = title; changed.push("title"); }
     const description = paragraphs(l.description);
     if (description.length && JSON.stringify(p.description) !== JSON.stringify(description)) { p.description = description; changed.push("description"); }
     const tags = (l.tags || []).map(decode);
@@ -164,7 +165,7 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
     const description = paragraphs(l.description);
     const p = {
       id,
-      name: title,
+      name: shortName(title),
       category,
       variantLabel: label,
       variants,
@@ -239,6 +240,11 @@ export function sizeFrom(text) {
   const dims = /\d+(?:\.\d+)?\s*["”]\s*(?:wide\s*)?[x×]\s*\d+(?:\.\d+)?\s*["”](?:\s*tall)?/i;
   const m = text.match(dims);
   return m ? m[0].replace(/\s*[x×]\s*/gi, " × ").trim() : "";
+}
+
+export function shortName(title) {
+  const short = title.split(/\s*[,|]\s*/)[0].trim();
+  return short.length >= 3 ? short : title;
 }
 
 function slug(s) { return s.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
