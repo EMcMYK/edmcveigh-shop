@@ -29,7 +29,7 @@
         "https://i.etsystatic.com/54756024/r/il/c37d99/8510503746/il_794xN.8510503746_e0cp.jpg"
       ],
       "swatch": "#6a4c8c",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "It's a Philly thing! This holographic glitter sticker sheet has 9 hand-drawn Philadelphia-inspired stickers: a soft pretzel, a cheesesteak, a Philly-style water ice cup, a Philly candy bar, a highway sign, Independence Hall, a Fly Eagles Fly wings piece, and more.",
         "Peel them off one at a time for laptops, water bottles, notebooks, planners and phone cases. Glitter catches light differently in every room, so your sheet will sparkle a little differently than the photos."
@@ -41,7 +41,7 @@
       ],
       "disclaimer": "Not affiliated with, endorsed by, or sponsored by any professional sports team, league, or brand.",
       "badge": "Best seller",
-      "soldWhere": "etsy"
+      "etsyListingId": 4573529209
     },
     {
       "id": "fly-eagles-fly",
@@ -75,7 +75,7 @@
         "https://i.etsystatic.com/54756024/r/il/2fdeed/8651146699/il_794xN.8651146699_mwg6.jpg"
       ],
       "swatch": "#1f5c4a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "Fly Eagles Fly! This wings-and-football sticker is for the birds, for Philly fans, and for anyone who likes football or bird-watching."
       ],
@@ -85,7 +85,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "Not affiliated with, endorsed by, or sponsored by any professional sports team or league.",
-      "soldWhere": "etsy"
+      "etsyListingId": 4561330082
     },
     {
       "id": "philly-goose",
@@ -113,7 +113,7 @@
         "https://i.etsystatic.com/54756024/r/il/577389/8650964527/il_794xN.8650964527_24g3.jpg"
       ],
       "swatch": "#b5532c",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "Show your love for Philadelphia with this die-cut Philly goose sticker, a nod to one of the city's most iconic mascots, combined with hand-drawn lettering and artwork. A fun gift for the Philadelphia fan in your life, or anyone who moved away but never really left."
       ],
@@ -123,7 +123,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4583415144
     },
     {
       "id": "i76ers-highway-sign",
@@ -151,7 +151,7 @@
         "https://i.etsystatic.com/54756024/r/il/cb67ce/8623279028/il_794xN.8623279028_rlvi.jpg"
       ],
       "swatch": "#2550a8",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "Philadelphia's favorite highway meets Philadelphia's favorite team. This interstate-shield sticker is inspired by I-76 (the Schuylkill Expressway, aka the \"Surekill\") and Philly basketball pride, made for anyone who has sat in traffic on the way to a game."
       ],
@@ -161,7 +161,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "Not affiliated with, endorsed by, or sponsored by any professional sports team or league.",
-      "soldWhere": "etsy"
+      "etsyListingId": 4523073134
     },
     {
       "id": "cheesesteak",
@@ -189,7 +189,7 @@
         "https://i.etsystatic.com/54756024/r/il/5add28/8623627328/il_794xN.8623627328_hcj0.jpg"
       ],
       "swatch": "#b8792b",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "Philadelphia's most famous sandwich, hand-drawn with acrylic markers and turned into a sticker: a toasted roll, plenty of chopped steak and a drip of melted cheese. Wit or witout, it goes on your laptop, water bottle, or anywhere else you want a little Philly."
       ],
@@ -199,7 +199,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4523622850
     },
     {
       "id": "wooder-ice",
@@ -228,7 +228,7 @@
         "https://i.etsystatic.com/54756024/r/il/fd96ae/8671444695/il_794xN.8671444695_sgvo.jpg"
       ],
       "swatch": "#c2426b",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "It's pronounced \"wooder.\" This hand-drawn water ice cup is for anyone who grew up waiting in line for a cherry water ice on a hot Philly summer night.",
         "The last photo shows how it came together, from pencil sketch to ink to color to sticker."
@@ -239,7 +239,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "Not affiliated with, endorsed by, or sponsored by any brand.",
-      "soldWhere": "etsy"
+      "etsyListingId": 4524176429
     },
     {
       "id": "pork-roll",
@@ -267,7 +267,7 @@
         "https://i.etsystatic.com/54756024/r/il/9fdbee/8671440765/il_794xN.8671440765_lovs.jpg"
       ],
       "swatch": "#a8432f",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "A retro-style sticker for anyone who knows a proper breakfast starts with pork roll, egg and cheese. Hand-lettered and hand-drawn, with a little \"Go Birds\" stamp tucked in for good measure."
       ],
@@ -277,7 +277,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "Not affiliated with, endorsed by, or sponsored by any brand or professional sports team.",
-      "soldWhere": "etsy"
+      "etsyListingId": 4583406243
     },
     {
       "id": "scrapple",
@@ -306,7 +306,7 @@
         "https://i.etsystatic.com/54756024/r/il/b5b15a/8671637617/il_794xN.8671637617_indt.jpg"
       ],
       "swatch": "#7a4a2b",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "Scrapple: Philly's most misunderstood breakfast, hand-lettered with a \"Since 1776\" crest and a hand-drawn leafy border."
       ],
@@ -316,7 +316,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "Not affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league.",
-      "soldWhere": "etsy"
+      "etsyListingId": 4583350067
     },
     {
       "id": "butterscotch-snack-cake",
@@ -345,7 +345,7 @@
         "https://i.etsystatic.com/54756024/r/il/72100a/8623908378/il_794xN.8623908378_sp9l.jpg"
       ],
       "swatch": "#c23a2b",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "A hand-painted butterscotch snack cake, the lunchbox classic every Philly kid traded for, over a vintage \"Philadelphia\" banner."
       ],
@@ -355,7 +355,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "Not affiliated with, endorsed by, or sponsored by any brand.",
-      "soldWhere": "etsy"
+      "etsyListingId": 4565805514
     },
     {
       "id": "philly-candy-bar",
@@ -383,7 +383,7 @@
         "https://i.etsystatic.com/54756024/r/il/8763b2/8671711637/il_794xN.8671711637_sxbt.jpg"
       ],
       "swatch": "#8a5a2b",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "A retro chocolate-and-peanut candy wrapper, redrawn with \"Philadelphia\" across the front and a \"Since 1776\" star."
       ],
@@ -393,7 +393,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "Not affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league.",
-      "soldWhere": "etsy"
+      "etsyListingId": 4565779525
     },
     {
       "id": "peanut-butter-cup",
@@ -421,7 +421,7 @@
         "https://i.etsystatic.com/54756024/r/il/16cc4e/8623873956/il_794xN.8623873956_aodm.jpg"
       ],
       "swatch": "#e07a1f",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "A candy wrapper with a Philly twist: peanut butter cups, a \"Go Birds\" label, and \"Philly\" in big yellow script."
       ],
@@ -431,7 +431,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "Not affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league.",
-      "soldWhere": "etsy"
+      "etsyListingId": 4583358662
     },
     {
       "id": "spectrum-arena",
@@ -460,7 +460,7 @@
         "https://i.etsystatic.com/54756024/r/il/a28e47/8623855846/il_794xN.8623855846_r2k3.jpg"
       ],
       "swatch": "#3f5fa8",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "A hand-drawn tribute to the Spectrum, the South Philly arena that hosted decades of games and concerts, with its bronze-and-gold window bands and four-color stripe."
       ],
@@ -470,7 +470,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "Not affiliated with, endorsed by, or sponsored by any arena, professional sports team, or league.",
-      "soldWhere": "etsy"
+      "etsyListingId": 4583363725
     },
     {
       "id": "independence-hall",
@@ -497,7 +497,7 @@
         "https://i.etsystatic.com/54756024/r/il/6a7765/8624633904/il_794xN.8624633904_jk9d.jpg"
       ],
       "swatch": "#3c8a3a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "Independence Hall like you've never seen it: a big-eyed, fuzzy green troublemaker inside, right in front of the bell tower. A little bit history, a little bit South Philly chaos."
       ],
@@ -507,7 +507,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "Not affiliated with, endorsed by, or sponsored by any professional sports team, league, or mascot.",
-      "soldWhere": "etsy"
+      "etsyListingId": 4521818727
     },
     {
       "id": "sushi-cats",
@@ -535,7 +535,7 @@
         "https://i.etsystatic.com/54756024/r/il/28d277/8624552010/il_794xN.8624552010_dohu.jpg"
       ],
       "swatch": "#c45a5a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "Six little sushi rolls in a takeout tray, each one with a smiling cat face peeking out of the rice. A tiny bento of cuteness for sushi lovers and cat people."
       ],
@@ -546,7 +546,7 @@
       ],
       "disclaimer": "",
       "badge": "New",
-      "soldWhere": "etsy"
+      "etsyListingId": 4588662487
     },
     {
       "id": "ghost-cat",
@@ -574,7 +574,7 @@
         "https://i.etsystatic.com/54756024/r/il/e3ca34/8623145768/il_794xN.8623145768_9ofl.jpg"
       ],
       "swatch": "#4a4a6a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "A little cat who dressed up as a ghost for Halloween and never took the sheet off. Hand-drawn in soft grays and black with a blush of pink, and ready to haunt your laptop, water bottle, notebook or planner all year long."
       ],
@@ -585,7 +585,7 @@
       ],
       "disclaimer": "",
       "badge": "Halloween",
-      "soldWhere": "etsy"
+      "etsyListingId": 4554781190
     },
     {
       "id": "cat-burger",
@@ -613,7 +613,7 @@
         "https://i.etsystatic.com/54756024/r/il/f8769c/8624529728/il_794xN.8624529728_oy6n.jpg"
       ],
       "swatch": "#8a3b2e",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "A tuxedo cat sandwiched in a sesame bun with lettuce, tomato and a slice of cheese, looking completely unbothered about it. For cat people and burger people, and anyone who is both."
       ],
@@ -623,7 +623,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4583901395
     },
     {
       "id": "bread-cat",
@@ -655,7 +655,7 @@
         "https://i.etsystatic.com/54756024/r/il/ec9f6b/8624621376/il_794xN.8624621376_n1uu.jpg"
       ],
       "swatch": "#c48a3a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "A cat that has fully committed to being a loaf: a little white face peeking out of the end of a fresh loaf of bread. For anyone whose cat sits with its paws tucked in like a baguette."
       ],
@@ -665,7 +665,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4561322795
     },
     {
       "id": "ninja-cat",
@@ -693,7 +693,7 @@
         "https://i.etsystatic.com/54756024/r/il/5ae7ef/8624513930/il_794xN.8624513930_1s1o.jpg"
       ],
       "swatch": "#5a3a7a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "A tuxedo cat in a purple hooded robe, katana drawn and ready to defend the food bowl. Hand-drawn for anyone who knows their cat is secretly a trained assassin."
       ],
@@ -703,7 +703,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4583908924
     },
     {
       "id": "orange-cat",
@@ -731,7 +731,7 @@
         "https://i.etsystatic.com/54756024/r/il/9266dd/8624521264/il_794xN.8624521264_g5ha.jpg"
       ],
       "swatch": "#d9792b",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "A curious orange cat leaning in for a closer look, all big eyes and pink nose. Drawn for every owner of an orange cat, the household's one shared brain cell."
       ],
@@ -741,7 +741,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4583915710
     },
     {
       "id": "reading-cat",
@@ -769,7 +769,7 @@
         "https://i.etsystatic.com/54756024/r/il/217010/8624505526/il_794xN.8624505526_ragg.jpg"
       ],
       "swatch": "#4a6b8a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "A big blue tabby settled into a wooden chair with a good book: a how-to guide on knocking things off tables. For readers, cat people, and anyone whose cat has ever made direct eye contact while pushing a mug off the counter."
       ],
@@ -779,7 +779,7 @@
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4583903333
     },
     {
       "id": "poppy",
@@ -789,11 +789,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95
+          "price": 95.0
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120
+          "price": 120.0
         }
       ],
       "oneOfAKind": true,
@@ -803,7 +803,7 @@
         "https://i.etsystatic.com/54756024/r/il/c78a6c/7804963893/il_794xN.7804963893_7kdc.jpg"
       ],
       "swatch": "#a8322b",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "An original gouache painting of a red poppy."
       ],
@@ -813,7 +813,7 @@
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4464640766
     },
     {
       "id": "perched",
@@ -823,11 +823,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95
+          "price": 95.0
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120
+          "price": 120.0
         }
       ],
       "oneOfAKind": true,
@@ -837,7 +837,7 @@
         "https://i.etsystatic.com/54756024/r/il/9452e7/7744345339/il_794xN.7744345339_ertr.jpg"
       ],
       "swatch": "#6b7a4a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "An original gouache painting of a sparrow perched on top of a wooden fence post."
       ],
@@ -847,7 +847,7 @@
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4455646101
     },
     {
       "id": "rocky-creek",
@@ -857,11 +857,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95
+          "price": 95.0
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120
+          "price": 120.0
         }
       ],
       "oneOfAKind": true,
@@ -872,7 +872,7 @@
         "https://i.etsystatic.com/54756024/r/il/f273af/7696377332/il_794xN.7696377332_cvrm.jpg"
       ],
       "swatch": "#3f6b4a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "An original gouache painting of a rocky creek running through a mountain forest."
       ],
@@ -882,7 +882,7 @@
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4455650930
     },
     {
       "id": "forest-pond",
@@ -892,11 +892,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95
+          "price": 95.0
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120
+          "price": 120.0
         }
       ],
       "oneOfAKind": true,
@@ -907,7 +907,7 @@
         "https://i.etsystatic.com/54756024/r/il/e4f4ee/7696368776/il_794xN.7696368776_ko33.jpg"
       ],
       "swatch": "#3a6a5a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "An original gouache painting of a calm pond in a mountain forest."
       ],
@@ -917,7 +917,7 @@
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4455641131
     },
     {
       "id": "colden-hour",
@@ -927,11 +927,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95
+          "price": 95.0
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120
+          "price": 120.0
         }
       ],
       "oneOfAKind": true,
@@ -942,7 +942,7 @@
         "https://i.etsystatic.com/54756024/r/il/12f85e/7744301535/il_794xN.7744301535_a39x.jpg"
       ],
       "swatch": "#4a6a9a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "An original gouache painting of a very cold evening on the banks of the Schuylkill River near the Philadelphia Museum of Art."
       ],
@@ -952,7 +952,7 @@
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4455638911
     },
     {
       "id": "blue-side-of-the-mountain",
@@ -962,11 +962,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95
+          "price": 95.0
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120
+          "price": 120.0
         }
       ],
       "oneOfAKind": true,
@@ -976,7 +976,7 @@
         "https://i.etsystatic.com/54756024/r/il/94e726/7696312734/il_794xN.7696312734_21ei.jpg"
       ],
       "swatch": "#3f5fa8",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "An original gouache painting of a mountain landscape with wildflowers."
       ],
@@ -986,7 +986,7 @@
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4455632517
     },
     {
       "id": "winter-robin",
@@ -996,11 +996,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95
+          "price": 95.0
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120
+          "price": 120.0
         }
       ],
       "oneOfAKind": true,
@@ -1009,7 +1009,7 @@
         "https://i.etsystatic.com/54756024/r/il/4bc174/7744246425/il_794xN.7744246425_nplv.jpg"
       ],
       "swatch": "#5a7a9a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "An original gouache painting of a robin perched on a snow-covered branch."
       ],
@@ -1019,7 +1019,7 @@
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4455638864
     },
     {
       "id": "still-panic",
@@ -1029,11 +1029,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95
+          "price": 95.0
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120
+          "price": 120.0
         }
       ],
       "oneOfAKind": true,
@@ -1043,7 +1043,7 @@
         "https://i.etsystatic.com/54756024/r/il/c432ae/7744219573/il_794xN.7744219573_hyvz.jpg"
       ],
       "swatch": "#a85a7a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "An original gouache painting of a chickadee perched on a cherry blossom branch."
       ],
@@ -1053,7 +1053,7 @@
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4455634406
     },
     {
       "id": "the-mighty-poplar",
@@ -1063,11 +1063,11 @@
       "variants": [
         {
           "name": "Unframed",
-          "price": 95
+          "price": 95.0
         },
         {
           "name": "Framed: 8×10 frame with 5×7 mat",
-          "price": 120
+          "price": 120.0
         }
       ],
       "oneOfAKind": true,
@@ -1079,7 +1079,7 @@
         "https://i.etsystatic.com/54756024/r/il/8abe1f/7696244524/il_794xN.7696244524_89fa.jpg"
       ],
       "swatch": "#4a7a3a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "An original gouache painting of a poplar tree, seen from below."
       ],
@@ -1089,7 +1089,7 @@
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4455621133
     },
     {
       "id": "barn",
@@ -1099,7 +1099,7 @@
       "variants": [
         {
           "name": "Framed",
-          "price": 120
+          "price": 120.0
         }
       ],
       "oneOfAKind": true,
@@ -1109,7 +1109,7 @@
         "https://i.etsystatic.com/54756024/r/il/684f5b/7696228960/il_794xN.7696228960_8xbj.jpg"
       ],
       "swatch": "#a84a3a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "An original gouache painting of a barn in a field of wildflowers."
       ],
@@ -1119,7 +1119,7 @@
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4455618791
     },
     {
       "id": "boat-on-the-bay",
@@ -1129,7 +1129,7 @@
       "variants": [
         {
           "name": "Framed",
-          "price": 120
+          "price": 120.0
         }
       ],
       "oneOfAKind": true,
@@ -1139,7 +1139,7 @@
         "https://i.etsystatic.com/54756024/r/il/bc573b/7696210646/il_794xN.7696210646_hqfu.jpg"
       ],
       "swatch": "#3a6aa8",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "An original gouache painting of a boat on a bay."
       ],
@@ -1149,7 +1149,7 @@
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4455624706
     },
     {
       "id": "cherry-tree",
@@ -1159,7 +1159,7 @@
       "variants": [
         {
           "name": "Framed",
-          "price": 120
+          "price": 120.0
         }
       ],
       "oneOfAKind": true,
@@ -1171,7 +1171,7 @@
         "https://i.etsystatic.com/54756024/r/il/7eae57/7744114573/il_794xN.7744114573_qgof.jpg"
       ],
       "swatch": "#a8507a",
-      "soldOut": true,
+      "soldOut": false,
       "description": [
         "An original gouache painting of a cherry tree in bloom in a forest clearing."
       ],
@@ -1181,7 +1181,7 @@
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
-      "soldWhere": "etsy"
+      "etsyListingId": 4455618978
     },
     {
       "id": "house-portrait",
@@ -1191,19 +1191,19 @@
       "variants": [
         {
           "name": "Pen & ink + watercolor, matted",
-          "price": 225
+          "price": 225.0
         },
         {
           "name": "Pen & ink + watercolor, matted & framed",
-          "price": 250
+          "price": 250.0
         },
         {
           "name": "Pen & ink only, matted",
-          "price": 185
+          "price": 185.0
         },
         {
           "name": "Pen & ink only, matted & framed",
-          "price": 210
+          "price": 210.0
         }
       ],
       "deposit": 0.5,
@@ -1219,7 +1219,7 @@
         "https://i.etsystatic.com/54756024/r/il/27a5ba/8663281817/il_794xN.8663281817_hp3y.jpg"
       ],
       "swatch": "#2e6b47",
-      "soldOut": true,
+      "soldOut": false,
       "summary": "An original pen and ink portrait of your home, with or without watercolor.",
       "description": [
         "A hand-drawn portrait of a home: the closing gift clients actually keep, and a one-of-a-kind keepsake for anyone who loves their house. I'm based in the Philadelphia area and love drawing the region's stone homes, rowhouses and twins.",
@@ -1239,1033 +1239,7 @@
       ],
       "policy": "Turnaround is usually 2 to 4 weeks from sketch approval. The deposit covers my time and materials and is non-refundable once I've started the sketch. Want a larger size or more than one house? Email me for a custom quote.",
       "disclaimer": "",
-      "soldWhere": "etsy"
-    },
-    {
-      "id": "sushi-cats-sticker",
-      "name": "Sushi Cats Sticker",
-      "size": "3&quot; wide × 1.64&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Six little sushi rolls in a takeout tray, each one with a smiling cat face peeking out of the rice. A tiny bento of cuteness for sushi lovers and cat people."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the tray",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4588662487
-    },
-    {
-      "id": "philadelphia-sticker-sheet",
-      "name": "Philadelphia Sticker Sheet",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "It&#39;s a Philly thing! This holographic glitter sticker sheet has 9 hand-drawn Philadelphia-inspired stickers: a soft pretzel, a cheesesteak, a Philly-style water ice cup, a Philly candy bar, a highway sign, independence hall, a Fly Eagles Fly wings piece, and more. Peel them off one at a time for laptops, water bottles, notebooks, planners, and phone cases.",
-        "Glossy laminated, waterproof vinyl with a holographic glitter finish\nEach sticker is die-cut with a white border\nSheet size: 3.06&quot; wide x 4.57&quot; tall"
-      ],
-      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any professional sports team, league, or brand.",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 6.99
-        },
-        {
-          "name": "Holographic",
-          "price": 6.99
-        }
-      ],
-      "details": [
-        "Die cut",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4573529209
-    },
-    {
-      "id": "philly-pork-roll-sticker",
-      "name": "Philly Pork Roll Sticker",
-      "size": "1.95&quot; × 1.95&quot;",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "A retro-style sticker for anyone who knows a proper breakfast starts with pork roll, egg and cheese. Hand-lettered and hand-drawn, with a little &quot;Go Birds&quot; stamp tucked in for good measure."
-      ],
-      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any brand or professional sports team.",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut with rounded corners",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4583406243
-    },
-    {
-      "id": "fly-eagles-fly-sticker",
-      "name": "Fly Eagles Fly Sticker",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Fly Eagles Fly! This wings-and-football sticker is for the birds, for Philly fans, and for anyone who likes football or bird-watching.",
-        "Both are waterproof, die cut stickers that measure 3.23&quot; wide × 1.32&quot; tall. They look great on a laptop, water bottle, notebook, skateboard, or anywhere else you&#39;d like a little Philly pride."
-      ],
-      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any professional sports team or league.",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4561330082
-    },
-    {
-      "id": "philly-goose-sticker",
-      "name": "Philly Goose Sticker",
-      "size": "2.7&quot; wide × 2.03&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Show your love for Philadelphia with this die-cut Philly goose sticker, a nod to one of the city&#39;s most iconic mascots, combined with hand-drawn lettering and artwork."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut to the shape of the goose",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4583415144
-    },
-    {
-      "id": "orange-cat-sticker",
-      "name": "Orange Cat Sticker",
-      "size": "1.87&quot; wide × 3&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "A curious orange cat leaning in for a closer look, all big eyes and pink nose. Drawn for every owner of an orange cat, the household&#39;s one shared brain cell."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the cat",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4583915710
-    },
-    {
-      "id": "funny-reading-cat-sticker",
-      "name": "Funny Reading Cat Sticker",
-      "size": "1.79&quot; wide × 3.07&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "A big blue tabby settled into a wooden chair with a good book: a how-to guide on knocking things off tables. For readers, cat people, and anyone whose cat has ever made direct eye contact while pushing a mug off the counter."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the cat and chair",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4583903333
-    },
-    {
-      "id": "burger-cat-sticker",
-      "name": "Burger Cat Sticker",
-      "size": "2.98&quot; wide × 3&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "A tuxedo cat sandwiched in a sesame bun with lettuce, tomato and a slice of cheese, looking completely unbothered about it. For cat people and burger people, and anyone who is both."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the burger",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4583901395
-    },
-    {
-      "id": "ninja-cat-sticker",
-      "name": "Ninja Cat Sticker",
-      "size": "2.79&quot; wide × 3.03&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "A tuxedo cat in a purple hooded robe, katana drawn and ready to defend the food bowl. Hand-drawn for anyone who knows their cat is secretly a trained assassin."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the cat, sword and tail",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4583908924
-    },
-    {
-      "id": "philly-i-76ers-highway-sign-sticker",
-      "name": "Philly I-76ers Highway Sign Sticker",
-      "size": "2.98&quot; wide × 3&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Philadelphia&#39;s favorite highway meets Philadelphia&#39;s favorite team. This interstate-shield sticker is inspired by I-76 (the Schuylkill Expressway, aka the &quot;Surekill&quot;) and Philly basketball pride, made for anyone who has sat in traffic on the way to a game."
-      ],
-      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any professional sports team or league.",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the shield shape",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4523073134
-    },
-    {
-      "id": "philadelphia-spectrum-arena-sticker",
-      "name": "Philadelphia Spectrum Arena Sticker",
-      "size": "2.9&quot; wide × 1.84&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "A hand-drawn tribute to the Spectrum, the South Philly arena that hosted decades of games and concerts, with its bronze-and-gold window bands and four-color stripe."
-      ],
-      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any arena, professional sports team, or league.",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut with rounded corners",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4583363725
-    },
-    {
-      "id": "philly-scrapple-sticker",
-      "name": "Philly Scrapple Sticker",
-      "size": "1.95&quot; × 1.95&quot;",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Scrapple: Philly&#39;s most misunderstood breakfast, hand-lettered with a &quot;Since 1776&quot; crest and a hand-drawn leafy border."
-      ],
-      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league.",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut with rounded corners",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4583350067
-    },
-    {
-      "id": "philly-peanut-butter-cup-sticker",
-      "name": "Philly Peanut Butter Cup Sticker",
-      "size": "2.77&quot; wide × 1.24&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "A candy wrapper with a Philly twist: peanut butter cups, a &quot;Go Birds&quot; label, and &quot;Philly&quot; in big yellow script."
-      ],
-      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league.",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the wrapper shape",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4583358662
-    },
-    {
-      "id": "philly-butterscotch-snack-cake-sticker",
-      "name": "Philly Butterscotch Snack Cake Sticker",
-      "size": "3.04&quot; wide × 1.98&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "A hand-painted butterscotch snack cake, the lunchbox classic every Philly kid traded for, over a vintage &quot;Philadelphia&quot; banner."
-      ],
-      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any brand.",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the cake and banner",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4565805514
-    },
-    {
-      "id": "philadelphia-candy-bar-sticker",
-      "name": "Philadelphia Candy Bar Sticker",
-      "size": "3.31&quot; wide × 1.45&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "A retro chocolate-and-peanut candy wrapper, redrawn with &quot;Philadelphia&quot; across the front and a &quot;Since 1776&quot; star."
-      ],
-      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league.",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the wrapper shape",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4565779525
-    },
-    {
-      "id": "bread-cat-sticker",
-      "name": "Bread Cat Sticker",
-      "size": "3&quot; wide × 2.64&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "A cat that has fully committed to being a loaf: a little white face peeking out of the end of a fresh loaf of bread. For anyone whose cat sits with its paws tucked in like a baguette."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the loaf",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4561322795
-    },
-    {
-      "id": "ghost-cat-sticker",
-      "name": "Ghost Cat Sticker",
-      "size": "2.15&quot; wide × 2.69&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "A little cat who dressed up as a ghost for Halloween and never took the sheet off. This big-eyed ghost cat is hand-drawn in soft grays and black with a blush of pink, and is ready to haunt your laptop, water bottle, notebook, or planner all year long."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the ghost&#39;s shape",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4554781190
-    },
-    {
-      "id": "poppy-2",
-      "name": "Poppy",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Original gouache painting of a red poppy flower. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "originals",
-      "variantLabel": "Framing",
-      "oneOfAKind": true,
-      "variants": [
-        {
-          "name": "Unframed",
-          "price": 95
-        },
-        {
-          "name": "Framed",
-          "price": 120
-        }
-      ],
-      "details": [
-        "Original painting, signed. Not a print.",
-        "One of a kind: once it sells, it's gone"
-      ],
-      "etsyListingId": 4464640766
-    },
-    {
-      "id": "philly-wooder-ice-sticker",
-      "name": "Philly Wooder Ice Sticker",
-      "size": "1.76&quot; wide × 3.2&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "It&#39;s pronounced &quot;wooder.&quot; This hand-drawn water ice cup is for anyone who grew up waiting in line for a cherry water ice on a hot Philly summer night. Photo 8 shows how it came together, from pencil sketch to ink to color to sticker."
-      ],
-      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any brand.",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the cup shape",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4524176429
-    },
-    {
-      "id": "philly-cheesesteak-sticker",
-      "name": "Philly Cheesesteak Sticker",
-      "size": "3.22&quot; wide × 1.76&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Philadelphia&#39;s most famous sandwich, hand-drawn with acrylic markers and turned into a sticker: a toasted roll, plenty of chopped steak and a drip of melted cheese. Wit or witout, it goes on your laptop, water bottle, or anywhere else you want a little Philly."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the sandwich shape",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4523622850
-    },
-    {
-      "id": "philadelphia-independence-hall-sticker",
-      "name": "Philadelphia Independence Hall Sticker",
-      "size": "2.52&quot; wide × 3.18&quot; tall",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Independence Hall like you&#39;ve never seen it: a big-eyed, fuzzy green troublemaker inside, right in front of the bell tower. A little bit history, a little bit South Philly chaos."
-      ],
-      "disclaimer": "Not affiliated with, endorsed by, or sponsored by any professional sports team, league, or mascot.",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "stickers",
-      "variantLabel": "Finish",
-      "variants": [
-        {
-          "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Holographic",
-          "price": 3.99
-        }
-      ],
-      "details": [
-        "Die cut around the tower and building",
-        "Glossy laminated waterproof vinyl, or a sparkly holographic finish that looks different in every light",
-        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
-      ],
-      "etsyListingId": 4521818727
-    },
-    {
-      "id": "perched-2",
-      "name": "Perched",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Original gouache painting of a sparrow perched atop a wooden fence post. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "originals",
-      "variantLabel": "Framing",
-      "oneOfAKind": true,
-      "variants": [
-        {
-          "name": "Unframed",
-          "price": 95
-        },
-        {
-          "name": "Framed",
-          "price": 120
-        }
-      ],
-      "details": [
-        "Original painting, signed. Not a print.",
-        "One of a kind: once it sells, it's gone"
-      ],
-      "etsyListingId": 4455646101
-    },
-    {
-      "id": "rocky-creek-2",
-      "name": "Rocky Creek",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Original gouache painting of a creek banked with rocks running though a mountainous forest landscape. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "originals",
-      "variantLabel": "Framing",
-      "oneOfAKind": true,
-      "variants": [
-        {
-          "name": "Unframed",
-          "price": 95
-        },
-        {
-          "name": "Framed",
-          "price": 120
-        }
-      ],
-      "details": [
-        "Original painting, signed. Not a print.",
-        "One of a kind: once it sells, it's gone"
-      ],
-      "etsyListingId": 4455650930
-    },
-    {
-      "id": "forest-pond-2",
-      "name": "Forest Pond",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Original gouache painting of a calm pond in a mountain forest. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "originals",
-      "variantLabel": "Framing",
-      "oneOfAKind": true,
-      "variants": [
-        {
-          "name": "Unframed",
-          "price": 95
-        },
-        {
-          "name": "Framed",
-          "price": 120
-        }
-      ],
-      "details": [
-        "Original painting, signed. Not a print.",
-        "One of a kind: once it sells, it's gone"
-      ],
-      "etsyListingId": 4455641131
-    },
-    {
-      "id": "colden-hour-2",
-      "name": "Colden Hour",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Original gouache painting of a very cold evening on the banks of the schuylkill river near the Philadelphia Museum of Art. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "originals",
-      "variantLabel": "Framing",
-      "oneOfAKind": true,
-      "variants": [
-        {
-          "name": "Unframed",
-          "price": 95
-        },
-        {
-          "name": "Framed",
-          "price": 120
-        }
-      ],
-      "details": [
-        "Original painting, signed. Not a print.",
-        "One of a kind: once it sells, it's gone"
-      ],
-      "etsyListingId": 4455638911
-    },
-    {
-      "id": "blue-side-of-the-mountain-2",
-      "name": "Blue side of the mountain",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Original gouache painting lovely mountain landscape with wildflowers. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "originals",
-      "variantLabel": "Framing",
-      "oneOfAKind": true,
-      "variants": [
-        {
-          "name": "Unframed",
-          "price": 95
-        },
-        {
-          "name": "Framed",
-          "price": 120
-        }
-      ],
-      "details": [
-        "Original painting, signed. Not a print.",
-        "One of a kind: once it sells, it's gone"
-      ],
-      "etsyListingId": 4455632517
-    },
-    {
-      "id": "winter-robin-2",
-      "name": "Winter Robin",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Original gouache painting of a robin perched on a show covered branch. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "originals",
-      "variantLabel": "Framing",
-      "oneOfAKind": true,
-      "variants": [
-        {
-          "name": "Unframed",
-          "price": 95
-        },
-        {
-          "name": "Framed",
-          "price": 120
-        }
-      ],
-      "details": [
-        "Original painting, signed. Not a print.",
-        "One of a kind: once it sells, it's gone"
-      ],
-      "etsyListingId": 4455638864
-    },
-    {
-      "id": "still-panic-2",
-      "name": "Still Panic",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Original gouache painting of a chickadee perched on a cherry blossom branch. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "originals",
-      "variantLabel": "Framing",
-      "oneOfAKind": true,
-      "variants": [
-        {
-          "name": "Unframed",
-          "price": 95
-        },
-        {
-          "name": "Framed",
-          "price": 120
-        }
-      ],
-      "details": [
-        "Original painting, signed. Not a print.",
-        "One of a kind: once it sells, it's gone"
-      ],
-      "etsyListingId": 4455634406
-    },
-    {
-      "id": "the-mighty-poplar-2",
-      "name": "The Mighty Poplar",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Original gouache painting of a poplar tree. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "originals",
-      "variantLabel": "Framing",
-      "oneOfAKind": true,
-      "variants": [
-        {
-          "name": "Unframed",
-          "price": 95
-        },
-        {
-          "name": "Framed",
-          "price": 120
-        }
-      ],
-      "details": [
-        "Original painting, signed. Not a print.",
-        "One of a kind: once it sells, it's gone"
-      ],
-      "etsyListingId": 4455621133
-    },
-    {
-      "id": "barn-2",
-      "name": "Barn",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Original framed barn in a field with wildflowers. The painting is 5x7 inches matted in an 8x10 inch frame, ready to display"
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "originals",
-      "variantLabel": "Framing",
-      "oneOfAKind": true,
-      "variants": [
-        {
-          "name": "Unframed",
-          "price": 95
-        },
-        {
-          "name": "Framed",
-          "price": 120
-        }
-      ],
-      "details": [
-        "Original painting, signed. Not a print.",
-        "One of a kind: once it sells, it's gone"
-      ],
-      "etsyListingId": 4455618791
-    },
-    {
-      "id": "cherry-tree-2",
-      "name": "Cherry tree",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Original framed gouache painting of a cherry blossom in a forest clearing. The painting is 5x7 inches matted in an 8x10 inch frame, ready to display"
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "originals",
-      "variantLabel": "Framing",
-      "oneOfAKind": true,
-      "variants": [
-        {
-          "name": "Unframed",
-          "price": 95
-        },
-        {
-          "name": "Framed",
-          "price": 120
-        }
-      ],
-      "details": [
-        "Original painting, signed. Not a print.",
-        "One of a kind: once it sells, it's gone"
-      ],
-      "etsyListingId": 4455618978
-    },
-    {
-      "id": "boat-on-the-bay-2",
-      "name": "Boat on the bay",
-      "size": "",
-      "images": [],
-      "swatch": "#18602a",
-      "soldOut": false,
-      "description": [
-        "Original framed gouache painting of a boat on a bay. The painting is 5x7 inches matted in an 8x10 inch frame, ready to display"
-      ],
-      "disclaimer": "",
-      "badge": "New",
-      "newUntil": "2026-11-04",
-      "category": "originals",
-      "variantLabel": "Framing",
-      "oneOfAKind": true,
-      "variants": [
-        {
-          "name": "Unframed",
-          "price": 95
-        },
-        {
-          "name": "Framed",
-          "price": 120
-        }
-      ],
-      "details": [
-        "Original painting, signed. Not a print.",
-        "One of a kind: once it sells, it's gone"
-      ],
-      "etsyListingId": 4455624706
+      "etsyListingId": 4587496463
     }
   ]
 }
