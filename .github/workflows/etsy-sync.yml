@@ -1,4 +1,4 @@
-# Copies new and changed Etsy listings into the shop.
+# Adds new Etsy listings to the shop (existing products are never changed).
 # Runs every morning, and any time you press "Run workflow" on the Actions tab
 # (github.com/EMcMYK/edmcveigh-shop → Actions → Sync from Etsy → Run workflow).
 name: Sync from Etsy

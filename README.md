@@ -157,18 +157,15 @@ Then add `edmcveigh.com` (and `www.edmcveigh.com`) under that project's Custom d
 
 ## Etsy sync
 
-Your active Etsy listings are the source of truth. Every morning (and whenever you press the button) a GitHub job:
+Every morning (and whenever you press the button) a GitHub job checks your active Etsy listings and **adds any new ones** to the shop. Products already in the shop are never changed by it.
 
-- **adds new Etsy listings** to the shop right away, with a short name, the Etsy description minus photo notes, and a "New" badge for 30 days. New stickers get Glossy and Holographic at the Etsy price; new paintings get Unframed at the Etsy price and Framed at $25 more.
-- **copies every product photo** into `images/`, so the shop no longer loads photos from Etsy
-- **marks anything no longer active on Etsy as sold out** here, and makes it available again if it comes back
-- **never changes** names, descriptions, prices or sections of existing products. Edit those in `data/products.json` and the sync leaves them alone.
+A new product is copied exactly from Etsy: the title, the full description, tags, every photo (saved into `images/`), the options and their prices, and which section it belongs in (from its Etsy shop section). It gets a "New" badge for 30 days.
 
-Settings live in `data/etsy-sync.json` (listings to never import, like the hedgehog card; the "New" badge length; the framing upcharge).
+Each product stores its Etsy listing number (`etsyListingId`), which is how the sync knows what's already here. If a run ever finds more than 5 new listings at once, it stops without changing anything (raise `maxNewPerRun` in `data/etsy-sync.json` if you really did add that many). Listings to never import, like the hedgehog card, are listed there too.
 
-**Run it now:** github.com/EMcMYK/edmcveigh-shop → **Actions** → **Sync from Etsy** → **Run workflow**. The GitHub phone app has the same button. The run page shows a summary of what changed, and the shop updates a minute later.
+**Run it now:** github.com/EMcMYK/edmcveigh-shop → **Actions** → **Sync from Etsy** → **Run workflow**. The GitHub phone app has the same button. The run page shows what was added, and the shop updates a minute later.
 
-When a one-of-a-kind painting sells **on the shop**, Stripe tells the shop, the painting is marked sold, and GitHub emails you a reminder (an issue that mentions you) with a link to deactivate it on Etsy. At checkout the shop also asks Etsy whether each painting is still for sale, so one that sold on Etsy minutes earlier can't sell here too.
+When a one-of-a-kind painting sells **on the shop**, Stripe tells the shop, the painting is marked sold, and GitHub emails you a reminder (an issue that mentions you) with a link to deactivate it on Etsy. At checkout the shop also asks Etsy whether each painting is still for sale, so one that sold on Etsy can't sell here too.
 
 ### One-time setup
 

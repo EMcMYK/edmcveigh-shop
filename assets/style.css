@@ -253,7 +253,7 @@ button { font: inherit; color: inherit; }
 .btn:active { transform: translateY(-1px); }
 .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
 .prose { display: grid; gap: 12px; max-width: 62ch; }
-.prose p { margin: 0; }
+.prose p { margin: 0; white-space: pre-line; }   /* keeps the line breaks in Etsy descriptions */
 .prose h3 { margin: 8px 0 0; font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
 .prose ul, .prose ol { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
 .fineprint { font-size: 13px; color: var(--ink-soft); }
