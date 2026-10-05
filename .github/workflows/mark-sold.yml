@@ -1,0 +1,57 @@
+# Marks a one-of-a-kind item sold after it sells on the shop, and emails you a reminder
+# (as a GitHub issue that mentions you) to deactivate it on Etsy.
+# Started automatically by the shop's Stripe sale hook; you can also run it by hand from the
+# Actions tab with a product id (for example "poppy").
+name: Mark sold on the shop
+
+on:
+  workflow_dispatch:
+    inputs:
+      product:
+        description: "Product id from data/products.json, e.g. poppy"
+        required: true
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: shop-data
+  cancel-in-progress: false
+
+jobs:
+  mark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Mark it sold
+        id: mark
+        run: node scripts/mark-sold.mjs "${{ inputs.product }}"
+      - name: Save the change
+        run: |
+          git config user.name "Shop sale"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/products.json
+          git commit -m "Sold on the shop: ${{ steps.mark.outputs.name }}"
+          git pull --rebase origin main
+          git push
+      - name: Email a reminder to deactivate it on Etsy
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NAME: ${{ steps.mark.outputs.name }}
+          ETSY: ${{ steps.mark.outputs.etsy }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          if [ -n "$ETSY" ]; then
+            LINK="Deactivate it here: https://www.etsy.com/your/shops/me/listing-editor/edit/$ETSY"
+          else
+            LINK="It isn't linked to an Etsy listing, so check Etsy by hand."
+          fi
+          gh issue create \
+            --title "Sold on the shop: $NAME — deactivate it on Etsy" \
+            --body "@$OWNER **$NAME** just sold on your shop and is now marked sold there. $LINK
+
+          Close this issue once it's done."

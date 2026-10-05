@@ -1,0 +1,11 @@
+{
+  "_help": "Settings for the daily Etsy sync (scripts/etsy-sync.mjs). skipTitles: Etsy listings whose title starts with any of these are never added to the shop. newBadgeDays: how long a newly imported item shows the 'New' badge. framedUpcharge: added to a new painting's Etsy price for the framed option.",
+  "shopName": "EdMcveighArt",
+  "skipTitles": [
+    "Happy Birthday Hedgehog",
+    "LeBron James",
+    "Go Birds 250"
+  ],
+  "newBadgeDays": 30,
+  "framedUpcharge": 25
+}

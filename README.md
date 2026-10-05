@@ -152,3 +152,32 @@ Sticker prices in `data/products.json` are placeholders ($4 single, $5 holograph
 - Build output directory: `/`
 
 Then add `edmcveigh.com` (and `www.edmcveigh.com`) under that project's Custom domains. The root directory setting keeps the shop's checkout code out of the landing site.
+
+---
+
+## Etsy sync
+
+Your active Etsy listings are the source of truth. Every morning (and whenever you press the button) a GitHub job:
+
+- **adds new Etsy listings** to the shop right away, with a short name, the Etsy description minus photo notes, and a "New" badge for 30 days. New stickers get Glossy and Holographic at the Etsy price; new paintings get Unframed at the Etsy price and Framed at $25 more.
+- **copies every product photo** into `images/`, so the shop no longer loads photos from Etsy
+- **marks anything no longer active on Etsy as sold out** here, and makes it available again if it comes back
+- **never changes** names, descriptions, prices or sections of existing products. Edit those in `data/products.json` and the sync leaves them alone.
+
+Settings live in `data/etsy-sync.json` (listings to never import, like the hedgehog card; the "New" badge length; the framing upcharge).
+
+**Run it now:** github.com/EMcMYK/edmcveigh-shop → **Actions** → **Sync from Etsy** → **Run workflow**. The GitHub phone app has the same button. The run page shows a summary of what changed, and the shop updates a minute later.
+
+When a one-of-a-kind painting sells **on the shop**, Stripe tells the shop, the painting is marked sold, and GitHub emails you a reminder (an issue that mentions you) with a link to deactivate it on Etsy. At checkout the shop also asks Etsy whether each painting is still for sale, so one that sold on Etsy minutes earlier can't sell here too.
+
+### One-time setup
+
+1. **Etsy keys → GitHub.** Repo → Settings → Secrets and variables → Actions → New repository secret. Add `ETSY_API_KEY` (your keystring) and `ETSY_SHARED_SECRET`.
+2. **Run "Sync from Etsy" once** (above) and check its summary.
+3. **Etsy keys → Cloudflare.** In the Pages project → Settings → Variables and secrets, add the same two as **Secrets** (for the painting check at checkout).
+4. **GitHub token → Cloudflare.** Create a fine-grained token at github.com/settings/personal-access-tokens/new: only the `edmcveigh-shop` repository, permission **Actions: Read and write**, expiry 1 year. Add it to Cloudflare as the secret `GITHUB_TOKEN`. (Set yourself a reminder to replace it before it expires.)
+5. **Stripe webhook.** Stripe → Developers → Webhooks → Add endpoint: URL `https://edmcveigh-shop.pages.dev/api/stripe-webhook` (change it to `https://shop.edmcveigh.com/api/stripe-webhook` once the domain is live), event **checkout.session.completed**. Copy its signing secret (`whsec_…`) into Cloudflare as `STRIPE_WEBHOOK_SECRET`. Test mode and live mode each need their own webhook.
+6. **Redeploy** in Cloudflare (Deployments → Retry deployment) so the new secrets take effect.
+7. Make sure GitHub emails you about @mentions: github.com/settings/notifications → Participating, @mentions and custom → Email.
+
+Because the sync saves changes to GitHub on its own, pull the latest version before editing files on your computer.

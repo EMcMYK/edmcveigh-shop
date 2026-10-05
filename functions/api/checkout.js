@@ -11,6 +11,7 @@
     STRIPE_SECRET_KEY   your Stripe secret key (sk_test_... while testing, sk_live_... when live)
   Optional:
     STRIPE_AUTOMATIC_TAX  set to "true" to have Stripe Tax calculate sales tax (Stripe charges extra for this)
+    ETSY_API_KEY, ETSY_SHARED_SECRET  lets checkout confirm a painting is still for sale on Etsy
 */
 
 const MAX_QTY = 50;
@@ -60,6 +61,31 @@ export async function onRequestPost({ request, env }) {
       if (product.deposit) hasPortrait = true;
       summary.push(`${qty}x ${product.id} (${variant.name})`);
     });
+
+    // One-of-a-kind paintings are also listed on Etsy. Ask Etsy whether each is still for sale,
+    // so one sold there a minute ago can't be bought here too. If Etsy can't be reached, the
+    // sale goes ahead (the daily sync and your sale reminder still catch it).
+    const unique = items.map((it) => products.find((p) => p.id === it.id)).filter((p) => p && p.oneOfAKind);
+    for (const p of unique) {
+      if (!p.etsyListingId || !env.ETSY_API_KEY || !env.ETSY_SHARED_SECRET) continue;
+      try {
+        const res = await fetch(`https://openapi.etsy.com/v3/application/listings/${p.etsyListingId}`, {
+          headers: { "x-api-key": `${env.ETSY_API_KEY}:${env.ETSY_SHARED_SECRET}` }
+        });
+        if (res.ok) {
+          const listing = await res.json();
+          if (listing.state !== "active" || Number(listing.quantity) < 1) {
+            throw new UserError(`${p.name} just sold. Please remove it from your cart and try again.`);
+          }
+        } else if (res.status === 404) {
+          throw new UserError(`${p.name} just sold. Please remove it from your cart and try again.`);
+        }
+      } catch (err) {
+        if (err instanceof UserError) throw err;
+        console.error("Etsy check failed", err);
+      }
+    }
+    if (unique.length) form.set("metadata[one_of_a_kind]", unique.map((p) => p.id).join(",").slice(0, 490));
 
     form.set("mode", "payment");
     form.set("success_url", `${origin}/#thanks`);
