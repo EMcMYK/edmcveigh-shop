@@ -1,0 +1,42 @@
+# One-time job: copies product photos from Etsy into the repo.
+# It runs by itself when this file or the script changes, or from the Actions tab
+# (Actions → Copy photos into the repo → Run workflow). Running it again is harmless.
+name: Copy photos into the repo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/copy-photos.mjs
+      - .github/workflows/copy-photos.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: shop-data
+  cancel-in-progress: false
+
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Download photos
+        run: node scripts/copy-photos.mjs
+      - name: Save changes
+        run: |
+          git config user.name "Copy photos"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/products.json images
+          if git diff --cached --quiet; then
+            echo "Every photo is already in the repo."
+          else
+            git commit -m "Copy product photos into the repo"
+            git pull --rebase origin main
+            git push
+          fi
