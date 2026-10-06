@@ -10,7 +10,7 @@
   Setting needed in Cloudflare (Settings → Variables and secrets):
     STRIPE_SECRET_KEY   your Stripe secret key (sk_test_... while testing, sk_live_... when live)
   Optional:
-    STRIPE_AUTOMATIC_TAX  set to "true" to have Stripe Tax calculate sales tax (Stripe charges extra for this)
+    STRIPE_AUTOMATIC_TAX  set to "true" to have Stripe Tax add sales tax at checkout (Stripe charges extra for this)
     ETSY_API_KEY, ETSY_SHARED_SECRET  lets checkout confirm a painting is still for sale on Etsy
 */
 
@@ -55,6 +55,9 @@ export async function onRequestPost({ request, env }) {
       form.set(`${key}[price_data][unit_amount]`, String(Math.round(dollars * 100)));
       form.set(`${key}[price_data][product_data][name]`, name);
       form.set(`${key}[price_data][product_data][description]`, description);
+      // Sales tax (only used when Stripe Tax is on): prices are before tax, taxed as physical goods.
+      form.set(`${key}[price_data][tax_behavior]`, "exclusive");
+      form.set(`${key}[price_data][product_data][tax_code]`, "txcd_99999999");
       if (product.images && product.images[0]) {
         form.set(`${key}[price_data][product_data][images][0]`, new URL(product.images[0], origin + "/").href);
       }
@@ -99,9 +102,13 @@ export async function onRequestPost({ request, env }) {
     form.set("shipping_options[0][shipping_rate_data][display_name]", "Free shipping (USPS)");
     form.set("shipping_options[0][shipping_rate_data][fixed_amount][amount]", "0");
     form.set("shipping_options[0][shipping_rate_data][fixed_amount][currency]", "usd");
+    form.set("shipping_options[0][shipping_rate_data][tax_behavior]", "exclusive");
 
     // Portrait orders: ask for the deadline and any notes right at checkout.
     if (hasPortrait) {
+      // Save the buyer as a Stripe customer (name, email, address) so the balance invoice
+      // can be sent to them later, with the same sales tax worked out from their address.
+      form.set("customer_creation", "always");
       form.set("custom_fields[0][key]", "portrait_notes");
       form.set("custom_fields[0][label][type]", "custom");
       form.set("custom_fields[0][label][custom]", "Portrait deadline or notes");

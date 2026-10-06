@@ -74,7 +74,7 @@ Changing a price, marking something sold out or fixing a typo works the same way
 
 ### House portraits and deposits
 
-The portrait product has `"deposit": 0.5`, so checkout charges 50% of the price. After you finish a piece, send the balance from your Stripe dashboard: **Invoices → Create invoice**, pick the customer, add a line like "House portrait balance" for the other half, and send it. Stripe emails them a link to pay.
+The portrait product has `"deposit": 0.5`, so checkout charges 50% of the price. After you finish a piece, send the balance from your Stripe dashboard: **Invoices → Create invoice**, pick the customer (portrait buyers are saved as customers automatically, with their address), add a line like "House portrait balance" for the other half, turn on **Collect tax automatically**, and send it. Stripe emails them a link to pay, with Pennsylvania sales tax added the same way as at checkout.
 
 At checkout, portrait customers are asked for their phone number and a "deadline or notes" field, and they're reminded to email you a photo of the home. Make sure `contactEmail` in `config.js` is the address you want them to use.
 
@@ -131,7 +131,7 @@ If you set up GitHub: edit files, then commit and push (or use GitHub's website 
 
 ## Sales tax
 
-Etsy and Faire collect and pay sales tax for you. This shop doesn't do that automatically. If you need to collect tax, you can turn on Stripe Tax (it costs extra per transaction) by adding a Cloudflare variable `STRIPE_AUTOMATIC_TAX` set to `true`, after setting it up in Stripe. Check the Pennsylvania rules for your situation, or ask an accountant.
+Etsy and Faire collect and pay sales tax for you. This shop uses Stripe Tax: with your Pennsylvania registration added in Stripe and the Cloudflare variable `STRIPE_AUTOMATIC_TAX` set to `true`, checkout adds sales tax based on the buyer's address (Stripe charges a small fee per transaction). Everything is taxed as physical goods; shipping is free. Stripe's Tax reports show what to file.
 
 ## Prices to confirm
 
