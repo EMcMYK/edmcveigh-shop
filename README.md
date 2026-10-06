@@ -74,7 +74,7 @@ Changing a price, marking something sold out or fixing a typo works the same way
 
 ### House portraits and deposits
 
-The portrait product has `"deposit": 0.5`, so checkout charges 50% of the price. After you finish a piece, send the balance from your Stripe dashboard: **Invoices → Create invoice**, pick the customer (portrait buyers are saved as customers automatically, with their address), add a line like "House portrait balance" for the other half, turn on **Collect tax automatically**, and send it. Stripe emails them a link to pay, with Pennsylvania sales tax added the same way as at checkout.
+The portrait product has `"deposit": 0.5`, so checkout charges 50% of the price. After you finish a piece, send the balance from your Stripe dashboard: **Invoices → Create invoice**, pick the customer (portrait buyers are saved as customers automatically, with their address), add a line like "House portrait balance" for the other half, turn on **Collect tax automatically**, and send it. Stripe emails them a link to pay, with Pennsylvania sales tax added the same way as at checkout. To give someone a discount (friends and family, say), add a coupon on that invoice: a fixed amount off, used once. Tax is worked out after the discount.
 
 At checkout, portrait customers are asked for their phone number and a "deadline or notes" field, and they're reminded to email you a photo of the home. Make sure `contactEmail` in `config.js` is the address you want them to use.
 
