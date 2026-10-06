@@ -6,7 +6,6 @@
 <title>ed.mcveigh</title>
 <meta name="description" content="ed.mcveigh: hand-drawn Philly stickers, original paintings and custom house portraits, made in Philadelphia.">
 <!-- Keeps search engines from listing the page before launch. Delete this line when you go live. -->
-<meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="brand/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
@@ -207,24 +206,36 @@ footer {
     <li><a href="https://www.facebook.com/ed.mcveigh.9" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z"/></svg></a></li>
     <li><a href="https://www.etsy.com/shop/EdMcveighArt" target="_blank" rel="noopener" aria-label="Etsy" title="Etsy"><svg aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M384 348c-1.75 10.75-13.75 110-15.5 132-117.879-4.299-219.895-4.743-368.5 0v-25.5c45.457-8.948 60.627-8.019 61-35.25 1.793-72.322 3.524-244.143 0-322-1.029-28.46-12.13-26.765-61-36v-25.5c73.886 2.358 255.933 8.551 362.999-3.75-3.5 38.25-7.75 126.5-7.75 126.5H332C320.947 115.665 313.241 68 277.25 68h-137c-10.25 0-10.75 3.5-10.75 9.75V241.5c58 .5 88.5-2.5 88.5-2.5 29.77-.951 27.56-8.502 40.75-65.251h25.75c-4.407 101.351-3.91 61.829-1.75 160.25H257c-9.155-40.086-9.065-61.045-39.501-61.5 0 0-21.5-2-88-2v139c0 26 14.25 38.25 44.25 38.25H263c63.636 0 66.564-24.996 98.751-99.75H384z"/></svg></a></li>
   </ul>
-  <p class="copy"><a id="policiesLink" href="https://shop.edmcveigh.com/#policies" style="color:inherit">Shop policies</a></p>
+  <p class="copy" id="policiesLine" hidden><a id="policiesLink" href="https://shop.edmcveigh.com/#policies" style="color:inherit">Shop policies</a></p>
   <p class="copy">© ed.mcveigh · Icons by <a href="https://fontawesome.com" target="_blank" rel="noopener" style="color:inherit">Font Awesome</a></p>
 </footer>
 
 <script>
 /* ---------- Your links: replace each "#" with the real address ---------- */
 // The shop's address. While previewing on the pages.dev address, links go to the preview shop instead.
+// ---- The one switch: false = links go to Etsy (today). Set to true when shop.edmcveigh.com launches. ----
+const SHOP_LIVE = false;
+
 const SHOP = location.hostname.endsWith('pages.dev') ? 'https://edmcveigh-shop.pages.dev' : 'https://shop.edmcveigh.com';
+const ETSY = 'https://www.etsy.com/shop/EdMcveighArt';
+if (SHOP_LIVE) {
+  document.getElementById('policiesLink').href = SHOP + '/#policies';
+  document.getElementById('policiesLine').hidden = false;
+}
 
-document.getElementById('policiesLink').href = SHOP + '/#policies';
-
-const LINKS = [
+const LINKS = SHOP_LIVE ? [
   { label: 'Sticker shop',    sub: 'Glossy, waterproof, die-cut',         href: SHOP + '/#stickers' },
   { label: 'Original art',    sub: 'One-of-a-kind gouache paintings',     href: SHOP + '/#originals' },
   { label: 'House portraits', sub: 'Commission a portrait of your home',  href: SHOP + '/#portraits' },
-  { label: 'Shop on Etsy',    sub: 'Prefer Etsy? Same stickers and art',  href: 'https://www.etsy.com/shop/EdMcveighArt', external: true },
+  { label: 'Shop on Etsy',    sub: 'Prefer Etsy? Same stickers and art',  href: ETSY, external: true },
   { label: 'Wholesale',       sub: 'Faire · for shops and stockists',     href: 'https://faire.com/direct/edmcveighart', external: true },
   // not live yet: set soon to false (or delete the line) once design.edmcveigh.com is up
+  { label: 'Portfolio',       sub: 'Design work · coming soon',           href: 'https://design.edmcveigh.com', soon: true },
+] : [
+  { label: 'Sticker shop',    sub: 'Etsy · glossy, waterproof, die-cut',  href: ETSY + '?section_id=60578830', external: true },
+  { label: 'Original art',    sub: 'Etsy · one-of-a-kind pieces',         href: ETSY + '?section_id=52131764', external: true },
+  { label: 'House portraits', sub: 'Commission a portrait of your home',  href: 'https://www.etsy.com/listing/4587496463', external: true },
+  { label: 'Wholesale',       sub: 'Faire · for shops and stockists',     href: 'https://faire.com/direct/edmcveighart', external: true },
   { label: 'Portfolio',       sub: 'Design work · coming soon',           href: 'https://design.edmcveigh.com', soon: true },
 ];
 
