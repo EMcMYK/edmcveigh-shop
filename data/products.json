@@ -1734,19 +1734,19 @@
       "variantLabel": "Style and finish",
       "variants": [
         {
-          "name": "Pen&ink + watercolor, Matted unframed",
+          "name": "Pen & ink + watercolor, matted",
           "price": 225
         },
         {
-          "name": "Pen&ink + watercolor, Matted & framed",
+          "name": "Pen & ink + watercolor, matted & framed",
           "price": 250
         },
         {
-          "name": "Pen & ink only, Matted unframed",
+          "name": "Pen & ink only, matted",
           "price": 185
         },
         {
-          "name": "Pen & ink only, Matted & framed",
+          "name": "Pen & ink only, matted & framed",
           "price": 210
         }
       ],
@@ -1806,7 +1806,8 @@
         "house from photo"
       ],
       "shopOnly": [
-        "description"
+        "description",
+        "options"
       ]
     }
   ]
