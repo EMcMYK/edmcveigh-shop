@@ -1,5 +1,5 @@
-# Marks a one-of-a-kind item sold after it sells on the shop, and emails you a reminder
-# (as a GitHub issue that mentions you) to deactivate it on Etsy.
+# Marks a one-of-a-kind item sold after it sells on the shop. The sale hook has usually already
+# taken it off Etsy; if it couldn't (or for a test order), you get a GitHub issue that mentions you.
 # Started automatically by the shop's Stripe sale hook; you can also run it by hand from the
 # Actions tab with a product id (for example "poppy").
 name: Mark sold on the shop
@@ -10,6 +10,10 @@ on:
       product:
         description: "Product id from data/products.json, e.g. poppy"
         required: true
+      etsy_result:
+        description: "Filled in by the sale hook: deactivated, test: …, or failed: … (blank = remind me)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -38,20 +42,32 @@ jobs:
           git commit -m "Sold on the shop: ${{ steps.mark.outputs.name }}"
           git pull --rebase origin main
           git push
-      - name: Email a reminder to deactivate it on Etsy
+      - name: Email a reminder to deactivate it on Etsy (only if the shop couldn't)
+        if: ${{ inputs.etsy_result != 'deactivated' }}
         env:
           GH_TOKEN: ${{ github.token }}
           NAME: ${{ steps.mark.outputs.name }}
           ETSY: ${{ steps.mark.outputs.etsy }}
           OWNER: ${{ github.repository_owner }}
+          RESULT: ${{ inputs.etsy_result }}
         run: |
           if [ -n "$ETSY" ]; then
             LINK="Deactivate it here: https://www.etsy.com/your/shops/me/listing-editor/edit/$ETSY"
           else
             LINK="It isn't linked to an Etsy listing, so check Etsy by hand."
           fi
-          gh issue create \
-            --title "Sold on the shop: $NAME — deactivate it on Etsy" \
-            --body "@$OWNER **$NAME** just sold on your shop and is now marked sold there. $LINK
+          case "$RESULT" in
+            test:*)
+              TITLE="Test sale: $NAME (Etsy not changed)"
+              BODY="@$OWNER Test-mode order for **$NAME**. It's marked sold on the shop; put it back on sale when you're done testing. Etsy check: ${RESULT#test: }."
+              ;;
+            *)
+              TITLE="Sold on the shop: $NAME — deactivate it on Etsy"
+              WHY=""
+              if [ -n "$RESULT" ]; then WHY=" The shop couldn't do it automatically (${RESULT#failed: })."; fi
+              BODY="@$OWNER **$NAME** just sold on your shop and is now marked sold there.$WHY $LINK
 
           Close this issue once it's done."
+              ;;
+          esac
+          gh issue create --title "$TITLE" --body "$BODY"

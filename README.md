@@ -171,7 +171,7 @@ Each product stores its Etsy listing number (`etsyListingId`), which is how the 
 
 **Run it now:** github.com/EMcMYK/edmcveigh-shop → **Actions** → **Sync from Etsy** → **Run workflow**. The GitHub phone app has the same button. The run page lists what was added, updated or marked sold out, and the shop updates a minute later.
 
-When a one-of-a-kind painting sells **on the shop**, Stripe tells the shop, the painting is marked sold, and GitHub emails you a reminder (an issue that mentions you) with a link to deactivate it on Etsy. At checkout the shop also asks Etsy whether each painting is still for sale, so one that sold on Etsy can't sell here too.
+When a one-of-a-kind painting sells **on the shop**, Stripe tells the shop, which takes the painting off Etsy (deactivates the listing through the Etsy connection) and marks it sold on the shop. If Etsy couldn't be updated, GitHub emails you a reminder (an issue that mentions you) with a link to deactivate it by hand. Test-mode orders never touch Etsy: they check the connection and you get a "Test sale" issue instead. At checkout the shop also asks Etsy whether each painting is still for sale, so one that sold on Etsy can't sell here too.
 
 ### One-time setup
 

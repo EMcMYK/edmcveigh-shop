@@ -1,16 +1,21 @@
 /*
   POST /api/stripe-webhook — Stripe calls this right after someone pays.
 
-  When the order includes a one-of-a-kind painting, it starts the "Mark sold on the shop"
-  GitHub workflow for each one. That workflow marks the painting sold on the shop and emails
-  you (as a GitHub issue) a reminder to deactivate it on Etsy.
+  When the order includes a one-of-a-kind painting, it takes that painting off Etsy (deactivates
+  the listing, through the Etsy connection in functions/_lib/etsy.js), then starts the "Mark sold
+  on the shop" GitHub workflow, which marks it sold on the shop. If Etsy couldn't be updated,
+  that workflow emails you (as a GitHub issue) to deactivate it by hand.
+  Test-mode orders never change Etsy: they only check the connection and the listing, and the
+  issue says what would have happened.
 
   Settings needed in Cloudflare (Settings → Variables and secrets):
     STRIPE_WEBHOOK_SECRET  the signing secret Stripe shows for this webhook (starts with whsec_)
     GITHUB_TOKEN           a fine-grained GitHub token for this repo with "Actions: Read and write"
   Optional:
     GITHUB_REPO            defaults to EMcMYK/edmcveigh-shop
+    ETSY_*                 the Etsy connection (see functions/_lib/etsy.js); without it you get the reminder instead
 */
+import { etsy, deactivateListing, missingSettings } from "../_lib/etsy.js";
 
 export async function onRequestPost({ request, env }) {
   const body = await request.text();
@@ -26,7 +31,9 @@ export async function onRequestPost({ request, env }) {
 
   const ids = String(session.metadata?.one_of_a_kind || "").split(",").map((s) => s.trim()).filter(Boolean);
   const repo = env.GITHUB_REPO || "EMcMYK/edmcveigh-shop";
+  const products = ids.length ? (await (await env.ASSETS.fetch(new URL("/data/products.json", request.url))).json()).products : [];
   for (const id of ids) {
+    const etsyResult = await takeOffEtsy(env, products.find((p) => p.id === id), event.livemode === true);
     const res = await fetch(`https://api.github.com/repos/${repo}/actions/workflows/mark-sold.yml/dispatches`, {
       method: "POST",
       headers: {
@@ -35,7 +42,7 @@ export async function onRequestPost({ request, env }) {
         "User-Agent": "edmcveigh-shop",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ ref: "main", inputs: { product: id } })
+      body: JSON.stringify({ ref: "main", inputs: { product: id, etsy_result: etsyResult } })
     });
     if (!res.ok) {
       console.error("Couldn't start mark-sold for", id, res.status, await res.text());
@@ -43,6 +50,24 @@ export async function onRequestPost({ request, env }) {
     }
   }
   return new Response("ok");
+}
+
+// Takes the sold painting off Etsy. Returns a short note for the workflow:
+// "deactivated", "test: …" (test-mode order, Etsy untouched), or "failed: …" (you get the reminder).
+async function takeOffEtsy(env, product, live) {
+  const listing = product?.etsyListingId;
+  if (!listing) return "failed: not linked to an Etsy listing";
+  if (missingSettings(env).length) return "failed: Etsy isn't connected on the shop";
+  try {
+    if (!live) {
+      const l = await etsy(env, `/listings/${listing}`);
+      return `test: connection works; the listing is ${l.state}, and a real order would deactivate it`;
+    }
+    await deactivateListing(env, listing);
+    return "deactivated";
+  } catch (e) {
+    return `failed: ${String(e.message).slice(0, 180)}`;
+  }
 }
 
 // Checks Stripe's signature so nobody else can mark things sold.
