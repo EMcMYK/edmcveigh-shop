@@ -540,6 +540,41 @@
         "description": "Original framed gouache painting of a cherry blossom in a forest clearing. The painting is 5x7 inches matted in an 8x10 inch frame, ready to display."
       },
       "applied": "2026-10-07"
+    },
+    {
+      "id": "its-a-philly-thing-sheet",
+      "listing_id": 4573529209,
+      "enableOption": "glossy"
+    },
+    {
+      "id": "philly-goose",
+      "listing_id": 4583415144,
+      "enableOption": "holographic"
+    },
+    {
+      "id": "i76ers-highway-sign",
+      "listing_id": 4523073134,
+      "enableOption": "holographic"
+    },
+    {
+      "id": "cheesesteak",
+      "listing_id": 4523622850,
+      "enableOption": "holographic"
+    },
+    {
+      "id": "wooder-ice",
+      "listing_id": 4524176429,
+      "enableOption": "holographic"
+    },
+    {
+      "id": "pork-roll",
+      "listing_id": 4583406243,
+      "enableOption": "holographic"
+    },
+    {
+      "id": "ghost-cat",
+      "listing_id": 4554781190,
+      "enableOption": "holographic"
     }
   ]
 }

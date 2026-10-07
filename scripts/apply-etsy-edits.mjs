@@ -21,7 +21,7 @@ for (const e of edits) {
   const res = await fetch(`${base}/api/etsy/listing`, {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ listing_id: e.listing_id, expect: e.expect, set: e.set, titleReplace: e.titleReplace, removeOption: e.removeOption, renameOption: e.renameOption, dryRun })
+    body: JSON.stringify({ listing_id: e.listing_id, expect: e.expect, set: e.set, titleReplace: e.titleReplace, removeOption: e.removeOption, renameOption: e.renameOption, enableOption: e.enableOption, dryRun })
   });
   const body = await res.json().catch(async () => ({ error: (await res.text()).slice(0, 300) }));
   const ok = res.ok && (dryRun || body.ok === true);
