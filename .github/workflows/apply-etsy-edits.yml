@@ -1,0 +1,49 @@
+# Applies the copy edits in data/etsy-edits.json to the Etsy listings (needs Etsy connected:
+# see README "Etsy connection"). Leave "dry run" on to only check; turn it off to apply.
+name: Apply Etsy edits
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (check only, change nothing on Etsy)"
+        type: boolean
+        default: true
+      only:
+        description: "Only these product ids, comma-separated (blank = all)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: shop-data
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Apply edits
+        run: node scripts/apply-etsy-edits.mjs
+        env:
+          ETSY_ADMIN_KEY: ${{ secrets.ETSY_ADMIN_KEY }}
+          SHOP_URL: ${{ vars.SHOP_URL }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          ONLY: ${{ inputs.only }}
+      - name: Save the results
+        if: always()
+        run: |
+          git config user.name "Etsy edits"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/etsy-edits-result.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Etsy edits: results"
+            git pull --rebase origin main
+            git push
+          fi

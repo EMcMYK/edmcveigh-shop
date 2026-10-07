@@ -1,0 +1,453 @@
+{
+  "_help": "Copy edits for Etsy listings (checklist step 20), applied by the 'Apply Etsy edits' workflow. expect = Etsy's text right now (an edit is skipped if Etsy changed since), set = the new text. Approved by Ed before applying.",
+  "edits": [
+    {
+      "id": "its-a-philly-thing-sheet",
+      "listing_id": 4573529209,
+      "expect": {
+        "description": "It's a Philly thing! This holographic glitter sticker sheet has 9 hand-drawn Philadelphia-inspired stickers: a soft pretzel, a cheesesteak, a Philly-style water ice cup, a Philly candy bar, a highway sign, independence hall, a Fly Eagles Fly wings piece, and more. Peel them off one at a time for laptops, water bottles, notebooks, planners, and phone cases.\n\nGlossy laminated, waterproof vinyl with a holographic glitter finish\nEach sticker is die-cut with a white border\nSheet size: 3.06\" wide x 4.57\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photo 3 shows the stickers laid out separately, and photos 4, 5 and 6 are digital mockups showing a few stickers in use. Glitter sparkle looks different in every light, so your sheet will catch light a little differently than the photos. Photo numbers refer to the image order in this listing.\n\nNot affiliated with, endorsed by, or sponsored by any professional sports team, league, or brand."
+      },
+      "set": {
+        "description": "It's a Philly thing! This sticker sheet has 9 hand-drawn Philadelphia-inspired stickers: a soft pretzel, a cheesesteak, a Philly-style water ice cup, a Philly candy bar, a highway sign, Independence Hall, a football wings piece, and more. Peel them off one at a time for laptops, water bottles, notebooks, planners, and phone cases.\n\nGlossy laminated, waterproof vinyl with a holographic glitter finish\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.\n\nNot affiliated with, endorsed by, or sponsored by any professional sports team, league, or brand."
+      }
+    },
+    {
+      "id": "fly-eagles-fly",
+      "listing_id": 4561330082,
+      "expect": {
+        "description": "Fly Eagles Fly! This wings-and-football sticker is for the birds, for Philly fans, and for anyone who likes football or bird-watching.\n\nChoose your finish:\n\nGlossy: bold color with a glossy laminated finish\nHolographic: sparkly, light-catching glitter\n\nBoth are waterproof, die cut stickers that measure 3.23\" wide × 1.32\" tall. They look great on a laptop, water bottle, notebook, skateboard, or anywhere else you'd like a little Philly pride.\n\nEvery sticker is drawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nGood to know:\n\nPhotos 1–4 and 8–9 are photos of the real stickers.\nPhotos 5–7 are digital mockups showing the sticker on a laptop, water bottle, and notebook. Colors on your screen may vary a little from the real thing.\nHolographic stickers sparkle differently depending on the light.\n\nNot affiliated with, endorsed by, or sponsored by any professional sports team or league.\n\nGo Birds!"
+      },
+      "set": {
+        "description": "This wings-and-football sticker is for the birds, for Philly fans, and for anyone who likes football or bird-watching.\n\nChoose your finish:\n\nGlossy: bold color with a glossy laminated finish\nHolographic: sparkly, light-catching glitter\n\nBoth are waterproof and look great on a laptop, water bottle, notebook, skateboard, or anywhere else you'd like a little Philly pride.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.\n\nNot affiliated with, endorsed by, or sponsored by any professional sports team or league.\n\nGo Birds!"
+      },
+      "titleReplace": {
+        "from": "Fly Eagles Fly Sticker",
+        "to": "Philly Football Wings Sticker"
+      },
+      "removeOption": "Clear"
+    },
+    {
+      "id": "philly-goose",
+      "listing_id": 4583415144,
+      "expect": {
+        "description": "Show your love for Philadelphia with this die-cut Philly goose sticker, a nod to one of the city's most iconic mascots, combined with hand-drawn lettering and artwork.\n\nDetails:\n\nSize: 2.7\" wide x 2.03\" tall\nGlossy laminated finish\nWaterproof\nDie cut to the shape of the goose\nDrawn, designed, printed, and cut by hand by me\n\nGreat for:\nLaptops, water bottles, skateboards, notebooks, coolers, and anywhere else that could use a little more Philly. It also makes a fun gift for the Philadelphia fan in your life, or anyone who moved away but never really left.\n\nPhotos 3–6 are digital mockups to show the sticker's size on different surfaces. Colors may vary slightly by screen.\n\nAll of my stickers are drawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers."
+      },
+      "set": {
+        "description": "Show your love for Philadelphia with this die-cut Philly goose sticker, a nod to one of the city's most iconic mascots, combined with hand-drawn lettering and artwork.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nGreat for:\nLaptops, water bottles, skateboards, notebooks, coolers, and anywhere else that could use a little more Philly. It also makes a fun gift for the Philadelphia fan in your life, or anyone who moved away but never really left.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      }
+    },
+    {
+      "id": "i76ers-highway-sign",
+      "listing_id": 4523073134,
+      "expect": {
+        "description": "Philadelphia's favorite highway meets Philadelphia's favorite team. This interstate-shield sticker is inspired by I-76 (the Schuylkill Expressway, aka the \"Surekill\") and Philly basketball pride, made for anyone who has sat in traffic on the way to a game.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut around the shield shape\n• Size: 2.98\" wide x 3\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo numbers refer to the image order in this listing.\n\nNot affiliated with, endorsed by, or sponsored by any professional sports team or league."
+      },
+      "set": {
+        "description": "Philadelphia's favorite highway meets Philadelphia's favorite team. This interstate-shield sticker is inspired by I-76 (the Schuylkill Expressway, aka the \"Surekill\") and Philly basketball pride, made for anyone who has sat in traffic on the way to a game.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.\n\nNot affiliated with, endorsed by, or sponsored by any professional sports team or league."
+      },
+      "titleReplace": {
+        "from": "Philly I-76ers Highway Sign Sticker",
+        "to": "Philly I-76 Highway Sign Sticker"
+      }
+    },
+    {
+      "id": "cheesesteak",
+      "listing_id": 4523622850,
+      "expect": {
+        "description": "Philadelphia's most famous sandwich, hand-drawn with acrylic markers and turned into a sticker: a toasted roll, plenty of chopped steak and a drip of melted cheese. Wit or witout, it goes on your laptop, water bottle, or anywhere else you want a little Philly.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut around the sandwich shape\n• Size: 3.22\" wide x 1.76\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo numbers refer to the image order in this listing."
+      },
+      "set": {
+        "description": "Philadelphia's most famous sandwich, hand-drawn with acrylic markers and turned into a sticker: a toasted roll, plenty of chopped steak and a drip of melted cheese. Wit or witout, it goes on your laptop, water bottle, or anywhere else you want a little Philly.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      }
+    },
+    {
+      "id": "wooder-ice",
+      "listing_id": 4524176429,
+      "expect": {
+        "description": "It's pronounced \"wooder.\" This hand-drawn water ice cup is for anyone who grew up waiting in line for a cherry water ice on a hot Philly summer night. Photo 8 shows how it came together, from pencil sketch to ink to color to sticker.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut around the cup shape\n• Size: 1.76\" wide x 3.2\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo 8 shows my drawing process. Photo numbers refer to the image order in this listing.\n\nNot affiliated with, endorsed by, or sponsored by any brand."
+      },
+      "set": {
+        "description": "It's pronounced \"wooder.\" This hand-drawn water ice cup is for anyone who grew up waiting in line for a cherry water ice on a hot Philly summer night. One photo shows how it came together, from pencil sketch to ink to color to sticker.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.\n\nNot affiliated with, endorsed by, or sponsored by any brand."
+      }
+    },
+    {
+      "id": "pork-roll",
+      "listing_id": 4583406243,
+      "expect": {
+        "description": "A retro-style sticker for anyone who knows a proper breakfast starts with pork roll, egg and cheese. Hand-lettered and hand-drawn, with a little \"Go Birds\" stamp tucked in for good measure.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut with rounded corners\n• Size: 1.95\" x 1.95\"\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo numbers refer to the image order in this listing.\n\nNot affiliated with, endorsed by, or sponsored by any brand or professional sports team."
+      },
+      "set": {
+        "description": "A retro-style sticker for anyone who knows a proper breakfast starts with pork roll, egg and cheese. Hand-lettered and hand-drawn, with a little \"Go Birds\" stamp tucked in for good measure.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.\n\nNot affiliated with, endorsed by, or sponsored by any brand or professional sports team."
+      }
+    },
+    {
+      "id": "scrapple",
+      "listing_id": 4583350067,
+      "expect": {
+        "description": "Scrapple: Philly's most misunderstood breakfast, hand-lettered with a \"Since 1776\" crest and a hand-drawn leafy border.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut with rounded corners\n• Size: 1.95\" x 1.95\"\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo 8 shows my drawing process. Photo numbers refer to the image order in this listing.\n\nNot affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league."
+      },
+      "set": {
+        "description": "Scrapple: Philly's most misunderstood breakfast, hand-lettered with a \"Since 1776\" crest and a hand-drawn leafy border.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light. One photo shows my drawing process.\n\nNot affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league."
+      }
+    },
+    {
+      "id": "butterscotch-snack-cake",
+      "listing_id": 4565805514,
+      "expect": {
+        "description": "A hand-painted butterscotch snack cake, the lunchbox classic every Philly kid traded for, over a vintage \"Philadelphia\" banner.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut around the cake and banner\n• Size: 3.04\" wide x 1.98\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo 8 shows my drawing process. Photo numbers refer to the image order in this listing.\n\nNot affiliated with, endorsed by, or sponsored by any brand.",
+        "tags": [
+          "Philly",
+          "Philadelphia",
+          "sticker",
+          "fun",
+          "handmade",
+          "die cut",
+          "waterproof",
+          "silly",
+          "food",
+          "go birds",
+          "Phillies",
+          "tastykake",
+          "dessert"
+        ]
+      },
+      "set": {
+        "description": "A hand-painted butterscotch snack cake, the lunchbox classic every Philly kid traded for, over a vintage \"Philadelphia\" banner.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light. One photo shows my drawing process.\n\nNot affiliated with, endorsed by, or sponsored by any brand.",
+        "tags": [
+          "Philly",
+          "Philadelphia",
+          "sticker",
+          "fun",
+          "handmade",
+          "die cut",
+          "waterproof",
+          "silly",
+          "food",
+          "go birds",
+          "dessert"
+        ]
+      }
+    },
+    {
+      "id": "philly-candy-bar",
+      "listing_id": 4565779525,
+      "expect": {
+        "description": "A retro chocolate-and-peanut candy wrapper, redrawn with \"Philadelphia\" across the front and a \"Since 1776\" star.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut around the wrapper shape\n• Size: 3.31\" wide x 1.45\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, and 6 show the real sticker. Photos 3, 4 and 5 are digital mockups that show the sticker at its actual size. Photo 7 shows my drawing process. Photo numbers refer to the image order in this listing.\n\nNot affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league."
+      },
+      "set": {
+        "description": "A retro chocolate-and-peanut candy wrapper, redrawn with \"Philadelphia\" across the front and a \"Since 1776\" star.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light. One photo shows my drawing process.\n\nNot affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league."
+      }
+    },
+    {
+      "id": "peanut-butter-cup",
+      "listing_id": 4583358662,
+      "expect": {
+        "description": "A candy wrapper with a Philly twist: peanut butter cups, a \"Go Birds\" label, and \"Philly\" in big yellow script.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut around the wrapper shape\n• Size: 2.77\" wide x 1.24\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo numbers refer to the image order in this listing.\n\nNot affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league."
+      },
+      "set": {
+        "description": "A candy wrapper with a Philly twist: peanut butter cups, a \"Go Birds\" label, and \"Philly\" in big yellow script.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.\n\nNot affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league."
+      }
+    },
+    {
+      "id": "spectrum-arena",
+      "listing_id": 4583363725,
+      "expect": {
+        "description": "A hand-drawn tribute to the Spectrum, the South Philly arena that hosted decades of games and concerts, with its bronze-and-gold window bands and four-color stripe.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut with rounded corners\n• Size: 2.9\" wide x 1.84\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo 8 shows my drawing process. Photo numbers refer to the image order in this listing.\n\nNot affiliated with, endorsed by, or sponsored by any arena, professional sports team, or league."
+      },
+      "set": {
+        "description": "A hand-drawn tribute to the Spectrum, the South Philly arena that hosted decades of games and concerts, with its bronze-and-gold window bands and four-color stripe.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light. One photo shows my drawing process.\n\nNot affiliated with, endorsed by, or sponsored by any arena, professional sports team, or league."
+      }
+    },
+    {
+      "id": "independence-hall",
+      "listing_id": 4521818727,
+      "expect": {
+        "description": "Independence Hall like you've never seen it: a big-eyed, fuzzy green troublemaker inside, right in front of the bell tower. A little bit history, a little bit South Philly chaos.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic glitter: sparkly glitter lamination (sparkle looks different in every light)\n\n• Die cut around the tower and building\n• Size: 2.52\" wide x 3.18\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1 and 2 are made from my original artwork, and photos 3, 4 and 5 are digital mockups that show the sticker at its actual size. Photo 6 shows the real stickers. Photo numbers refer to the image order in this listing.\n\nNot affiliated with, endorsed by, or sponsored by any professional sports team, league, or mascot."
+      },
+      "set": {
+        "description": "Independence Hall like you've never seen it: a big-eyed, fuzzy green troublemaker inside, right in front of the bell tower. A little bit history, a little bit South Philly chaos.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic glitter: sparkly glitter lamination (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.\n\nNot affiliated with, endorsed by, or sponsored by any professional sports team, league, or mascot."
+      }
+    },
+    {
+      "id": "sushi-cats",
+      "listing_id": 4588662487,
+      "expect": {
+        "description": "Six little sushi rolls in a takeout tray, each one with a smiling cat face peeking out of the rice. A tiny bento of cuteness for sushi lovers and cat people.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut around the tray\n• Size: 3\" wide x 1.64\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo numbers refer to the image order in this listing."
+      },
+      "set": {
+        "description": "Six little sushi rolls in a takeout tray, each one with a smiling cat face peeking out of the rice. A tiny bento of cuteness for sushi lovers and cat people.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      }
+    },
+    {
+      "id": "ghost-cat",
+      "listing_id": 4554781190,
+      "expect": {
+        "description": "A little cat who dressed up as a ghost for Halloween and never took the sheet off. This big-eyed ghost cat is hand-drawn in soft grays and black with a blush of pink, and is ready to haunt your laptop, water bottle, notebook, or planner all year long.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut around the ghost's shape\n• Size: 2.15\" wide x 2.69\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo numbers refer to the image order in this listing."
+      },
+      "set": {
+        "description": "A little cat who dressed up as a ghost for Halloween and never took the sheet off. This big-eyed ghost cat is hand-drawn in soft grays and black with a blush of pink, and is ready to haunt your laptop, water bottle, notebook, or planner all year long.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      }
+    },
+    {
+      "id": "cat-burger",
+      "listing_id": 4583901395,
+      "expect": {
+        "description": "A tuxedo cat sandwiched in a sesame bun with lettuce, tomato and a slice of cheese, looking completely unbothered about it. For cat people and burger people, and anyone who is both.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut around the burger\n• Size: 2.98\" wide x 3\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo numbers refer to the image order in this listing."
+      },
+      "set": {
+        "description": "A tuxedo cat sandwiched in a sesame bun with lettuce, tomato and a slice of cheese, looking completely unbothered about it. For cat people and burger people, and anyone who is both.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      }
+    },
+    {
+      "id": "bread-cat",
+      "listing_id": 4561322795,
+      "expect": {
+        "description": "A cat that has fully committed to being a loaf: a little white face peeking out of the end of a fresh loaf of bread. For anyone whose cat sits with its paws tucked in like a baguette.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut around the loaf\n• Size: 3\" wide x 2.64\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size; the holographic sparkle looks different in real light. Photo numbers refer to the image order in this listing."
+      },
+      "set": {
+        "description": "A cat that has fully committed to being a loaf: a little white face peeking out of the end of a fresh loaf of bread. For anyone whose cat sits with its paws tucked in like a baguette.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      },
+      "removeOption": "Clear"
+    },
+    {
+      "id": "ninja-cat",
+      "listing_id": 4583908924,
+      "expect": {
+        "description": "A tuxedo cat in a purple hooded robe, katana drawn and ready to defend the food bowl. Hand-drawn for anyone who knows their cat is secretly a trained assassin.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut around the cat, sword and tail\n• Size: 2.79\" wide x 3.03\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo numbers refer to the image order in this listing."
+      },
+      "set": {
+        "description": "A tuxedo cat in a purple hooded robe, katana drawn and ready to defend the food bowl. Hand-drawn for anyone who knows their cat is secretly a trained assassin.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      }
+    },
+    {
+      "id": "orange-cat",
+      "listing_id": 4583915710,
+      "expect": {
+        "description": "A curious orange cat leaning in for a closer look, all big eyes and pink nose. Drawn for every owner of an orange cat, the household's one shared brain cell.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut around the cat\n• Size: 1.87\" wide x 3\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo numbers refer to the image order in this listing."
+      },
+      "set": {
+        "description": "A curious orange cat leaning in for a closer look, all big eyes and pink nose. Drawn for every owner of an orange cat, the household's one shared brain cell.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      }
+    },
+    {
+      "id": "reading-cat",
+      "listing_id": 4583903333,
+      "expect": {
+        "description": "A big blue tabby settled into a wooden chair with a good book: a how-to guide on knocking things off tables. For readers, cat people, and anyone whose cat has ever made direct eye contact while pushing a mug off the counter.\n\nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\n• Die cut around the cat and chair\n• Size: 1.79\" wide x 3.07\" tall\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo numbers refer to the image order in this listing."
+      },
+      "set": {
+        "description": "A big blue tabby settled into a wooden chair with a good book: a how-to guide on knocking things off tables. For readers, cat people, and anyone whose cat has ever made direct eye contact while pushing a mug off the counter.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      }
+    },
+    {
+      "id": "poppy",
+      "listing_id": 4464640766,
+      "expect": {
+        "description": "Original gouache painting of a red poppy flower. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame.",
+        "tags": [
+          "painting",
+          "framed",
+          "handmade",
+          "art",
+          "original art",
+          "human made",
+          "nature",
+          "blue",
+          "wildflowers",
+          "calm",
+          "flower",
+          "red",
+          "poppy"
+        ]
+      },
+      "set": {
+        "description": "Original gouache painting of a red poppy flower. Sold unframed, or framed in an 8x10 frame with a 5x7 mat.",
+        "tags": [
+          "painting",
+          "framed",
+          "handmade",
+          "art",
+          "original art",
+          "human made",
+          "nature",
+          "calm",
+          "flower",
+          "red",
+          "poppy",
+          "red flower",
+          "botanical"
+        ]
+      }
+    },
+    {
+      "id": "perched",
+      "listing_id": 4455646101,
+      "expect": {
+        "description": "Original gouache painting of a sparrow perched atop a wooden fence post. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
+      },
+      "set": {
+        "description": "Original gouache painting of a sparrow perched atop a wooden fence post. Sold unframed, or framed in an 8x10 frame with a 5x7 mat."
+      }
+    },
+    {
+      "id": "rocky-creek",
+      "listing_id": 4455650930,
+      "expect": {
+        "description": "Original gouache painting of a creek banked with rocks running though a mountainous forest landscape. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
+      },
+      "set": {
+        "description": "Original gouache painting of a creek banked with rocks running through a mountainous forest landscape. Sold unframed, or framed in an 8x10 frame with a 5x7 mat."
+      }
+    },
+    {
+      "id": "forest-pond",
+      "listing_id": 4455641131,
+      "expect": {
+        "description": "Original gouache painting of a calm pond in a mountain forest. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
+      },
+      "set": {
+        "description": "Original gouache painting of a calm pond in a mountain forest. Sold unframed, or framed in an 8x10 frame with a 5x7 mat."
+      }
+    },
+    {
+      "id": "colden-hour",
+      "listing_id": 4455638911,
+      "expect": {
+        "description": "Original gouache painting of a very cold evening on the banks of the schuylkill river near the Philadelphia Museum of Art. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame.",
+        "tags": [
+          "painting",
+          "framed",
+          "handmade",
+          "art",
+          "cottage core",
+          "original art",
+          "human made",
+          "wildflowers",
+          "landscape",
+          "Philadelphia",
+          "Philly",
+          "snow",
+          "blue"
+        ]
+      },
+      "set": {
+        "description": "Original gouache painting of a very cold evening on the banks of the Schuylkill River near the Philadelphia Museum of Art. Sold unframed, or framed in an 8x10 frame with a 5x7 mat.",
+        "tags": [
+          "painting",
+          "framed",
+          "handmade",
+          "art",
+          "original art",
+          "human made",
+          "landscape",
+          "Philadelphia",
+          "Philly",
+          "snow",
+          "blue",
+          "winter",
+          "schuylkill"
+        ]
+      }
+    },
+    {
+      "id": "blue-side-of-the-mountain",
+      "listing_id": 4455632517,
+      "expect": {
+        "description": "Original gouache painting lovely mountain landscape with wildflowers. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
+      },
+      "set": {
+        "description": "Original gouache painting of a lovely mountain landscape. Sold unframed, or framed in an 8x10 frame with a 5x7 mat."
+      }
+    },
+    {
+      "id": "winter-robin",
+      "listing_id": 4455638864,
+      "expect": {
+        "description": "Original gouache painting of a robin perched on a show covered branch. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
+      },
+      "set": {
+        "description": "Original gouache painting of a robin perched on a snow-covered branch. Sold unframed, or framed in an 8x10 frame with a 5x7 mat."
+      }
+    },
+    {
+      "id": "still-panic",
+      "listing_id": 4455634406,
+      "expect": {
+        "description": "Original gouache painting of a chickadee perched on a cherry blossom branch. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
+      },
+      "set": {
+        "description": "Original gouache painting of a chickadee perched on a cherry blossom branch. Sold unframed, or framed in an 8x10 frame with a 5x7 mat."
+      }
+    },
+    {
+      "id": "the-mighty-poplar",
+      "listing_id": 4455621133,
+      "expect": {
+        "description": "Original gouache painting of a poplar tree. The painting is unframed on 6x8 inch watercolor paper. for framing I recommend a 5x7 inch mat and 8x10 inch frame."
+      },
+      "set": {
+        "description": "Original gouache painting of a poplar tree. Sold unframed, or framed in an 8x10 frame with a 5x7 mat."
+      }
+    },
+    {
+      "id": "barn",
+      "listing_id": 4455618791,
+      "expect": {
+        "description": "Original framed barn in a field with wildflowers. The painting is 5x7 inches matted in an 8x10 inch frame, ready to display",
+        "tags": [
+          "painting",
+          "framed",
+          "handmade",
+          "art",
+          "cottage core",
+          "original art",
+          "human made",
+          "nautical",
+          "green",
+          "wildflowers",
+          "barn",
+          "cottage",
+          "bright"
+        ]
+      },
+      "set": {
+        "description": "Original framed gouache painting of a barn in a field with wildflowers. The painting is 5x7 inches matted in an 8x10 inch frame, ready to display.",
+        "tags": [
+          "painting",
+          "framed",
+          "handmade",
+          "art",
+          "cottage core",
+          "original art",
+          "human made",
+          "green",
+          "wildflowers",
+          "barn",
+          "cottage",
+          "bright",
+          "farmhouse"
+        ]
+      }
+    },
+    {
+      "id": "boat-on-the-bay",
+      "listing_id": 4455624706,
+      "expect": {
+        "description": "Original framed gouache painting of a boat on a bay. The painting is 5x7 inches matted in an 8x10 inch frame, ready to display"
+      },
+      "set": {
+        "description": "Original framed gouache painting of a boat on a bay. The painting is 5x7 inches matted in an 8x10 inch frame, ready to display."
+      }
+    },
+    {
+      "id": "cherry-tree",
+      "listing_id": 4455618978,
+      "expect": {
+        "description": "Original framed gouache painting of a cherry blossom in a forest clearing. The painting is 5x7 inches matted in an 8x10 inch frame, ready to display"
+      },
+      "set": {
+        "description": "Original framed gouache painting of a cherry blossom in a forest clearing. The painting is 5x7 inches matted in an 8x10 inch frame, ready to display."
+      }
+    }
+  ]
+}

@@ -160,7 +160,7 @@ Then add `edmcveigh.com` (and `www.edmcveigh.com`) under that project's Custom d
 Every morning (and whenever you press the button) a GitHub job checks your Etsy shop and keeps the shop matching it. **Etsy is the source of truth**, so make changes there, not in `products.json`:
 
 - **New listings** are added to the shop.
-- **Changes to existing listings** come across: description, tags, photos (added, removed or reordered), options and prices. Shop-only things stay as they are: the product's name, its web address, its category, the size line, badges, details, the disclaimer, and the portrait's deposit and steps.
+- **Changes to existing listings** come across: description, tags and photos (added, removed or reordered). Options and prices aren't coming across right now (Barn stayed at $120 here after it went to $95 on Etsy, most likely because Etsy only shares options with a connected account), so change a price in `products.json` as well as on Etsy. Shop-only things stay as they are: the product's name, its web address, its category, the size line, badges, details, the disclaimer, the portrait's deposit, steps and policy line, and anything listed in a product's `shopOnly` (see below).
 - **A listing that's no longer active** on Etsy (sold, deactivated, out of stock or expired) shows as sold out. If it comes back on Etsy, it's available again, unless it sold through the shop.
 
 A new product is copied exactly from Etsy: the full description, tags, every photo (saved into `images/`), the options and their prices, and which section it belongs in (from its Etsy shop section). Its name is the short start of the Etsy title, up to the first comma or "|" ("Sushi Cats Sticker, Cute Cat Gift…" becomes "Sushi Cats Sticker"); rename it in `products.json` whenever you like and the sync will leave it alone. It gets a "New" badge for 30 days.
@@ -182,3 +182,17 @@ When a one-of-a-kind painting sells **on the shop**, Stripe tells the shop, the 
 7. Make sure GitHub emails you about @mentions: github.com/settings/notifications → Participating, @mentions and custom → Email.
 
 Because the sync saves changes to GitHub on its own, pull the latest version before editing files on your computer.
+
+### Etsy connection (edit access)
+
+Reading Etsy only needs the keys above. Changing your Etsy listings from here (copy edits now, and later taking a painting off Etsy when it sells on the shop) needs your OK through Etsy's own sign-in, once. The connection lives in Cloudflare and renews itself each time it's used; if it goes unused for 90 days, connect again.
+
+1. **Callback address in your Etsy app.** etsy.com/developers/your-apps → your app → add the callback URL `https://edmcveigh-shop.pages.dev/api/etsy/callback` (add `https://shop.edmcveigh.com/api/etsy/callback` too once that domain is live).
+2. **A place to keep the connection.** Cloudflare → Storage & Databases → KV → Create a namespace named `etsy`. Then the Pages project → Settings → Bindings → Add → KV namespace: variable name `ETSY_KV`, namespace `etsy`.
+3. **An admin key.** Make up a long random password (a password manager's generator is perfect). Add it as the secret `ETSY_ADMIN_KEY` in both Cloudflare (Pages project → Settings → Variables and secrets) and GitHub (repo → Settings → Secrets and variables → Actions). Cloudflare also needs `ETSY_API_KEY` and `ETSY_SHARED_SECRET` (step 3 of the setup above).
+4. **Redeploy** in Cloudflare (Deployments → Retry deployment).
+5. **Connect.** Open `https://edmcveigh-shop.pages.dev/api/etsy/connect?key=YOUR_ADMIN_KEY`, approve on Etsy, and you'll land on a page that says "Etsy is connected". Check it any time at `/api/etsy/status?key=YOUR_ADMIN_KEY`.
+
+**Copy edits:** the list lives in `data/etsy-edits.json`. Actions → **Apply Etsy edits** → Run workflow, first with "Dry run" ticked (checks every listing, changes nothing), then unticked. Each run saves what Etsy had before and after to `data/etsy-edits-result.json`, and the next morning's sync brings the new text into the shop.
+
+**Shop-only text:** a product with `"shopOnly": ["description"]` (or `"tags"`, `"options"`, `"photos"`) keeps its own version and the sync leaves it alone. The house portrait uses this, since its Etsy wording is about Etsy's checkout.
