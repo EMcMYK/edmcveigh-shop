@@ -97,10 +97,14 @@ export async function etsy(env, path, { method = "GET", body } = {}) {
   return text ? JSON.parse(text) : {};
 }
 
+// Looked up by the public shop name, so it needs no extra Etsy permission.
 export async function shopId(env) {
-  const me = await etsy(env, "/users/me");
-  if (!me.shop_id) throw new Error("The connected Etsy account has no shop.");
-  return me.shop_id;
+  if (env.ETSY_SHOP_ID) return env.ETSY_SHOP_ID;
+  const name = env.ETSY_SHOP_NAME || "EdMcveighArt";
+  const found = await etsy(env, `/shops?shop_name=${encodeURIComponent(name)}`);
+  const id = found.results?.[0]?.shop_id;
+  if (!id) throw new Error(`Couldn't find the Etsy shop "${name}".`);
+  return id;
 }
 
 // For step 36: take a listing off Etsy (inactive, not deleted) after it sells on the shop.

@@ -15,10 +15,11 @@ export async function onRequestGet({ request, env }) {
   await env.ETSY_KV.delete(`etsy:oauth:${state}`);
   try {
     await finishConnect(env, code, verifier, redirectUri(request));
-    const shop = await shopId(env);
-    return page(`<b>Etsy is connected.</b> Shop id ${shop}. You can close this tab.`);
   } catch (e) {
     return page(`Couldn't finish connecting: ${esc(e.message)}`, 502);
   }
+  // Connected. Checking the shop is a bonus; a failure here doesn't undo the connection.
+  const shop = await shopId(env).catch(() => null);
+  return page(`<b>Etsy is connected.</b>${shop ? ` Shop id ${shop}.` : ""} You can close this tab.`);
 }
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
