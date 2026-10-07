@@ -61,11 +61,17 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
   const shopUrl = (process.env.SHOP_URL || "https://edmcveigh-shop.pages.dev").replace(/\/$/, "");
   let connectionDown = !process.env.ETSY_ADMIN_KEY;
   if (connectionDown) report.problems.push("ETSY_ADMIN_KEY isn't set in GitHub, so options, prices and sizes weren't checked.");
+  const connectedPause = Number(process.env.ETSY_CONNECTED_PAUSE_MS ?? 700); // ~3 Etsy calls per listing; stay under Etsy's per-second limit
   const connected = async (listingId) => {
     if (connectionDown) return null;
     try {
-      const res = await fetch(`${shopUrl}/api/etsy/listing-data?id=${listingId}`, { headers: { Authorization: `Bearer ${process.env.ETSY_ADMIN_KEY}` } });
-      const body = await res.json().catch(() => ({}));
+      let body = {}, res;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        if (connectedPause) await new Promise((r) => setTimeout(r, connectedPause * (attempt + 1)));
+        res = await fetch(`${shopUrl}/api/etsy/listing-data?id=${listingId}`, { headers: { Authorization: `Bearer ${process.env.ETSY_ADMIN_KEY}` } });
+        body = await res.json().catch(() => ({}));
+        if (res.ok || !/429|rate limit|5\d\d/i.test(`${res.status} ${body.error || ""}`)) break;
+      }
       if (!res.ok) throw new Error(body.error || `status ${res.status}`);
       return body;
     } catch (e) {
@@ -153,7 +159,8 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
       const label = variants.length > 1 ? (p.variantLabel || fromEtsy.label) : "";
       if (JSON.stringify(p.variants) !== JSON.stringify(variants) || (p.variantLabel || "") !== label) {
         const why = holdReason(p.variants, variants);
-        if (why) report.held.push(`${p.name}: ${why}. Etsy has ${variants.map((v) => `${v.name} $${v.price}`).join(", ")}; the shop kept ${p.variants.map((v) => `${v.name} $${v.price}`).join(", ")}.`);
+        const off = unavailableOptions(extra.inventory, settings);
+        if (why) report.held.push(`${p.name}: ${why}. Etsy has ${variants.map((v) => `${v.name} $${v.price}`).join(", ")}${off.length ? ` (${off.join(", ")} is turned off or out of stock on Etsy)` : ""}; the shop kept ${p.variants.map((v) => `${v.name} $${v.price}`).join(", ")}.`);
         else { p.variants = variants; p.variantLabel = label; changed.push("options and prices"); }
       }
     }
@@ -251,6 +258,14 @@ const squash = (s) => String(s).toLowerCase().replace(/[“”″"]/g, '"').repl
 function rename(map = {}, value) {
   const hit = Object.entries(map).find(([k]) => squash(k) === squash(value));
   return hit ? hit[1] : cap(value);
+}
+
+// Options that exist on the Etsy listing but can't be bought right now (turned off, or none in stock).
+function unavailableOptions(inventory, settings = {}) {
+  return (inventory?.products || []).filter((pr) => !pr.is_deleted)
+    .filter((pr) => !(pr.offerings || []).some((o) => o.is_enabled !== false && !o.is_deleted && Number(o.quantity ?? 1) > 0))
+    .map((pr) => (pr.property_values || []).map((pv) => (pv.values || []).map((v) => rename(settings.optionNames, decode(v))).join(" ")).join(", "))
+    .filter(Boolean);
 }
 
 // Why an options change from Etsy looks like a mistake (or "" if it looks fine).

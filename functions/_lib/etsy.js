@@ -91,7 +91,11 @@ export async function etsy(env, path, { method = "GET", body } = {}) {
     Accept: "application/json"
   };
   if (body) headers["Content-Type"] = "application/json";
-  const res = await fetch(API + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  let res = await fetch(API + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  if (res.status === 429) { // Etsy's per-second limit: wait a moment and try once more
+    await new Promise((r) => setTimeout(r, 1200));
+    res = await fetch(API + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  }
   const text = await res.text();
   if (!res.ok) throw new Error(`Etsy said ${res.status} for ${method} ${path}: ${text.slice(0, 300)}`);
   return text ? JSON.parse(text) : {};
@@ -100,10 +104,13 @@ export async function etsy(env, path, { method = "GET", body } = {}) {
 // Looked up by the public shop name, so it needs no extra Etsy permission.
 export async function shopId(env) {
   if (env.ETSY_SHOP_ID) return env.ETSY_SHOP_ID;
+  const cached = await env.ETSY_KV.get("etsy:shop_id");
+  if (cached) return cached;
   const name = env.ETSY_SHOP_NAME || "EdMcveighArt";
   const found = await etsy(env, `/shops?shop_name=${encodeURIComponent(name)}`);
   const id = found.results?.[0]?.shop_id;
   if (!id) throw new Error(`Couldn't find the Etsy shop "${name}".`);
+  await env.ETSY_KV.put("etsy:shop_id", String(id));
   return id;
 }
 
