@@ -1734,19 +1734,19 @@
       "variantLabel": "Style and finish",
       "variants": [
         {
-          "name": "Pen & ink + watercolor, matted",
+          "name": "Pen&ink + watercolor, Matted unframed",
           "price": 225
         },
         {
-          "name": "Pen & ink + watercolor, matted & framed",
+          "name": "Pen&ink + watercolor, Matted & framed",
           "price": 250
         },
         {
-          "name": "Pen & ink only, matted",
+          "name": "Pen & ink only, Matted unframed",
           "price": 185
         },
         {
-          "name": "Pen & ink only, matted & framed",
+          "name": "Pen & ink only, Matted & framed",
           "price": 210
         }
       ],

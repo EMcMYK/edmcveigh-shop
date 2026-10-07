@@ -1,16 +1,22 @@
 {
-  "ranAt": "2026-10-07T18:03:00.223Z",
+  "ranAt": "2026-10-07T18:06:30.750Z",
   "added": [],
-  "updated": [],
+  "updated": [
+    "Custom House Portrait: options and prices"
+  ],
   "soldOut": [],
   "back": [],
   "skipped": [
     "Happy Birthday Hedgehog"
   ],
-  "problems": [
-    "Couldn't reach the Etsy connection (Etsy said 429 for GET /listings/4583415144/inventory: {\"error\":\"Exceeded per second rate limit\"}\n), so options, prices and sizes weren't checked today. If it says the connection lapsed, reconnect at https://edmcveigh-shop.pages.dev/api/etsy/connect?key=…"
-  ],
+  "problems": [],
   "held": [
-    "It's A Philly Thing Sticker Sheet: it would drop to a single option. Etsy has Holographic $6.99; the shop kept Glossy $6.99, Holographic $6.99."
+    "It's A Philly Thing Sticker Sheet: it would drop to a single option. Etsy has Holographic $6.99 (Glossy is turned off or out of stock on Etsy); the shop kept Glossy $6.99, Holographic $6.99.",
+    "Philly Goose Sticker: it would drop to a single option. Etsy has Glossy $3.99 (Holographic is turned off or out of stock on Etsy); the shop kept Glossy $3.99, Holographic $3.99.",
+    "Philly I-76 Highway Sign Sticker: it would drop to a single option. Etsy has Glossy $3.99 (Holographic is turned off or out of stock on Etsy); the shop kept Glossy $3.99, Holographic $3.99.",
+    "Philly Cheesesteak Sticker: it would drop to a single option. Etsy has Glossy $3.99 (Holographic is turned off or out of stock on Etsy); the shop kept Glossy $3.99, Holographic $3.99.",
+    "Philly Wooder Ice Sticker: it would drop to a single option. Etsy has Glossy $3.99 (Holographic is turned off or out of stock on Etsy); the shop kept Glossy $3.99, Holographic $3.99.",
+    "Philly Pork Roll Sticker: it would drop to a single option. Etsy has Glossy $3.99 (Holographic is turned off or out of stock on Etsy); the shop kept Glossy $3.99, Holographic $3.99.",
+    "Ghost Cat Sticker: it would drop to a single option. Etsy has Glossy $3.99 (Holographic is turned off or out of stock on Etsy); the shop kept Glossy $3.99, Holographic $3.99."
   ]
 }
