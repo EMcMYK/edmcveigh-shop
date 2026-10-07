@@ -63,16 +63,12 @@
     },
     {
       "id": "fly-eagles-fly",
-      "name": "Fly Eagles Fly Sticker",
+      "name": "Philly Football Wings Sticker",
       "category": "stickers",
       "variantLabel": "Finish",
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
-        },
-        {
-          "name": "Clear",
           "price": 3.99
         },
         {
@@ -107,7 +103,7 @@
       ],
       "details": [
         "Die cut around the wings and football",
-        "Glossy laminated waterproof vinyl, a sparkly holographic finish, or clear (best on light-colored surfaces)",
+        "Glossy laminated waterproof vinyl, or a sparkly holographic finish",
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "Not affiliated with, endorsed by, or sponsored by any professional sports team or league.",
@@ -188,7 +184,7 @@
     },
     {
       "id": "i76ers-highway-sign",
-      "name": "Philly I-76ers Highway Sign Sticker",
+      "name": "Philly I-76 Highway Sign Sticker",
       "category": "stickers",
       "variantLabel": "Finish",
       "variants": [
@@ -952,10 +948,6 @@
           "price": 3.99
         },
         {
-          "name": "Clear",
-          "price": 3.99
-        },
-        {
           "name": "Holographic",
           "price": 3.99
         }
@@ -981,7 +973,7 @@
       ],
       "details": [
         "Die cut around the loaf",
-        "Glossy laminated waterproof vinyl, a sparkly holographic finish, or clear (best on light-colored surfaces)",
+        "Glossy laminated waterproof vinyl, or a sparkly holographic finish",
         "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
       ],
       "disclaimer": "",
@@ -1201,7 +1193,7 @@
       ],
       "details": [
         "Original gouache painting, signed. Not a print.",
-        "Unframed on 6×8 inch watercolor paper. For framing, a 5×7 mat in an 8×10 frame fits it well.",
+        "Sold unframed on 6×8 inch watercolor paper, or framed in an 8×10 frame with a 5×7 mat.",
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
@@ -1250,7 +1242,7 @@
       ],
       "details": [
         "Original gouache painting, signed. Not a print.",
-        "Unframed on 6×8 inch watercolor paper. For framing, a 5×7 mat in an 8×10 frame fits it well.",
+        "Sold unframed on 6×8 inch watercolor paper, or framed in an 8×10 frame with a 5×7 mat.",
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
@@ -1300,7 +1292,7 @@
       ],
       "details": [
         "Original gouache painting, signed. Not a print.",
-        "Unframed on 6×8 inch watercolor paper. For framing, a 5×7 mat in an 8×10 frame fits it well.",
+        "Sold unframed on 6×8 inch watercolor paper, or framed in an 8×10 frame with a 5×7 mat.",
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
@@ -1350,7 +1342,7 @@
       ],
       "details": [
         "Original gouache painting, signed. Not a print.",
-        "Unframed on 6×8 inch watercolor paper. For framing, a 5×7 mat in an 8×10 frame fits it well.",
+        "Sold unframed on 6×8 inch watercolor paper, or framed in an 8×10 frame with a 5×7 mat.",
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
@@ -1400,7 +1392,7 @@
       ],
       "details": [
         "Original gouache painting, signed. Not a print.",
-        "Unframed on 6×8 inch watercolor paper. For framing, a 5×7 mat in an 8×10 frame fits it well.",
+        "Sold unframed on 6×8 inch watercolor paper, or framed in an 8×10 frame with a 5×7 mat.",
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
@@ -1449,7 +1441,7 @@
       ],
       "details": [
         "Original gouache painting, signed. Not a print.",
-        "Unframed on 6×8 inch watercolor paper. For framing, a 5×7 mat in an 8×10 frame fits it well.",
+        "Sold unframed on 6×8 inch watercolor paper, or framed in an 8×10 frame with a 5×7 mat.",
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
@@ -1497,7 +1489,7 @@
       ],
       "details": [
         "Original gouache painting, signed. Not a print.",
-        "Unframed on 6×8 inch watercolor paper. For framing, a 5×7 mat in an 8×10 frame fits it well.",
+        "Sold unframed on 6×8 inch watercolor paper, or framed in an 8×10 frame with a 5×7 mat.",
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
@@ -1546,7 +1538,7 @@
       ],
       "details": [
         "Original gouache painting, signed. Not a print.",
-        "Unframed on 6×8 inch watercolor paper. For framing, a 5×7 mat in an 8×10 frame fits it well.",
+        "Sold unframed on 6×8 inch watercolor paper, or framed in an 8×10 frame with a 5×7 mat.",
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
@@ -1597,7 +1589,7 @@
       ],
       "details": [
         "Original gouache painting, signed. Not a print.",
-        "Unframed on 6×8 inch watercolor paper. For framing, a 5×7 mat in an 8×10 frame fits it well.",
+        "Sold unframed on 6×8 inch watercolor paper, or framed in an 8×10 frame with a 5×7 mat.",
         "One of a kind: once it sells, it's gone"
       ],
       "disclaimer": "",
@@ -1626,7 +1618,7 @@
       "variants": [
         {
           "name": "Framed",
-          "price": 120
+          "price": 95
         }
       ],
       "oneOfAKind": true,
@@ -1671,7 +1663,7 @@
       "variants": [
         {
           "name": "Framed",
-          "price": 120
+          "price": 95
         }
       ],
       "oneOfAKind": true,
@@ -1716,7 +1708,7 @@
       "variants": [
         {
           "name": "Framed",
-          "price": 120
+          "price": 95
         }
       ],
       "oneOfAKind": true,
@@ -1795,11 +1787,11 @@
       "description": [
         "A hand-drawn portrait of a home: the closing gift clients actually keep, and a one-of-a-kind keepsake for anyone who loves their house.",
         "✦ A gift for every home story\nClosing gifts for clients • First homes • Housewarmings • A childhood home before it's sold • Anniversaries and holidays",
-        "✦ For realtors\nLooking for a closing gift your clients will actually keep? A hand-drawn portrait of their new home is personal, memorable, and ready to hang the day they move in. I'm based in the Philadelphia area and love drawing the region's stone homes, rowhouses and twins.\n- Tell me your closing date and I'll plan around it\n- I can ship directly to your client with a handwritten gift note\n- Ordering for several clients, or coming back for your next closing? Message me about repeat-client discounts",
+        "✦ For realtors\nLooking for a closing gift your clients will actually keep? A hand-drawn portrait of their new home is personal, memorable, and ready to hang the day they move in. I'm based in the Philadelphia area and love drawing the region's stone homes, rowhouses and twins.\n- Tell me your closing date and I'll plan around it\n- I can ship directly to your client with a handwritten gift note\n- Ordering for several clients, or coming back for your next closing? Email me about repeat-client discounts",
         "✦ What you get\n- An original 8x10 drawing: never a print, no AI, no digital tools\n- Pen and ink on cotton-blend watercolor paper\n- Choose pen and ink only, or pen and ink with watercolor\n- Choose matted (fits a standard 11x14 frame) or matted and framed, ready to hang\n- Signed by me\n- Free shipping",
-        "✦ How it works\n1. Place your order and upload a clear, straight-on photo of the home. Send a few if you have them.\n2. I draw a pencil sketch and send you a photo to approve. Changes at this stage are included.\n3. Once you approve it, I ink and paint the final piece.\n4. I send you a photo of the finished portrait before it ships.",
-        "Turnaround is usually 2 to 4 weeks from sketch approval, depending on how busy I am. Have a deadline? Message me before ordering.",
-        "✦ Good to know\n- Let me know about any details that matter to you, and I'll make your home look its best.\n- If you decide not to continue after seeing the sketch, I'll refund 50% of your order. The other half covers my time and materials. Once you approve the sketch, the piece is made just for you and can't be returned.\n- Want a larger size or more than one house? Message me for a custom quote.",
+        "✦ How it works\n1. Pay the deposit, then email me a clear, straight-on photo of the home. Send a few if you have them.\n2. I draw a pencil sketch and send you a photo to approve. Changes at this stage are included.\n3. Once you approve it, I ink the final piece, and add watercolor if you chose it.\n4. I send you a photo of the finished portrait before it ships.",
+        "Turnaround is usually 2 to 4 weeks from sketch approval, depending on how busy I am. Have a deadline? Email me before ordering.",
+        "✦ Good to know\n- Let me know about any details that matter to you, and I'll make your home look its best.\n- If you decide not to continue after seeing the sketch, you owe nothing more. The deposit covers my time and materials.\n- Want a larger size or more than one house? Email me for a custom quote.",
         "Thank you for supporting an independent artist!\n— Ed"
       ],
       "details": [
@@ -1811,10 +1803,10 @@
       "steps": [
         "Pay the 50% deposit here, then email me a clear, straight-on photo of the home (send a few if you have them).",
         "I draw a pencil sketch and send you a photo. Small changes are included at this stage. If you decide not to continue, you owe nothing more.",
-        "Once you approve it, I ink and paint the final piece.",
+        "Once you approve it, I ink the final piece, and add watercolor if you chose it.",
         "I send you a photo of the finished portrait and an invoice for the other 50%. It ships free once that's paid."
       ],
-      "policy": "Turnaround is usually 2 to 4 weeks. The 50% deposit is non-refundable once I've started your sketch. Ordered by mistake? Email me within 2 days and, if I haven't started, I'll refund it in full. Want a larger size or more than one house? Email me for a custom quote.",
+      "policy": "Turnaround is usually 2 to 4 weeks from sketch approval. The 50% deposit is non-refundable once I've started your sketch. Ordered by mistake? Email me within 2 days and, if I haven't started, I'll refund it in full. Want a larger size or more than one house? Email me for a custom quote.",
       "disclaimer": "",
       "etsyListingId": 4587496463,
       "tags": [
@@ -1831,6 +1823,9 @@
         "pen and ink house",
         "house painting",
         "house from photo"
+      ],
+      "shopOnly": [
+        "description"
       ]
     }
   ]

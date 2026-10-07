@@ -6,8 +6,10 @@
     photo (saved into images/<product-id>/), options and prices, and its Etsy shop section.
   • Products already in the shop take Etsy's description, tags, photos, options and prices
     whenever those change on Etsy. Shop-only things stay as they are: the product's name, web
-    address (id), category, size line, badge, details, disclaimer, and the portrait's deposit
-    and steps.
+    address (id), category, size line, badge, details, disclaimer, and the portrait's deposit,
+    steps and policy line. A product can also keep its own description, tags, options or photos:
+    list them in its "shopOnly", e.g. "shopOnly": ["description"] (the house portrait does, since
+    its Etsy wording is about Etsy's checkout).
   • A new product's name is the short start of its Etsy title, up to the first comma or "|"
     ("Sushi Cats Sticker, Cute Cat..." → "Sushi Cats Sticker"). Edit it in products.json anytime.
   • A product whose Etsy listing is no longer active (sold, deactivated, expired) is marked sold
@@ -111,12 +113,13 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
     const l = active.get(String(p.etsyListingId || ""));
     if (!l) continue;
     const changed = [];
+    const keep = new Set(p.shopOnly || []); // fields this product keeps from the shop, never Etsy's
     const description = paragraphs(l.description);
-    if (description.length && JSON.stringify(p.description) !== JSON.stringify(description)) { p.description = description; changed.push("description"); }
+    if (!keep.has("description") && description.length && JSON.stringify(p.description) !== JSON.stringify(description)) { p.description = description; changed.push("description"); }
     const tags = (l.tags || []).map(decode);
-    if (JSON.stringify(p.tags || []) !== JSON.stringify(tags)) { p.tags = tags; changed.push("tags"); }
+    if (!keep.has("tags") && JSON.stringify(p.tags || []) !== JSON.stringify(tags)) { p.tags = tags; changed.push("tags"); }
 
-    const inventory = await etsy(`/listings/${l.listing_id}/inventory`, { optional: true });
+    const inventory = keep.has("options") ? null : await etsy(`/listings/${l.listing_id}/inventory`, { optional: true });
     if (inventory) {
       const { label, variants } = optionsFrom(inventory, money(l.price));
       if (JSON.stringify(p.variants) !== JSON.stringify(variants) || (p.variantLabel || "") !== label) {
@@ -124,7 +127,7 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
       }
     }
 
-    const images = (await etsy(`/listings/${l.listing_id}/images`, { optional: true }))
+    const images = keep.has("photos") ? null : (await etsy(`/listings/${l.listing_id}/images`, { optional: true }))
       || (await etsy(`/shops/${shopId}/listings/${l.listing_id}/images`, { optional: true }));
     const want = (images?.results || []).slice().sort((a, b) => a.rank - b.rank);
     if (want.length) {

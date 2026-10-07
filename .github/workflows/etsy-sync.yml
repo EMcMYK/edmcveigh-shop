@@ -1,4 +1,4 @@
-# Adds new Etsy listings to the shop (existing products are never changed).
+# Adds new Etsy listings to the shop and updates existing ones from Etsy (see scripts/etsy-sync.mjs).
 # Runs every morning, and any time you press "Run workflow" on the Actions tab
 # (github.com/EMcMYK/edmcveigh-shop → Actions → Sync from Etsy → Run workflow).
 name: Sync from Etsy
