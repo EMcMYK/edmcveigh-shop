@@ -44,6 +44,9 @@ header { padding: 22px clamp(20px, 4vw, 64px) 0; }
 .logo { font-family: var(--display); font-size: 48px; line-height: 1; color: var(--ink); text-decoration: none; }
 .logo .e { display: inline-block; transform: rotate(-9deg); transform-origin: 10% 85%; }
 .logo .d { display: inline-block; transform: translateY(-0.12em); }
+.logo canvas { display: none; }
+.logo.spin canvas { display: block; }
+.logo.spin .e, .logo.spin .d { display: none; }
 main {
   flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
   padding: 40px 20px 80px; gap: 14px;
@@ -61,12 +64,91 @@ p { margin: 0 0 12px; color: var(--ink-soft); font-size: 17px; max-width: 30ch; 
 </style>
 </head>
 <body>
-<header><a class="logo" href="/" aria-label="ed.mcveigh home"><span class="e">e</span><span class="d">.</span></a></header>
+<header><a class="logo" id="logo" href="/" aria-label="ed.mcveigh home"><span class="e">e</span><span class="d">.</span><canvas aria-hidden="true"></canvas></a></header>
 <main>
   <p class="code" aria-hidden="true">404</p>
   <h1>Nothing here</h1>
   <p>This page doesn't exist, or it wandered off. The good stuff is back home.</p>
   <a class="home" href="/">Back to ed.mcveigh <span aria-hidden="true">→</span></a>
 </main>
+
+<script>
+/* The "e." spinner (from the e. Spinner artifact): the e winds back, whips around three times,
+   overshoots and springs home to its tilt while the dot pulses. Here it plays once on load,
+   then every few seconds, and on hover or tap. Static logo if the visitor prefers reduced motion. */
+(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const logo = document.getElementById('logo'), c = logo.querySelector('canvas'), ctx = c.getContext('2d');
+  const REST_TILT = -9, TURNS = 3, OVERSHOOT = 28;
+  const T_WIND = 0.14, T_SPIN = 0.62, T_SETTLE = 1.0, LEN = T_WIND + T_SPIN + T_SETTLE;
+  const easeOut = x => 1 - Math.pow(1 - x, 3);
+  const easeInOutQuart = x => x < 0.5 ? 8 * x ** 4 : 1 - Math.pow(-2 * x + 2, 4) / 2;
+  function spinAt(t) {
+    if (t <= 0 || t >= LEN) return 0;
+    if (t < T_WIND) return -16 * easeOut(t / T_WIND);
+    t -= T_WIND;
+    if (t < T_SPIN) return -16 + (360 * TURNS + OVERSHOOT + 16) * easeInOutQuart(t / T_SPIN);
+    t -= T_SPIN;
+    return 360 * TURNS + OVERSHOOT * Math.exp(-4.2 * t) * Math.cos(8.5 * t);
+  }
+  function dotScaleAt(t) {
+    const mid = T_WIND + T_SPIN / 2, half = 0.42, p = (t - (mid - half)) / (2 * half);
+    return p <= 0 || p >= 1 ? 1 : 1 + 0.4 * Math.pow(Math.sin(p * Math.PI), 2);
+  }
+  let G;
+  function measure() {
+    const m = document.createElement('canvas').getContext('2d');
+    m.font = '100px Agbalumo';
+    const me = m.measureText('e'), md = m.measureText('.'), dx = me.width + 11;
+    const e = { L: -me.actualBoundingBoxLeft, R: me.actualBoundingBoxRight, T: -me.actualBoundingBoxAscent, B: me.actualBoundingBoxDescent };
+    const d = { L: dx - md.actualBoundingBoxLeft, R: dx + md.actualBoundingBoxRight, T: -md.actualBoundingBoxAscent, B: md.actualBoundingBoxDescent };
+    const L = Math.min(e.L, d.L), R = Math.max(e.R, d.R), T = Math.min(e.T, d.T), B = Math.max(e.B, d.B);
+    G = { dx, eC: { x: (e.L + e.R) / 2, y: (e.T + e.B) / 2 }, dC: { x: (d.L + d.R) / 2, y: (d.T + d.B) / 2 }, gC: { x: (L + R) / 2, y: (T + B) / 2 }, w: R - L, h: B - T };
+  }
+  const H = 56, W = 84, dpr = Math.min(devicePixelRatio || 1, 3);
+  c.width = W * dpr; c.height = H * dpr; c.style.width = W + 'px'; c.style.height = H + 'px';
+  function drawE(a) {
+    ctx.save(); ctx.translate(G.eC.x, G.eC.y); ctx.rotate(a * Math.PI / 180); ctx.translate(-G.eC.x, -G.eC.y);
+    ctx.fillText('e', 0, 0); ctx.restore();
+  }
+  function render(t, prevA) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+    const k = Math.min((W * 0.8) / (G.w * 1.02), (H * 0.8) / (G.h * 1.12));
+    ctx.translate(W / 2, H / 2); ctx.scale(k, k); ctx.rotate(REST_TILT * Math.PI / 180); ctx.translate(-G.gC.x, -G.gC.y);
+    ctx.fillStyle = getComputedStyle(logo).color; ctx.font = '100px Agbalumo'; ctx.textBaseline = 'alphabetic';
+    const ds = dotScaleAt(t);
+    ctx.save(); ctx.translate(G.dC.x, G.dC.y); ctx.scale(ds, ds); ctx.translate(-G.dC.x, -G.dC.y); ctx.fillText('.', G.dx, 0); ctx.restore();
+    const a = spinAt(t), sweep = Math.min(Math.abs(a - prevA), 320);
+    if (sweep < 1.5) { drawE(a); return; }
+    const n = Math.min(28, Math.max(6, Math.round(sweep / 7))), dir = Math.sign(a - prevA);
+    for (let i = n - 1; i >= 0; i--) {
+      const f = i / (n - 1);
+      ctx.globalAlpha = i === 0 ? 0.9 : (0.55 / n) * 4 * (1 - f * 0.8);
+      drawE(a - dir * sweep * f);
+    }
+    ctx.globalAlpha = 1;
+  }
+  let start = null, playing = false, timer = 0;
+  function frame(now) {
+    if (start === null) start = now;
+    const t = (now - start) / 1000;
+    render(t, spinAt(Math.max(0, t - 1.6 / 60)));
+    if (t < LEN) requestAnimationFrame(frame);
+    else { render(LEN, 0); start = null; playing = false; timer = setTimeout(play, 4500); }
+  }
+  function play() {
+    if (playing) return;                   // already spinning
+    playing = true; clearTimeout(timer); requestAnimationFrame(frame);
+  }
+  const ready = document.fonts ? document.fonts.load('100px Agbalumo') : Promise.resolve();
+  Promise.race([ready, new Promise(r => setTimeout(r, 2500))]).then(() => {
+    if (document.fonts && !document.fonts.check('100px Agbalumo')) return;   // font missing: keep the plain logo
+    measure(); logo.classList.add('spin'); render(LEN, 0);
+    logo.addEventListener('pointerenter', play);
+    logo.addEventListener('touchstart', play, { passive: true });
+    setTimeout(play, 500);
+  });
+})();
+</script>
 </body>
 </html>
