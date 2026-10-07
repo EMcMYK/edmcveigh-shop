@@ -41,10 +41,10 @@ export async function onRequestPost({ request, env }) {
 
     let inventory = null;
     if (removeOption || renameOption) {
-      inventory = rebuildInventory(before._inventory, removeOption, renameOption);
+      inventory = rebuildInventory(before._inventory, removeOption, renameOption, before._readiness);
       if (inventory.error) return Response.json({ error: inventory.error, before: strip(before) }, { status: 400 });
     }
-    if (dryRun) return Response.json({ dryRun: true, before: strip(before), patch, options: inventory ? optionNames(inventory) : null });
+    if (dryRun) return Response.json({ dryRun: true, before: strip(before), patch, options: inventory ? optionNames(inventory) : null, readiness: inventory ? inventory.products.flatMap((p) => p.offerings.map((o) => o.readiness_state_id ?? null)) : null });
 
     // Options first: if Etsy refuses them, nothing else on the listing has changed yet.
     if (inventory) await etsy(env, `/listings/${listing_id}/inventory`, { method: "PUT", body: inventory });
@@ -62,9 +62,9 @@ async function snapshot(env, id) {
   const l = await etsy(env, `/listings/${id}`);
   const inv = await etsy(env, `/listings/${id}/inventory`);
   const options = (inv.products || []).filter((p) => !p.is_deleted).map((p) => (p.property_values || []).map((pv) => (pv.values || []).join(" ")).join(", ") || "Standard");
-  return { title: l.title, description: l.description, tags: l.tags || [], state: l.state, options, _inventory: inv };
+  return { title: l.title, description: l.description, tags: l.tags || [], state: l.state, options, _inventory: inv, _readiness: l.readiness_state_id ?? null };
 }
-const strip = ({ _inventory, ...rest }) => rest;
+const strip = ({ _inventory, _readiness, ...rest }) => rest;
 // Compare the way the shop sync reads Etsy: entities decoded, paragraphs trimmed.
 const decode = (s) => String(s ?? "").replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
   .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
@@ -75,7 +75,7 @@ const norm = (v) => (typeof v === "string"
 
 // The inventory as Etsy wants it back, minus any product whose option matches `remove`,
 // and with `rename.from` swapped for `rename.to` inside option names (e.g. "regular" → "glossy").
-function rebuildInventory(inv, remove, rename) {
+function rebuildInventory(inv, remove, rename, listingReadiness) {
   const all = (inv.products || []).filter((p) => !p.is_deleted);
   const has = (p, name) => (p.property_values || []).some((pv) => (pv.values || []).some((v) => v.toLowerCase().includes(name.toLowerCase())));
   const keep = remove ? all.filter((p) => !has(p, remove)) : all;
@@ -91,7 +91,11 @@ function rebuildInventory(inv, remove, rename) {
         // A renamed value drops its old id so Etsy stores the new name.
         return { property_id: pv.property_id, property_name: pv.property_name, scale_id: pv.scale_id, value_ids: renamed ? [] : pv.value_ids, values };
       }),
-      offerings: (p.offerings || []).filter((o) => !o.is_deleted).map((o) => ({ price: o.price.amount / o.price.divisor, quantity: o.quantity, is_enabled: o.is_enabled }))
+      offerings: (p.offerings || []).filter((o) => !o.is_deleted).map((o) => {
+        // Etsy now wants each offering's processing time ("readiness state") sent back too.
+        const readiness = o.readiness_state_id ?? listingReadiness;
+        return { price: o.price.amount / o.price.divisor, quantity: o.quantity, is_enabled: o.is_enabled, ...(readiness != null ? { readiness_state_id: readiness } : {}) };
+      })
     })),
     price_on_property: inv.price_on_property || [],
     quantity_on_property: inv.quantity_on_property || [],
