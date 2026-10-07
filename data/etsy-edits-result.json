@@ -1,15 +1,46 @@
 {
-  "ranAt": "2026-10-07T17:32:27.226Z",
-  "dryRun": false,
+  "ranAt": "2026-10-07T17:34:52.029Z",
+  "dryRun": true,
   "results": [
     {
       "id": "scrapple",
       "listing_id": 4583350067,
-      "ok": false,
-      "status": 502,
-      "error": "Etsy said 400 for PUT /listings/4583350067/inventory: {\"error\":\"All offerings need readiness state\"}\n",
-      "before": null,
-      "after": null
+      "ok": true,
+      "status": 200,
+      "error": null,
+      "before": {
+        "title": "Philly Scrapple Sticker, Hand Drawn Philadelphia Breakfast Decal, Retro Food Gift, Waterproof Vinyl",
+        "description": "Scrapple: Philly&#39;s most misunderstood breakfast, hand-lettered with a &quot;Since 1776&quot; crest and a hand-drawn leafy border.\n \nChoose your finish:\n• Regular: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n \n• Die cut with rounded corners\n• Size: 1.95&quot; x 1.95&quot;\n \nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n \nPhoto notes: photos 1, 2, 3 and 7 show the real sticker. Photos 4, 5 and 6 are digital mockups that show the sticker at its actual size. Photo 8 shows my drawing process. Photo numbers refer to the image order in this listing.\n \nNot affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league.",
+        "tags": [
+          "scrapple sticker",
+          "scrapple",
+          "philly food sticker",
+          "breakfast sticker",
+          "pennsylvania dutch",
+          "philadelphia decal",
+          "philly sticker",
+          "retro food sticker",
+          "hand drawn sticker",
+          "laptop sticker",
+          "water bottle decal",
+          "waterproof sticker",
+          "go birds"
+        ],
+        "state": "active",
+        "options": [
+          "regular waterproof",
+          "holographic"
+        ]
+      },
+      "after": null,
+      "options": [
+        "glossy waterproof",
+        "holographic"
+      ],
+      "readiness": [
+        1465634930705,
+        1465634930705
+      ]
     }
   ]
 }
