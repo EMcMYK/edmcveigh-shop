@@ -8,6 +8,7 @@
     "set":    { "title": "…", "description": "…", "tags": [...] },   any of these
     "titleReplace": { "from": "…", "to": "…" },                       optional: swap words in the current title
     "removeOption": "Clear",                                           optional: drop a variation option
+    "renameOption": { "from": "regular", "to": "glossy" },             optional: rename words in option names
     "dryRun": true                                                     optional: show what would change, change nothing
   }
   Returns the listing's before and after (title, description, tags, options).
@@ -19,7 +20,7 @@ export async function onRequestPost({ request, env }) {
   if (missing.length) return Response.json({ error: `Missing in Cloudflare: ${missing.join(", ")}` }, { status: 500 });
   if (!isAdmin(request, env)) return new Response("Forbidden", { status: 403 });
   try {
-    const { listing_id, expect = {}, set = {}, titleReplace, removeOption, dryRun } = await request.json();
+    const { listing_id, expect = {}, set = {}, titleReplace, removeOption, renameOption, dryRun } = await request.json();
     if (!listing_id) return Response.json({ error: "listing_id is required" }, { status: 400 });
     const before = await snapshot(env, listing_id);
 
@@ -39,17 +40,18 @@ export async function onRequestPost({ request, env }) {
     if (patch.title && patch.title.length > 140) return Response.json({ error: "Etsy titles are up to 140 characters." }, { status: 400 });
 
     let inventory = null;
-    if (removeOption) {
-      inventory = withoutOption(before._inventory, removeOption);
-      if (!inventory) return Response.json({ error: `No "${removeOption}" option on this listing.`, before: strip(before) }, { status: 400 });
+    if (removeOption || renameOption) {
+      inventory = rebuildInventory(before._inventory, removeOption, renameOption);
+      if (inventory.error) return Response.json({ error: inventory.error, before: strip(before) }, { status: 400 });
     }
-    if (dryRun) return Response.json({ dryRun: true, before: strip(before), patch, removeOption: removeOption || null });
+    if (dryRun) return Response.json({ dryRun: true, before: strip(before), patch, options: inventory ? optionNames(inventory) : null });
 
-    if (Object.keys(patch).length) await etsy(env, `/shops/${await shopId(env)}/listings/${listing_id}`, { method: "PATCH", body: patch });
+    // Options first: if Etsy refuses them, nothing else on the listing has changed yet.
     if (inventory) await etsy(env, `/listings/${listing_id}/inventory`, { method: "PUT", body: inventory });
+    if (Object.keys(patch).length) await etsy(env, `/shops/${await shopId(env)}/listings/${listing_id}`, { method: "PATCH", body: patch });
     const after = await snapshot(env, listing_id);
     const ok = Object.entries(patch).every(([k, v]) => JSON.stringify(norm(after[k])) === JSON.stringify(norm(v)))
-      && (!removeOption || !after.options.some((o) => o.toLowerCase().includes(removeOption.toLowerCase())));
+      && (!inventory || JSON.stringify(after.options.map((o) => o.toLowerCase())) === JSON.stringify(optionNames(inventory).map((o) => o.toLowerCase())));
     return Response.json({ ok, before: strip(before), after: strip(after) });
   } catch (e) {
     return Response.json({ error: e.message }, { status: 502 });
@@ -71,15 +73,24 @@ const norm = (v) => (typeof v === "string"
   ? decode(v).replace(/\r/g, "").split(/\n\s*\n/).map((p) => p.replace(/[ \t]+\n/g, "\n").trim()).filter(Boolean).join("\n\n")
   : Array.isArray(v) ? v.map((t) => decode(t)) : v);
 
-// The inventory as Etsy wants it back, minus every product whose option matches `name`.
-function withoutOption(inv, name) {
+// The inventory as Etsy wants it back, minus any product whose option matches `remove`,
+// and with `rename.from` swapped for `rename.to` inside option names (e.g. "regular" → "glossy").
+function rebuildInventory(inv, remove, rename) {
   const all = (inv.products || []).filter((p) => !p.is_deleted);
-  const keep = all.filter((p) => !(p.property_values || []).some((pv) => (pv.values || []).some((v) => v.toLowerCase().includes(name.toLowerCase()))));
-  if (keep.length === all.length || !keep.length) return null;
+  const has = (p, name) => (p.property_values || []).some((pv) => (pv.values || []).some((v) => v.toLowerCase().includes(name.toLowerCase())));
+  const keep = remove ? all.filter((p) => !has(p, remove)) : all;
+  if (remove && keep.length === all.length) return { error: `No "${remove}" option on this listing.` };
+  if (!keep.length) return { error: "That would remove every option." };
+  if (rename && !keep.some((p) => has(p, rename.from))) return { error: `No "${rename.from}" option to rename on this listing.` };
   return {
     products: keep.map((p) => ({
       sku: p.sku || "",
-      property_values: (p.property_values || []).map((pv) => ({ property_id: pv.property_id, property_name: pv.property_name, scale_id: pv.scale_id, value_ids: pv.value_ids, values: pv.values })),
+      property_values: (p.property_values || []).map((pv) => {
+        const values = (pv.values || []).map((v) => (rename ? v.replace(new RegExp(rename.from.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"), rename.to) : v));
+        const renamed = JSON.stringify(values) !== JSON.stringify(pv.values || []);
+        // A renamed value drops its old id so Etsy stores the new name.
+        return { property_id: pv.property_id, property_name: pv.property_name, scale_id: pv.scale_id, value_ids: renamed ? [] : pv.value_ids, values };
+      }),
       offerings: (p.offerings || []).filter((o) => !o.is_deleted).map((o) => ({ price: o.price.amount / o.price.divisor, quantity: o.quantity, is_enabled: o.is_enabled }))
     })),
     price_on_property: inv.price_on_property || [],
@@ -87,3 +98,4 @@ function withoutOption(inv, name) {
     sku_on_property: inv.sku_on_property || []
   };
 }
+const optionNames = (inv) => inv.products.map((p) => p.property_values.map((pv) => pv.values.join(" ")).join(", ") || "Standard");

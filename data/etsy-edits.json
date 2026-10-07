@@ -9,6 +9,10 @@
       },
       "set": {
         "description": "It's a Philly thing! This sticker sheet has 9 hand-drawn Philadelphia-inspired stickers: a soft pretzel, a cheesesteak, a Philly-style water ice cup, a Philly candy bar, a highway sign, Independence Hall, a football wings piece, and more. Peel them off one at a time for laptops, water bottles, notebooks, planners, and phone cases.\n\nGlossy laminated, waterproof vinyl, in a regular glossy or holographic glitter finish\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.\n\nNot affiliated with, endorsed by, or sponsored by any professional sports team, league, or brand."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -24,7 +28,11 @@
         "from": "Fly Eagles Fly Sticker",
         "to": "Philly Football Wings Sticker"
       },
-      "removeOption": "Clear"
+      "removeOption": "Clear",
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
+      }
     },
     {
       "id": "philly-goose",
@@ -34,6 +42,10 @@
       },
       "set": {
         "description": "Show your love for Philadelphia with this die-cut Philly goose sticker, a nod to one of the city's most iconic mascots, combined with hand-drawn lettering and artwork.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nGreat for:\nLaptops, water bottles, skateboards, notebooks, coolers, and anywhere else that could use a little more Philly. It also makes a fun gift for the Philadelphia fan in your life, or anyone who moved away but never really left.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.\n\nAll of my stickers are drawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -48,6 +60,10 @@
       "titleReplace": {
         "from": "Philly I-76ers Highway Sign Sticker",
         "to": "Philly I-76 Highway Sign Sticker"
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -58,6 +74,10 @@
       },
       "set": {
         "description": "Philadelphia's most famous sandwich, hand-drawn with acrylic markers and turned into a sticker: a toasted roll, plenty of chopped steak and a drip of melted cheese. Wit or witout, it goes on your laptop, water bottle, or anywhere else you want a little Philly.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -68,6 +88,10 @@
       },
       "set": {
         "description": "It's pronounced \"wooder.\" This hand-drawn water ice cup is for anyone who grew up waiting in line for a cherry water ice on a hot Philly summer night. One photo shows how it came together, from pencil sketch to ink to color to sticker.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.\n\nNot affiliated with, endorsed by, or sponsored by any brand."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -78,6 +102,10 @@
       },
       "set": {
         "description": "A retro-style sticker for anyone who knows a proper breakfast starts with pork roll, egg and cheese. Hand-lettered and hand-drawn, with a little \"Go Birds\" stamp tucked in for good measure.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.\n\nNot affiliated with, endorsed by, or sponsored by any brand or professional sports team."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -88,6 +116,10 @@
       },
       "set": {
         "description": "Scrapple: Philly's most misunderstood breakfast, hand-lettered with a \"Since 1776\" crest and a hand-drawn leafy border.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light. One photo shows my drawing process.\n\nNot affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -98,6 +130,10 @@
       },
       "set": {
         "description": "A hand-painted butterscotch snack cake, the lunchbox classic every Philly kid traded for, over a vintage \"Philadelphia\" banner.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light. One photo shows my drawing process.\n\nNot affiliated with, endorsed by, or sponsored by any brand."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -108,6 +144,10 @@
       },
       "set": {
         "description": "A retro chocolate-and-peanut candy wrapper, redrawn with \"Philadelphia\" across the front and a \"Since 1776\" star.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light. One photo shows my drawing process.\n\nNot affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -118,6 +158,10 @@
       },
       "set": {
         "description": "A candy wrapper with a Philly twist: peanut butter cups, a \"Go Birds\" label, and \"Philly\" in big yellow script.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.\n\nNot affiliated with, endorsed by, or sponsored by any brand, professional sports team, or league."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -128,6 +172,10 @@
       },
       "set": {
         "description": "A hand-drawn tribute to the Spectrum, the South Philly arena that hosted decades of games and concerts.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light. One photo shows my drawing process.\n\nNot affiliated with, endorsed by, or sponsored by any arena, professional sports team, or league."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -138,6 +186,10 @@
       },
       "set": {
         "description": "Independence Hall like you've never seen it: a big-eyed, fuzzy green troublemaker inside, right in front of the bell tower. A little bit history, a little bit South Philly chaos.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic glitter: sparkly glitter lamination (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.\n\nNot affiliated with, endorsed by, or sponsored by any professional sports team, league, or mascot."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -148,6 +200,10 @@
       },
       "set": {
         "description": "Six little sushi rolls in a takeout tray, each one with a smiling cat face peeking out of the rice. A tiny bento of cuteness for sushi lovers and cat people.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -158,6 +214,10 @@
       },
       "set": {
         "description": "A little cat who dressed up as a ghost for Halloween and never took the sheet off. This big-eyed ghost cat is hand-drawn in soft grays and black with a blush of pink, and is ready to haunt your laptop, water bottle, notebook, or planner all year long.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -168,6 +228,10 @@
       },
       "set": {
         "description": "A tuxedo cat sandwiched in a sesame bun with lettuce, tomato and a slice of cheese, looking completely unbothered about it. For cat people and burger people, and anyone who is both.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -179,7 +243,11 @@
       "set": {
         "description": "A cat that has fully committed to being a loaf: a little white face peeking out of the end of a fresh loaf of bread. For anyone whose cat sits with its paws tucked in like a baguette.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
       },
-      "removeOption": "Clear"
+      "removeOption": "Clear",
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
+      }
     },
     {
       "id": "ninja-cat",
@@ -189,6 +257,10 @@
       },
       "set": {
         "description": "A tuxedo cat in a purple hooded robe, katana drawn and ready to defend the food bowl. Hand-drawn for anyone who knows their cat is secretly a trained assassin.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -199,6 +271,10 @@
       },
       "set": {
         "description": "A curious orange cat leaning in for a closer look, all big eyes and pink nose. Drawn for every owner of an orange cat, the household's one shared brain cell.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
@@ -209,6 +285,10 @@
       },
       "set": {
         "description": "A big blue tabby settled into a wooden chair with a good book: a how-to guide on knocking things off tables. For readers, cat people, and anyone whose cat has ever made direct eye contact while pushing a mug off the counter.\n\nChoose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)\n\nDrawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.\n\nSome photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light."
+      },
+      "renameOption": {
+        "from": "regular",
+        "to": "glossy"
       }
     },
     {
