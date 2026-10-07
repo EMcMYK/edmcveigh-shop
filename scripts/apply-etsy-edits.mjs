@@ -3,7 +3,7 @@
   through the shop's /api/etsy/listing endpoint (which holds the Etsy connection).
   Run by .github/workflows/apply-etsy-edits.yml. With DRY_RUN=true nothing changes on Etsy:
   each listing is only checked (its current text must match "expect").
-  Results are written to data/etsy-edits-result.json.
+  Results are written to data/etsy-edits-result.json. Edits marked "applied" are skipped.
 */
 import { readFile, writeFile } from "node:fs/promises";
 
@@ -17,10 +17,11 @@ const { edits } = JSON.parse(await readFile("data/etsy-edits.json", "utf8"));
 const results = [];
 for (const e of edits) {
   if (only.length && !only.includes(e.id)) continue;
+  if (e.applied) continue; // already done on Etsy
   const res = await fetch(`${base}/api/etsy/listing`, {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ listing_id: e.listing_id, expect: e.expect, set: e.set, removeOption: e.removeOption, renameOption: e.renameOption, dryRun })
+    body: JSON.stringify({ listing_id: e.listing_id, expect: e.expect, set: e.set, titleReplace: e.titleReplace, removeOption: e.removeOption, renameOption: e.renameOption, dryRun })
   });
   const body = await res.json().catch(async () => ({ error: (await res.text()).slice(0, 300) }));
   const ok = res.ok && (dryRun || body.ok === true);
