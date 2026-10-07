@@ -38,7 +38,8 @@
       "titleReplace": {
         "from": "Fly Eagles Fly Sticker",
         "to": "Philly Football Wings Sticker"
-      }
+      },
+      "applied": "2026-10-07"
     },
     {
       "id": "philly-goose",
@@ -76,7 +77,8 @@
       "titleReplace": {
         "from": "Philly I-76ers Highway Sign Sticker",
         "to": "Philly I-76 Highway Sign Sticker"
-      }
+      },
+      "applied": "2026-10-07"
     },
     {
       "id": "cheesesteak",
@@ -544,37 +546,44 @@
     {
       "id": "its-a-philly-thing-sheet",
       "listing_id": 4573529209,
-      "enableOption": "glossy"
+      "enableOption": "glossy",
+      "applied": "2026-10-07"
     },
     {
       "id": "philly-goose",
       "listing_id": 4583415144,
-      "enableOption": "holographic"
+      "enableOption": "holographic",
+      "applied": "2026-10-07"
     },
     {
       "id": "i76ers-highway-sign",
       "listing_id": 4523073134,
-      "enableOption": "holographic"
+      "enableOption": "holographic",
+      "applied": "2026-10-07"
     },
     {
       "id": "cheesesteak",
       "listing_id": 4523622850,
-      "enableOption": "holographic"
+      "enableOption": "holographic",
+      "applied": "2026-10-07"
     },
     {
       "id": "wooder-ice",
       "listing_id": 4524176429,
-      "enableOption": "holographic"
+      "enableOption": "holographic",
+      "applied": "2026-10-07"
     },
     {
       "id": "pork-roll",
       "listing_id": 4583406243,
-      "enableOption": "holographic"
+      "enableOption": "holographic",
+      "applied": "2026-10-07"
     },
     {
       "id": "ghost-cat",
       "listing_id": 4554781190,
-      "enableOption": "holographic"
+      "enableOption": "holographic",
+      "applied": "2026-10-07"
     }
   ]
 }
