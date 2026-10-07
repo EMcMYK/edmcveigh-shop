@@ -191,7 +191,7 @@
               <button class="btn" id="add" type="button" ${p.soldOut ? "disabled" : ""}>${p.soldOut ? "Sold out" : p.deposit ? "Add deposit to cart" : "Add to cart"}</button>
             </div>
             <div class="prose">
-              ${(p.description || []).map((t) => `<p>${esc(t)}</p>`).join("")}
+              ${shownDescription(p).map((t) => `<p>${esc(t)}</p>`).join("")}
               ${p.details && p.details.length ? `<h3>Details</h3><ul>${p.details.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
               ${p.steps && p.steps.length ? `<h3>How it works</h3><ol>${p.steps.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>` : ""}
               ${p.policy ? `<p class="fineprint">${esc(p.policy)}</p>` : ""}
@@ -400,3 +400,12 @@
   document.getElementById("open-cart").onclick = () => { closeMenu(); openCart(); };
   start();
 })();
+
+// The Etsy description repeats the "drawn by me, no AI" note that Details already shows here,
+// so the shop hides that paragraph (it stays on Etsy).
+function shownDescription(p) {
+  const desc = p.description || [];
+  const detailsSayIt = (p.details || []).some((d) => /no ai/i.test(d));
+  if (!detailsSayIt) return desc;
+  return desc.filter((t) => !/^(every sticker is |all of my stickers are )?drawn, designed, printed,? and cut by me\b[^]*no ai/i.test(t.trim()));
+}
