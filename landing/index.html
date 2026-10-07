@@ -92,13 +92,17 @@ header {
 .mode .moon { display: block; } .mode .sun { display: none; }
 :root[data-mode="dark"] .mode .moon { display: none; } :root[data-mode="dark"] .mode .sun { display: block; }
 body { transition: background .35s ease, color .35s ease; }
-.logo-slot { display: block; height: var(--logo-h); width: calc(var(--logo-h) * 1.3); border-radius: 10px; }
+.logo-slot { position: relative; display: block; height: var(--logo-h); width: calc(var(--logo-h) * 1.3); border-radius: 10px; }
 .logo-slot:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
 .logo-static {
-  font-family: var(--display); font-size: calc(var(--logo-h) * 0.79); line-height: var(--logo-h); color: var(--ink); text-decoration: none;
+  /* sized and centred like the intro's flying "e.": the e is ~82% of the slot's height (its ink is 0.53em tall),
+     and the middle of its ink (0.708em below the top of the text box) sits on the slot's centre line */
+  position: absolute; left: 50%; top: 50%; white-space: nowrap;
+  font-family: var(--display); font-size: calc(var(--logo-h) * 0.82 / 0.53); line-height: 1; color: var(--ink); text-decoration: none;
+  transform: translate(-50%, -0.67em);
 }
 .logo-static .e { display: inline-block; transform: rotate(-9deg); transform-origin: 10% 85%; }
-.logo-static .d { display: inline-block; transform: translateY(-0.12em); }
+.logo-static .d { display: inline-block; margin-left: 0.08em; transform: translateY(-0.095em); }
 .place { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
 
 /* content sits inside the logo/Philadelphia margins, centred on the page */
