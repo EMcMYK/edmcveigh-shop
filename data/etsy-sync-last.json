@@ -1,0 +1,16 @@
+{
+  "ranAt": "2026-10-07T18:03:00.223Z",
+  "added": [],
+  "updated": [],
+  "soldOut": [],
+  "back": [],
+  "skipped": [
+    "Happy Birthday Hedgehog"
+  ],
+  "problems": [
+    "Couldn't reach the Etsy connection (Etsy said 429 for GET /listings/4583415144/inventory: {\"error\":\"Exceeded per second rate limit\"}\n), so options, prices and sizes weren't checked today. If it says the connection lapsed, reconnect at https://edmcveigh-shop.pages.dev/api/etsy/connect?key=…"
+  ],
+  "held": [
+    "It's A Philly Thing Sticker Sheet: it would drop to a single option. Etsy has Holographic $6.99; the shop kept Glossy $6.99, Holographic $6.99."
+  ]
+}
