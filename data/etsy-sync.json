@@ -1,5 +1,5 @@
 {
-  "_help": "Settings for the Etsy sync (scripts/etsy-sync.mjs), which adds new Etsy listings, updates existing ones and marks ones gone from Etsy as sold out. skipTitles: listings whose title starts with any of these are never added. ignoreListingIds: Etsy listing ids to never add. sectionCategories: which shop section a new listing goes in, matched against its Etsy section name. maxNewPerRun and maxSoldOutPerRun: safety stops. newBadgeDays: how long a new item shows the 'New' badge.",
+  "_help": "Settings for the Etsy sync (scripts/etsy-sync.mjs), which adds new Etsy listings, updates existing ones and marks ones gone from Etsy as sold out. skipTitles: listings whose title starts with any of these are never added. ignoreListingIds: Etsy listing ids to never add. sectionCategories: which shop section a new listing goes in, matched against its Etsy section name. maxNewPerRun and maxSoldOutPerRun: safety stops. newBadgeDays: how long a new item shows the 'New' badge. optionNames: Etsy option name → shop name (anything not listed is just capitalized). optionLabels: Etsy option heading → shop heading. newStickerDetails: the Details lines a new sticker starts with.",
   "shopName": "EdMcveighArt",
   "skipTitles": [
     "Happy Birthday Hedgehog",
@@ -16,5 +16,22 @@
   },
   "maxNewPerRun": 5,
   "newBadgeDays": 30,
-  "maxSoldOutPerRun": 3
+  "maxSoldOutPerRun": 3,
+  "optionNames": {
+    "glossy waterproof": "Glossy",
+    "glossy": "Glossy",
+    "holographic": "Holographic",
+    "unframed": "Unframed",
+    "8x10” frame 5x7” mat": "Framed: 8×10 frame with 5×7 mat"
+  },
+  "optionLabels": {
+    "material": "Finish",
+    "finish": "Finish",
+    "frame": "Framing",
+    "framing": "Framing"
+  },
+  "newStickerDetails": [
+    "Glossy laminated waterproof vinyl, or a sparkly holographic finish",
+    "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used."
+  ]
 }

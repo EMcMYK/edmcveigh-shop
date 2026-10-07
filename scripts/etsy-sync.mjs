@@ -19,8 +19,16 @@
     `maxSoldOutPerRun` products sold out at once, it changes nothing and fails. A photo set only
     gets replaced when every new photo downloaded.
 
+  • Options, prices and size come through the Etsy connection the shop holds (Cloudflare), since
+    Etsy only shares those with a connected account. Etsy's option names are translated with
+    "optionNames" in data/etsy-sync.json ("glossy waterproof" → "Glossy"). If the connection is
+    down, everything else still syncs and options wait until it's back.
+  • Price safety stop: a price that moves by more than half, or a product that would lose all
+    but one of its options, is held back (not changed) and the run is marked failed so GitHub
+    emails you. Make the change by hand in products.json if it's right.
+
   Settings: data/etsy-sync.json. Keys (GitHub → Settings → Secrets → Actions):
-    ETSY_API_KEY, ETSY_SHARED_SECRET
+    ETSY_API_KEY, ETSY_SHARED_SECRET, ETSY_ADMIN_KEY (same as Cloudflare's). Optional variable SHOP_URL.
 */
 import { readFile, writeFile, mkdir, readdir, rm } from "node:fs/promises";
 import path from "node:path";
@@ -47,7 +55,25 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
   const data = JSON.parse(await readFile(productsPath, "utf8"));
   const settings = JSON.parse(await readFile(path.join(root, "data/etsy-sync.json"), "utf8"));
   const products = data.products;
-  const report = { added: [], updated: [], soldOut: [], back: [], skipped: [], problems: [] };
+  const report = { added: [], updated: [], soldOut: [], back: [], skipped: [], problems: [], held: [] };
+
+  // Options, prices and attributes through the shop's Etsy connection (read-only).
+  const shopUrl = (process.env.SHOP_URL || "https://edmcveigh-shop.pages.dev").replace(/\/$/, "");
+  let connectionDown = !process.env.ETSY_ADMIN_KEY;
+  if (connectionDown) report.problems.push("ETSY_ADMIN_KEY isn't set in GitHub, so options, prices and sizes weren't checked.");
+  const connected = async (listingId) => {
+    if (connectionDown) return null;
+    try {
+      const res = await fetch(`${shopUrl}/api/etsy/listing-data?id=${listingId}`, { headers: { Authorization: `Bearer ${process.env.ETSY_ADMIN_KEY}` } });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(body.error || `status ${res.status}`);
+      return body;
+    } catch (e) {
+      connectionDown = true;
+      report.problems.push(`Couldn't reach the Etsy connection (${e.message}), so options, prices and sizes weren't checked today. If it says the connection lapsed, reconnect at ${shopUrl}/api/etsy/connect?key=…`);
+      return null;
+    }
+  };
 
   // Every Etsy listing the shop already knows about, plus ones to ignore on purpose.
   const known = new Set(products.map((p) => String(p.etsyListingId || "")).filter(Boolean));
@@ -119,11 +145,16 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
     const tags = (l.tags || []).map(decode);
     if (!keep.has("tags") && JSON.stringify(p.tags || []) !== JSON.stringify(tags)) { p.tags = tags; changed.push("tags"); }
 
-    const inventory = keep.has("options") ? null : await etsy(`/listings/${l.listing_id}/inventory`, { optional: true });
-    if (inventory) {
-      const { label, variants } = optionsFrom(inventory, money(l.price));
+    const extra = keep.has("options") ? null : await connected(l.listing_id);
+    if (extra?.inventory) {
+      const fromEtsy = optionsFrom(extra.inventory, money(l.price), settings);
+      // A single option keeps the shop's own name (e.g. Barn's "Framed"); only its price follows Etsy.
+      const variants = fromEtsy.variants.length === 1 && p.variants.length === 1 ? [{ ...p.variants[0], price: fromEtsy.variants[0].price }] : fromEtsy.variants;
+      const label = variants.length > 1 ? (p.variantLabel || fromEtsy.label) : "";
       if (JSON.stringify(p.variants) !== JSON.stringify(variants) || (p.variantLabel || "") !== label) {
-        p.variants = variants; p.variantLabel = label; changed.push("options and prices");
+        const why = holdReason(p.variants, variants);
+        if (why) report.held.push(`${p.name}: ${why}. Etsy has ${variants.map((v) => `${v.name} $${v.price}`).join(", ")}; the shop kept ${p.variants.map((v) => `${v.name} $${v.price}`).join(", ")}.`);
+        else { p.variants = variants; p.variantLabel = label; changed.push("options and prices"); }
       }
     }
 
@@ -159,9 +190,10 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
     const photos = await savePhotos(root, id, (images?.results || []).slice().sort((a, b) => a.rank - b.rank), fetch, log);
     if (!photos.length) { report.problems.push(`${title}: no photos came back from Etsy, so it wasn't added. It will be tried again next run.`); continue; }
 
-    const inventory = await etsy(`/listings/${l.listing_id}/inventory`, { optional: true });
+    const extra = await connected(l.listing_id);
     const basePrice = money(l.price);
-    const { label, variants } = optionsFrom(inventory, basePrice);
+    const { label, variants } = optionsFrom(extra?.inventory, basePrice, settings);
+    if (!extra) report.problems.push(`${decode(l.title)}: added with a single "Standard" option at $${basePrice}, since the Etsy connection wasn't reachable. It will pick up its real options on a later run.`);
 
     const section = sections.get(String(l.shop_section_id)) || "";
     const category = categoryFor(section, title, settings);
@@ -172,11 +204,11 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
       category,
       variantLabel: label,
       variants,
-      size: sizeFrom(description.join("\n")),
+      size: sizeFrom(description.join("\n")) || sizeFromProperties(extra?.properties),
       images: photos,
       soldOut: Number(l.quantity) < 1,
       description,
-      details: [],
+      details: category === "stickers" ? [...(settings.newStickerDetails || [])] : [],
       tags: (l.tags || []).map(decode),
       disclaimer: "",
       etsyListingId: Number(l.listing_id),
@@ -214,8 +246,35 @@ function money(price) { return price ? Math.round((price.amount / price.divisor)
 
 function cap(s) { s = String(s).trim(); return s.charAt(0).toUpperCase() + s.slice(1); }
 
+// Etsy's wording → the shop's, from a { "etsy name": "Shop name" } map; unknown names are just capitalized.
+const squash = (s) => String(s).toLowerCase().replace(/[“”″"]/g, '"').replace(/\s+/g, " ").trim();
+function rename(map = {}, value) {
+  const hit = Object.entries(map).find(([k]) => squash(k) === squash(value));
+  return hit ? hit[1] : cap(value);
+}
+
+// Why an options change from Etsy looks like a mistake (or "" if it looks fine).
+export function holdReason(before, after) {
+  if (before.length > 1 && after.length === 1) return "it would drop to a single option";
+  for (const a of after) {
+    const b = before.find((v) => v.name === a.name);
+    if (b && b.price > 0 && Math.abs(a.price - b.price) / b.price > 0.5) return `${a.name} would go from $${b.price} to $${a.price}`;
+  }
+  return "";
+}
+
+// "3\" wide × 2.64\" tall" from the Width and Height you fill in on the Etsy listing.
+export function sizeFromProperties(props = []) {
+  const get = (re) => (props || []).find((p) => re.test(p.property_name || ""));
+  const w = get(/^width$/i), h = get(/^height$/i);
+  const num = (p) => p && (p.values || [])[0];
+  if (!num(w) || !num(h)) return "";
+  const unit = /inch/i.test(w.scale_name || "inches") ? '"' : ` ${w.scale_name}`;
+  return `${num(w)}${unit} wide × ${num(h)}${unit} tall`;
+}
+
 // Options exactly as Etsy has them (e.g. Material: Regular waterproof / Holographic), each with its own price.
-export function optionsFrom(inventory, basePrice) {
+export function optionsFrom(inventory, basePrice, settings = {}) {
   const rows = (inventory?.products || []).filter((pr) => !pr.is_deleted);
   const variants = [];
   let label = "";
@@ -223,8 +282,8 @@ export function optionsFrom(inventory, basePrice) {
     const offer = (pr.offerings || []).find((o) => o.is_enabled !== false && !o.is_deleted);
     if (!offer) continue;
     const props = pr.property_values || [];
-    if (!label && props.length) label = props.map((pv) => cap(decode(pv.property_name))).join(" and ");
-    const name = props.map((pv) => (pv.values || []).map((v) => cap(decode(v))).join(" ")).join(", ") || "Standard";
+    if (!label && props.length) label = props.map((pv) => rename(settings.optionLabels, decode(pv.property_name))).join(" and ");
+    const name = props.map((pv) => (pv.values || []).map((v) => rename(settings.optionNames, decode(v))).join(" ")).join(", ") || "Standard";
     variants.push({ name, price: money(offer.price) });
   }
   if (!variants.length) variants.push({ name: "Standard", price: basePrice });
@@ -288,8 +347,11 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     `- Marked sold out: ${report.soldOut.join(", ") || "none"}`,
     `- Available again: ${report.back.join(", ") || "none"}`,
     `- Skipped on purpose: ${report.skipped.join(", ") || "none"}`,
+    ...report.held.map((p) => `- ✋ Held back: ${p}`),
     ...report.problems.map((p) => `- ⚠️ ${p}`),
   ].join("\n");
   console.log(lines);
   if (process.env.GITHUB_STEP_SUMMARY) await writeFile(process.env.GITHUB_STEP_SUMMARY, lines + "\n", { flag: "a" });
+  await writeFile("data/etsy-sync-last.json", JSON.stringify({ ranAt: new Date().toISOString(), ...report }, null, 2) + "\n");
+  if (report.held.length) process.exitCode = 1; // GitHub emails you about a failed run; everything else was still saved
 }

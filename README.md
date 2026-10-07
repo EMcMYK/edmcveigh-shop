@@ -160,7 +160,9 @@ Then add `edmcveigh.com` (and `www.edmcveigh.com`) under that project's Custom d
 Every morning (and whenever you press the button) a GitHub job checks your Etsy shop and keeps the shop matching it. **Etsy is the source of truth**, so make changes there, not in `products.json`:
 
 - **New listings** are added to the shop.
-- **Changes to existing listings** come across: description, tags and photos (added, removed or reordered). Options and prices aren't coming across right now (Barn stayed at $120 here after it went to $95 on Etsy, most likely because Etsy only shares options with a connected account), so change a price in `products.json` as well as on Etsy. Shop-only things stay as they are: the product's name, its web address, its category, the size line, badges, details, the disclaimer, the portrait's deposit, steps and policy line, and anything listed in a product's `shopOnly` (see below).
+- **Changes to existing listings** come across: description, tags, photos (added, removed or reordered), options and prices. Options and prices come through the Etsy connection (below); Etsy's option names are translated for the shop with `optionNames` in `data/etsy-sync.json` ("glossy waterproof" shows as "Glossy"). A product with a single option keeps the shop's name for it and only takes Etsy's price.
+- **Price safety stop:** a price that moves by more than half, or a product that would drop to one option, is held back. The run shows as failed (so GitHub emails you) and says what was held; everything else still updates. If the change is right, edit `products.json` by hand.
+- **New listings** also get their size from the Width and Height on the Etsy listing, and new stickers start with the standard Details lines (`newStickerDetails`). Shop-only things stay as they are: the product's name, its web address, its category, the size line, badges, details, the disclaimer, the portrait's deposit, steps and policy line, and anything listed in a product's `shopOnly` (see below).
 - **A listing that's no longer active** on Etsy (sold, deactivated, out of stock or expired) shows as sold out. If it comes back on Etsy, it's available again, unless it sold through the shop.
 
 A new product is copied exactly from Etsy: the full description, tags, every photo (saved into `images/`), the options and their prices, and which section it belongs in (from its Etsy shop section). Its name is the short start of the Etsy title, up to the first comma or "|" ("Sushi Cats Sticker, Cute Cat Gift…" becomes "Sushi Cats Sticker"); rename it in `products.json` whenever you like and the sync will leave it alone. It gets a "New" badge for 30 days.
@@ -173,7 +175,7 @@ When a one-of-a-kind painting sells **on the shop**, Stripe tells the shop, the 
 
 ### One-time setup
 
-1. **Etsy keys → GitHub.** Repo → Settings → Secrets and variables → Actions → New repository secret. Add `ETSY_API_KEY` (your keystring) and `ETSY_SHARED_SECRET`.
+1. **Etsy keys → GitHub.** Repo → Settings → Secrets and variables → Actions → New repository secret. Add `ETSY_API_KEY` (your keystring) and `ETSY_SHARED_SECRET`. The sync also uses `ETSY_ADMIN_KEY` (see "Etsy connection") to read options and prices; without it, everything else still syncs.
 2. **Run "Sync from Etsy" once** (above) and check its summary.
 3. **Etsy keys → Cloudflare.** In the Pages project → Settings → Variables and secrets, add the same two as **Secrets** (for the painting check at checkout).
 4. **GitHub token → Cloudflare.** Create a fine-grained token at github.com/settings/personal-access-tokens/new: only the `edmcveigh-shop` repository, permission **Actions: Read and write**, expiry 1 year. Add it to Cloudflare as the secret `GITHUB_TOKEN`. (Set yourself a reminder to replace it before it expires.)
