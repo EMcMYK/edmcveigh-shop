@@ -339,18 +339,22 @@ button { font: inherit; color: inherit; }
   box-shadow: 0 10px 18px -6px var(--shadow-lift);
 }
 
-/* Email address + copy button */
-/* the address can wrap like a word; the button and any comma after it stay together */
-.email-copy .copy-wrap { white-space: nowrap; margin-left: 6px; }
-.email-copy .addr { font-weight: 700; color: var(--ink); }
-.copy-btn {
-  display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px 1px 6px; cursor: pointer; vertical-align: 1px;
-  border: 1.5px solid currentColor; border-radius: var(--radius); background: transparent; color: var(--ink);
-  font-size: 12px; font-weight: 700; line-height: 1.5; transition: background .15s, color .15s;
+/* Email address: click it to copy. A small icon after it; "Copied" floats above for a moment. */
+.email-copy {
+  position: relative; display: inline; padding: 0; border: 0; background: none; cursor: pointer;
+  font: inherit; font-weight: 700; color: var(--ink); text-align: left;
+  text-decoration: underline dotted; text-decoration-thickness: 1px; text-underline-offset: 3px;
 }
-.copy-btn svg { width: 14px; height: 14px; }
-.copy-btn:hover, .copy-btn:focus-visible { background: var(--ink); color: var(--cream); outline: none; }
-.copy-btn.done { background: var(--ink); color: var(--cream); }
+.email-copy:hover { text-decoration-style: solid; }
+.email-copy:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.email-copy .copy-icon { display: inline-block; width: .8em; height: .8em; margin-left: .3em; vertical-align: -.05em; opacity: .7; }
+.email-copy:hover .copy-icon, .email-copy.done .copy-icon { opacity: 1; }
+.email-copy .copy-icon svg { width: 100%; height: 100%; display: block; }
+.copy-note:empty { display: none; }
+.copy-note {
+  position: absolute; right: 0; bottom: calc(100% + 6px); white-space: nowrap; pointer-events: none;
+  background: var(--ink); color: var(--cream); font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 3px;
+}
 
 /* ---------- Shop policies ---------- */
 .policies { max-width: 68ch; padding-block: 40px 64px; display: grid; gap: 14px; }

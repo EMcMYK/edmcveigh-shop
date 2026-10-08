@@ -26,23 +26,24 @@
   // The email address with a Copy button next to it (no mail link, so it never opens the wrong app).
   const COPY_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></g></svg>`;
   const DONE_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-  // `after` is punctuation that follows it in a sentence, kept on the same line as the button.
+  // The whole address is the button: click it to copy. `after` is punctuation that follows it in a
+  // sentence, kept on the same line as the icon.
   function emailCopy(after = "") {
     const e = esc(CONFIG.contactEmail);
-    return `<span class="email-copy"><b class="addr">${e}</b><span class="copy-wrap"><button type="button" class="copy-btn" data-copy="${e}" aria-label="Copy email address">${COPY_ICON}<span class="copy-label">Copy</span></button>${esc(after)}</span></span>`;
+    return `<button type="button" class="email-copy" data-copy="${e}" title="Copy email address"><span class="addr">${e}</span><span class="copy-icon" aria-hidden="true">${COPY_ICON}</span><span class="copy-note" aria-live="polite"></span></button>${esc(after)}`;
   }
   document.addEventListener("click", async (ev) => {
     const btn = ev.target.closest("[data-copy]");
     if (!btn) return;
-    const label = btn.querySelector(".copy-label");
+    const icon = btn.querySelector(".copy-icon"), note = btn.querySelector(".copy-note");
     try { await navigator.clipboard.writeText(btn.dataset.copy); }
     catch (err) { // older browsers: select the address so it can be copied by hand
-      const addr = btn.parentElement.querySelector(".addr"), r = document.createRange();
-      r.selectNodeContents(addr); getSelection().removeAllRanges(); getSelection().addRange(r);
-      label.textContent = "Selected"; return;
+      const r = document.createRange(); r.selectNodeContents(btn.querySelector(".addr"));
+      getSelection().removeAllRanges(); getSelection().addRange(r); return;
     }
-    btn.classList.add("done"); btn.innerHTML = `${DONE_ICON}<span class="copy-label">Copied</span>`;
-    setTimeout(() => { btn.classList.remove("done"); btn.innerHTML = `${COPY_ICON}<span class="copy-label">Copy</span>`; }, 2000);
+    btn.classList.add("done"); icon.innerHTML = DONE_ICON; note.textContent = "Copied";
+    clearTimeout(btn._t);
+    btn._t = setTimeout(() => { btn.classList.remove("done"); icon.innerHTML = COPY_ICON; note.textContent = ""; }, 1600);
   });
   const money = (n) => "$" + n.toFixed(2).replace(/\.00$/, "");
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
