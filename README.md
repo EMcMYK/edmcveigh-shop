@@ -17,6 +17,7 @@ Hosting is free on Cloudflare Pages. You pay only Stripe's fee on each sale.
 | `functions/api/checkout.js` | Sends the cart to Stripe (runs on Cloudflare's servers) | No |
 | `assets/brand/`, `favicon.ico`, `site.webmanifest` | Tab icon, phone home-screen icon, and the image shown when the shop link is shared | Only to change the logo |
 | `landing/` | The links page for edmcveigh.com (its own small site, see below) | To change its links |
+| `404.html` | The "Page not found" page for addresses that don't exist (bots probing for things like `/wp-admin` or `setup.php`) | No |
 
 ---
 
