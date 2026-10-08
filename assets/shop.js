@@ -222,8 +222,7 @@
     }));
     document.getElementById("add").addEventListener("click", () => {
       addToCart(p.id, sel ? Number(sel.value) : 0, qty);
-      toast("Added to cart");
-      openCart();
+      openCart(); // the open cart is the confirmation, so no separate "Added" note
     });
   }
 
@@ -245,9 +244,12 @@
     cart = []; saveCart();
     return `<div class="wrap"><section class="thanks">
       <h1>Thank you!</h1>
-      <p>Your order is in. Stripe is emailing you a receipt, and I'll ship your order soon.</p>
-      <p>Ordered a house portrait? Email a clear, straight-on photo of the home${CONFIG.contactEmail ? ` to <b>${esc(CONFIG.contactEmail)}</b>` : ""}, plus your deadline and any details that matter to you. I'll send a pencil sketch to approve before I start inking.</p>
-      <p><a href="#">Back to the shop</a></p>
+      <p class="lead">Your order is in. Stripe is emailing you a receipt, and I'll ship your order soon.</p>
+      <div class="note">
+        <h2>Ordered a house portrait?</h2>
+        <p>Email a clear, straight-on photo of the home${CONFIG.contactEmail ? ` to <b>${esc(CONFIG.contactEmail)}</b>` : ""}, plus your deadline and any details that matter to you. I'll send a pencil sketch to approve before I start inking.</p>
+      </div>
+      <a class="btn btn-link" href="#">Keep shopping</a>
     </section></div>`;
   }
 
@@ -302,7 +304,7 @@
       <div class="scrim" id="scrim"></div>
       <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title">
         <div class="drawer-head"><h2 id="cart-title">Your cart</h2><button class="icon-btn" id="close-cart" type="button" aria-label="Close cart">×</button></div>
-        <div class="lines">${rows || `<p class="empty">Your cart is empty.</p>`}</div>
+        <div class="lines">${rows || `<div class="empty"><p>Your cart is empty.</p><a class="btn btn-link" href="#" id="cart-browse">Browse the shop</a></div>`}</div>
         ${cart.length ? `<div class="drawer-foot">
           <div class="sum-row"><span>Shipping</span><span class="free">Free</span></div>
           <div class="sum-row total"><span>Due today</span><span>${money(total)}</span></div>
@@ -314,6 +316,8 @@
       </aside>`;
     document.getElementById("scrim").onclick = closeCart;
     document.getElementById("close-cart").onclick = closeCart;
+    const browse = document.getElementById("cart-browse");
+    if (browse) browse.onclick = closeCart;
     root.querySelectorAll("[data-inc]").forEach((b) => b.onclick = () => { cart[b.dataset.inc].qty = Math.min(50, cart[b.dataset.inc].qty + 1); saveCart(); openCart(); });
     root.querySelectorAll("[data-dec]").forEach((b) => b.onclick = () => { const l = cart[b.dataset.dec]; l.qty > 1 ? l.qty-- : cart.splice(b.dataset.dec, 1); saveCart(); openCart(); });
     root.querySelectorAll("[data-remove]").forEach((b) => b.onclick = () => { cart.splice(b.dataset.remove, 1); saveCart(); openCart(); });

@@ -221,8 +221,9 @@ button { font: inherit; color: inherit; }
 @media (max-width: 760px) { .product { grid-template-columns: 1fr; } }
 .gallery { display: grid; gap: 10px; min-width: 0; }
 .gallery .frame { border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
-.thumbs { display: flex; gap: 8px; flex-wrap: wrap; }
-.thumbs button { width: 64px; height: 64px; padding: 0; border: 2px solid var(--line); border-radius: var(--radius); overflow: hidden; cursor: pointer; background: var(--tint); }
+/* one row of thumbnails that scrolls sideways, so a long photo set never pushes the price down */
+.thumbs { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: 4px; scrollbar-width: thin; }
+.thumbs button { flex: none; scroll-snap-align: start; width: 64px; height: 64px; padding: 0; border: 2px solid var(--line); border-radius: var(--radius); overflow: hidden; cursor: pointer; background: var(--tint); }
 .thumbs button[aria-pressed="true"] { border-color: var(--ink); }
 .thumbs img { width: 100%; height: 100%; object-fit: cover; }
 .info { display: grid; gap: 16px; min-width: 0; }
@@ -282,7 +283,8 @@ button { font: inherit; color: inherit; }
 .line .qty button { width: 30px; height: 30px; font-size: 16px; }
 .link-btn { border: 0; background: none; padding: 0; color: var(--ink-soft); font-size: 13px; text-decoration: underline; cursor: pointer; }
 .line-price { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; align-self: start; }
-.empty { padding: 40px 0; text-align: center; color: var(--ink-soft); }
+.empty { padding: 40px 0; display: grid; justify-items: center; gap: 16px; color: var(--ink-soft); }
+.empty p { margin: 0; }
 .drawer-foot { border-top: 2px solid var(--ink); padding: 16px 20px; display: grid; gap: 10px; }
 .sum-row { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
 .sum-row.total { font-weight: 700; font-size: 18px; }
@@ -310,8 +312,14 @@ button { font: inherit; color: inherit; }
 .policy-link { font-size: 14px; font-weight: 600; color: var(--ink); text-underline-offset: 3px; }
 
 /* ---------- Thanks + footer ---------- */
-.thanks { padding-block: 64px; display: grid; gap: 14px; max-width: 60ch; }
+.thanks { padding-block: 64px; display: grid; gap: 20px; max-width: 60ch; justify-items: start; }
 .thanks h1 { font-family: var(--display); font-weight: 400; font-size: clamp(38px, 6vw, 58px); margin: 0; line-height: 1.05; }
+.thanks p { margin: 0; }
+.thanks .lead { font-size: 18px; }
+.thanks .note { border: 2px solid var(--ink); border-radius: var(--radius); background: var(--tint); padding: 16px 18px; display: grid; gap: 6px; }
+.thanks .note h2 { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
+/* a link that looks like the main button (thank-you page, empty cart) */
+.btn-link { flex: none; display: inline-block; text-align: center; text-decoration: none; min-width: 0; }
 .footer { border-top: 2px solid var(--ink); margin-top: 24px; }
 .footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 24px; justify-content: space-between; align-items: center; padding-block: 24px 32px; color: var(--ink-soft); font-size: 14px; }
 .footer nav { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
