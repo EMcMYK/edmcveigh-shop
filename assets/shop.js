@@ -165,7 +165,12 @@
         <a class="back" href="#${esc(p.category)}">← All ${esc(categoryOf(p.category).title.toLowerCase())}</a>
         <div class="product">
           <div class="gallery">
-            <div class="frame" id="main-pic">${picture(p, 0)}</div>
+            <div class="stage" id="stage">
+              <div class="frame" id="main-pic">${picture(p, 0)}</div>
+              ${photos.length > 1 ? `<button type="button" class="pic-arrow prev" id="pic-prev" aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="pic-arrow next" id="pic-next" aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <span class="pic-count" id="pic-count" aria-live="polite">1 / ${photos.length}</span>` : ""}
+            </div>
             ${photos.length > 1 ? `<div class="thumbs">${photos.map((src, i) =>
               `<button type="button" data-pic="${i}" aria-pressed="${i === 0}" aria-label="Photo ${i + 1}"><img src="${esc(src)}" alt=""></button>`).join("")}</div>` : ""}
           </div>
@@ -216,10 +221,38 @@
     const setQty = (n) => { qty = Math.max(1, Math.min(50, n)); if (out) out.textContent = qty; };
     document.getElementById("qty-minus")?.addEventListener("click", () => setQty(qty - 1));
     document.getElementById("qty-plus")?.addEventListener("click", () => setQty(qty + 1));
-    document.querySelectorAll("[data-pic]").forEach((b) => b.addEventListener("click", () => {
-      document.getElementById("main-pic").innerHTML = picture(p, Number(b.dataset.pic));
-      document.querySelectorAll("[data-pic]").forEach((x) => x.setAttribute("aria-pressed", x === b));
-    }));
+    // Photos: thumbnails, arrows (desktop), swipe (phones) and the keyboard's left/right keys.
+    const total = (p.images || []).length;
+    let shown = 0;
+    const show = (i) => {
+      if (total < 2) return;
+      shown = (i + total) % total;
+      document.getElementById("main-pic").innerHTML = picture(p, shown);
+      document.querySelectorAll("[data-pic]").forEach((x) => {
+        const on = Number(x.dataset.pic) === shown;
+        x.setAttribute("aria-pressed", on);
+        if (on) x.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+      });
+      const count = document.getElementById("pic-count");
+      if (count) count.textContent = `${shown + 1} / ${total}`;
+    };
+    document.querySelectorAll("[data-pic]").forEach((b) => b.addEventListener("click", () => show(Number(b.dataset.pic))));
+    document.getElementById("pic-prev")?.addEventListener("click", () => show(shown - 1));
+    document.getElementById("pic-next")?.addEventListener("click", () => show(shown + 1));
+    const stage = document.getElementById("stage");
+    let x0 = null, y0 = null;
+    stage.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    stage.addEventListener("touchend", (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) show(shown + (dx < 0 ? 1 : -1));
+      x0 = y0 = null;
+    }, { passive: true });
+    stage.tabIndex = total > 1 ? 0 : -1;
+    stage.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); show(shown + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); show(shown - 1); }
+    });
     document.getElementById("add").addEventListener("click", () => {
       addToCart(p.id, sel ? Number(sel.value) : 0, qty);
       openCart(); // the open cart is the confirmation, so no separate "Added" note
