@@ -20,6 +20,18 @@
   const CART_KEY = "edm-cart-v1";
   const app = document.getElementById("app");
   let PRODUCTS = [];
+  let gallery = null; // the product page's photo controls, for the left/right keys
+
+  // Left/right arrow keys flip through a product's photos, unless someone is typing,
+  // using the option menu, or has the cart or menu open.
+  document.addEventListener("keydown", (e) => {
+    if (!gallery || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    if (e.target.closest("input, select, textarea, [contenteditable]")) return;
+    if (document.querySelector("#drawer-root .drawer") || !document.getElementById("menuPanel").hidden) return;
+    e.preventDefault();
+    e.key === "ArrowRight" ? gallery.next() : gallery.prev();
+  });
   let cart = loadCart();
 
   // ---------- small helpers ----------
@@ -269,11 +281,7 @@
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) show(shown + (dx < 0 ? 1 : -1));
       x0 = y0 = null;
     }, { passive: true });
-    stage.tabIndex = total > 1 ? 0 : -1;
-    stage.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight") { e.preventDefault(); show(shown + 1); }
-      if (e.key === "ArrowLeft") { e.preventDefault(); show(shown - 1); }
-    });
+    gallery = total > 1 ? { next: () => show(shown + 1), prev: () => show(shown - 1) } : null;
     document.getElementById("add").addEventListener("click", () => {
       addToCart(p.id, sel ? Number(sel.value) : 0, qty);
       openCart(); // the open cart is the confirmation, so no separate "Added" note
@@ -421,6 +429,7 @@
 
   // ---------- router ----------
   function route() {
+    gallery = null;
     const hash = decodeURIComponent(location.hash.slice(1));
     const p = byId(hash);
     if (p) {
