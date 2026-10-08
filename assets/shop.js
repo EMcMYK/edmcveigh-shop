@@ -31,8 +31,8 @@
     { id: "portraits", title: "House portraits", note: "" }
   ];
   const categoryOf = (id) => CATEGORIES.find((c) => c.id === id) || { id, title: id, note: "" };
-  // Portraits and one-of-a-kind originals are always sold one at a time.
-  const singleOnly = (p) => Boolean(p.deposit || p.oneOfAKind);
+  // One-of-a-kind originals are sold one at a time (portraits can be ordered in any number).
+  const singleOnly = (p) => Boolean(p.oneOfAKind);
 
   function loadCart() {
     try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; }
@@ -60,7 +60,7 @@
     const style = `--swatch:${esc(p.swatch || "#2e6b47")}`;
     const img = p.images && p.images[index];
     // Paintings are shown whole (no cropping); everything else fills the square.
-    const fit = p.category === "stickers" ? "" : " contain";
+    const fit = p.category === "stickers" ? "" : " natural";
     if (img) return `<div class="mat${fit}" style="${style}"><img src="${esc(img)}" alt="${esc(p.name)}" loading="lazy"></div>`;
     const art = p.category !== "stickers"
       ? `<div class="portrait-ph"><span>${p.category === "portraits" ? "Your home here" : esc(p.name)}</span></div>`
@@ -99,7 +99,7 @@
   }
   function renderFooter() {
     document.getElementById("footer").innerHTML = `<div class="wrap">
-      <span>Drawn, painted, printed and cut by hand in Philadelphia. No AI.</span>
+      <span>Drawn, painted, printed and cut by hand in Philadelphia.</span>
       <nav aria-label="Elsewhere">
         <a href="#policies">Shop policies</a>
         ${CONFIG.etsyUrl ? `<a href="${esc(CONFIG.etsyUrl)}" target="_blank" rel="noopener">Etsy</a>` : ""}
@@ -180,7 +180,7 @@
             ${p.oneOfAKind && !p.soldOut ? `<div class="size">One of a kind: <b>only 1 available</b></div>` : ""}
             ${many ? `<div class="field">
               <label for="variant">${esc(p.variantLabel || "Option")}</label>
-              <select id="variant">${p.variants.map((v, i) => `<option value="${i}">${esc(v.name)} — ${money(v.price)}</option>`).join("")}</select>
+              <span class="select"><select id="variant">${p.variants.map((v, i) => `<option value="${i}">${esc(v.name)} — ${money(v.price)}</option>`).join("")}</select></span>
             </div>` : ""}
             <div class="buy-row">
               ${singleOnly(p) ? "" : `<div class="qty" role="group" aria-label="Quantity">
@@ -191,7 +191,7 @@
               <button class="btn" id="add" type="button" ${p.soldOut ? "disabled" : ""}>${p.soldOut ? "Sold out" : p.deposit ? "Add deposit to cart" : "Add to cart"}</button>
             </div>
             <div class="prose">
-              ${shownDescription(p).map((t) => `<p>${esc(t)}</p>`).join("")}
+              ${describe(shownDescription(p), esc)}
               ${p.details && p.details.length ? `<h3>Details</h3><ul>${p.details.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
               ${p.steps && p.steps.length ? `<h3>How it works</h3><ol>${p.steps.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>` : ""}
               ${p.policy ? `<p class="fineprint">${esc(p.policy)}</p>` : ""}
@@ -290,14 +290,14 @@
         <div>
           <div class="line-name">${esc(p.name)}</div>
           <div class="line-variant">${esc(p.variants.length > 1 ? v.name : (p.size || v.name))}${p.deposit ? " · 50% deposit" : ""}${p.oneOfAKind ? " · one of a kind" : ""}</div>
-          <div class="line-actions">
-            ${singleOnly(p) ? "" : `<div class="qty" role="group" aria-label="Quantity of ${esc(p.name)}">
+          ${singleOnly(p) ? "" : `<div class="line-actions"><div class="qty" role="group" aria-label="Quantity of ${esc(p.name)}">
               <button type="button" data-dec="${i}" aria-label="One fewer">−</button><output>${l.qty}</output><button type="button" data-inc="${i}" aria-label="One more">+</button>
-            </div>`}
-            <button type="button" class="link-btn" data-remove="${i}">Remove</button>
-          </div>
+            </div></div>`}
         </div>
-        <div class="line-price">${money(today)}</div>
+        <div class="line-end">
+          <div class="line-price">${money(today)}</div>
+          <button type="button" class="trash" data-remove="${i}" aria-label="Remove ${esc(p.name)}" title="Remove"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg></button>
+        </div>
       </div>`;
     }).join("");
     root.innerHTML = `
@@ -412,4 +412,33 @@ function shownDescription(p) {
   const detailsSayIt = (p.details || []).some((d) => /no ai/i.test(d));
   if (!detailsSayIt) return desc;
   return desc.filter((t) => !/^(every sticker is |all of my stickers are )?drawn, designed, printed,? and cut by me\b[^]*no ai/i.test(t.trim()));
+}
+
+// Turns description paragraphs into the same look as the Details section:
+// a short line ending in ":" (or starting with ✦) becomes a small heading, and lines starting
+// with "•" or "-" become a list. Lines under a heading on their own also become a list.
+function describe(paragraphs, esc) {
+  const isBullet = (l) => /^\s*[•\-–]\s+/.test(l);
+  const strip = (l) => l.replace(/^\s*[•\-–]\s+/, "");
+  const isHeading = (l) => /^✦/.test(l.trim()) || (/:\s*$/.test(l) && l.trim().length <= 40);
+  const heading = (l) => `<h3>${esc(l.trim().replace(/^✦\s*/, "").replace(/:\s*$/, ""))}</h3>`;
+  const list = (lines) => `<ul>${lines.map((l) => `<li>${esc(strip(l))}</li>`).join("")}</ul>`;
+  let out = "", afterHeading = false;
+  for (const para of paragraphs) {
+    let lines = para.split("\n").map((l) => l.trim()).filter(Boolean);
+    if (lines.length && isHeading(lines[0]) && (lines.length > 1 || /:\s*$/.test(lines[0]) || /^✦/.test(lines[0]))) {
+      out += heading(lines[0]); lines = lines.slice(1); afterHeading = true;
+      if (!lines.length) continue;
+    }
+    const firstBullet = lines.findIndex(isBullet);
+    if (firstBullet === -1) {
+      // plain lines: a list when they sit under their own heading (e.g. two finishes), else a paragraph
+      out += afterHeading && lines.length > 1 ? list(lines) : `<p>${esc(lines.join("\n"))}</p>`;
+    } else {
+      if (firstBullet > 0) out += `<p>${esc(lines.slice(0, firstBullet).join("\n"))}</p>`;
+      out += list(lines.slice(firstBullet));
+    }
+    afterHeading = false;
+  }
+  return out;
 }

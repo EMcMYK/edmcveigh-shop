@@ -13,7 +13,7 @@ window.SHOP_CONFIG = {
   // Shop sections, in the order they appear. Each product's "category" must match one of these ids.
   categories: [
     { id: "stickers", title: "Stickers", note: "Waterproof, die cut, glossy or holographic" },
-    { id: "originals", title: "Original paintings", note: "One-of-a-kind gouache paintings" },
+    { id: "originals", title: "Original paintings", note: "One-of-a-kind art" },
     { id: "portraits", title: "House portraits", note: "Original 8×10 pen and ink" }
   ]
 };
