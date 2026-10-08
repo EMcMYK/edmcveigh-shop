@@ -189,12 +189,13 @@
           <div class="gallery">
             <div class="stage" id="stage">
               <div class="frame" id="main-pic">${picture(p, 0)}</div>
-              ${photos.length > 1 ? `<button type="button" class="pic-arrow prev" id="pic-prev" aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button type="button" class="pic-arrow next" id="pic-next" aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <span class="pic-count" id="pic-count" aria-live="polite">1 / ${photos.length}</span>` : ""}
             </div>
-            ${photos.length > 1 ? `<div class="thumbs">${photos.map((src, i) =>
-              `<button type="button" data-pic="${i}" aria-pressed="${i === 0}" aria-label="Photo ${i + 1}"><img src="${esc(src)}" alt=""></button>`).join("")}</div>` : ""}
+            ${photos.length > 1 ? `<div class="thumb-row">
+              <button type="button" class="pic-arrow" id="pic-prev" aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <div class="thumbs">${photos.map((src, i) =>
+                `<button type="button" data-pic="${i}" aria-pressed="${i === 0}" aria-label="Photo ${i + 1} of ${photos.length}"><img src="${esc(src)}" alt=""></button>`).join("")}</div>
+              <button type="button" class="pic-arrow" id="pic-next" aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>` : ""}
           </div>
           <div class="info">
             <h1>${esc(p.name)}</h1>
@@ -255,8 +256,6 @@
         x.setAttribute("aria-pressed", on);
         if (on) x.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
       });
-      const count = document.getElementById("pic-count");
-      if (count) count.textContent = `${shown + 1} / ${total}`;
     };
     document.querySelectorAll("[data-pic]").forEach((b) => b.addEventListener("click", () => show(Number(b.dataset.pic))));
     document.getElementById("pic-prev")?.addEventListener("click", () => show(shown - 1));

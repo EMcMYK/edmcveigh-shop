@@ -226,26 +226,18 @@ button { font: inherit; color: inherit; }
 @media (max-width: 760px) { .product { grid-template-columns: 1fr; } }
 .gallery { display: grid; gap: 10px; min-width: 0; }
 .gallery .frame { border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
-/* Photo stage: arrows on computers (shown on hover), swipe on phones, a small "2 / 9" count */
+/* Photo stage: swipe on phones, left/right keys. Arrows sit at the ends of the thumbnail row
+   (computers only), so nothing covers the photo itself. */
 .stage { position: relative; touch-action: pan-y; }
 .stage:focus-visible { outline-offset: 4px; }
+.thumb-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.thumb-row .thumbs { flex: 1; min-width: 0; }
 .pic-arrow {
-  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
-  width: 42px; height: 42px; display: grid; place-items: center; padding: 0; cursor: pointer;
-  border: 2px solid var(--ink); border-radius: var(--radius); background: var(--cream); color: var(--ink);
-  box-shadow: 0 2px 6px var(--shadow); opacity: 0; transition: opacity .18s, background .18s, color .18s;
+  flex: none; width: 30px; height: 64px; display: grid; place-items: center; padding: 0; cursor: pointer;
+  border: 0; border-radius: var(--radius); background: none; color: var(--ink-soft); transition: color .15s, background .15s;
 }
-.pic-arrow svg { width: 20px; height: 20px; }
-.pic-arrow.prev { left: 12px; }
-.pic-arrow.next { right: 12px; }
-.stage:hover .pic-arrow, .pic-arrow:focus-visible { opacity: 1; }
-.pic-arrow:hover, .pic-arrow:focus-visible { background: var(--ink); color: var(--cream); outline: none; }
-.pic-count {
-  position: absolute; right: 10px; bottom: 10px; z-index: 2;
-  background: var(--cream); color: var(--ink); border: 1.5px solid var(--ink); border-radius: 2px;
-  font-size: 12px; font-weight: 700; padding: 2px 7px; font-variant-numeric: tabular-nums;
-}
-/* touch screens: swipe instead of arrows */
+.pic-arrow svg { width: 18px; height: 18px; }
+.pic-arrow:hover, .pic-arrow:focus-visible { color: var(--ink); background: var(--tint); outline: none; }
 @media (hover: none) { .pic-arrow { display: none; } }
 /* one row of thumbnails that scrolls sideways, so a long photo set never pushes the price down */
 .thumbs { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: 4px; scrollbar-width: thin; }
