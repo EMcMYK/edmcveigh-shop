@@ -357,7 +357,7 @@ button { font: inherit; color: inherit; }
 .thanks h1 { font-family: var(--display); font-weight: 400; font-size: clamp(38px, 6vw, 58px); margin: 0; line-height: 1.05; }
 .thanks p { margin: 0; }
 .thanks .lead { font-size: 18px; }
-.thanks .note { border: 2px solid var(--ink); border-radius: var(--radius); background: var(--tint); padding: 16px 18px; display: grid; gap: 6px; }
+.thanks .note { border: 2px solid var(--ink); border-radius: var(--radius); background: var(--tint); padding: 16px 18px; display: grid; gap: 6px; margin-bottom: 10px; } /* matches the visual gap above it (the lead line's spacing adds ~10px there) */
 .thanks .note h2 { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
 /* a link that looks like the main button (thank-you page, empty cart) */
 .btn-link { flex: none; display: inline-block; text-align: center; text-decoration: none; min-width: 0; }
