@@ -1464,7 +1464,7 @@
         "images/winter-robin/7744246425.jpg"
       ],
       "swatch": "#5a7a9a",
-      "soldOut": false,
+      "soldOut": true,
       "description": [
         "Original gouache painting of a robin perched on a snow-covered branch. Sold unframed, or framed in an 8x10 frame with a 5x7 mat."
       ],
@@ -1489,7 +1489,9 @@
         "winter",
         "robin",
         "snow"
-      ]
+      ],
+      "soldWhere": "shop",
+      "soldOn": "2026-10-08"
     },
     {
       "id": "still-panic",
