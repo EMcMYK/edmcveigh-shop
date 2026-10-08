@@ -339,7 +339,7 @@ button { font: inherit; color: inherit; }
   box-shadow: 0 10px 18px -6px var(--shadow-lift);
 }
 
-/* Email address: click it to copy. A small icon after it; "Copied" floats above for a moment. */
+/* Email address: click it to copy. A small icon after it turns into a check for a moment. */
 .email-copy {
   position: relative; display: inline; padding: 0; border: 0; background: none; cursor: pointer;
   font: inherit; font-weight: 700; color: var(--ink); text-align: left;
@@ -350,11 +350,8 @@ button { font: inherit; color: inherit; }
 .email-copy .copy-icon { display: inline-block; width: .8em; height: .8em; margin-left: .3em; vertical-align: -.05em; opacity: .7; }
 .email-copy:hover .copy-icon, .email-copy.done .copy-icon { opacity: 1; }
 .email-copy .copy-icon svg { width: 100%; height: 100%; display: block; }
-.copy-note:empty { display: none; }
-.copy-note {
-  position: absolute; right: 0; bottom: calc(100% + 6px); white-space: nowrap; pointer-events: none;
-  background: var(--ink); color: var(--cream); font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 3px;
-}
+/* "Copied" is announced to screen readers only; on screen the icon turns into a check */
+.copy-note { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* ---------- Shop policies ---------- */
 .policies { max-width: 68ch; padding-block: 40px 64px; display: grid; gap: 14px; }
