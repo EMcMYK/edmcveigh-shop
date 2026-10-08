@@ -283,11 +283,11 @@ button { font: inherit; color: inherit; }
   display: flex; flex-direction: column;
   padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-.drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 2px solid var(--ink); }
+.drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1.5px solid color-mix(in srgb, var(--ink) 60%, transparent); }
 .drawer-head h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 26px; }
 .icon-btn { border: 0; background: none; font-size: 26px; line-height: 1; cursor: pointer; padding: 4px 8px; color: var(--ink); }
 .lines { flex: 1; overflow-y: auto; padding: 4px 20px; display: grid; align-content: start; }
-.line { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 12px; padding-block: 14px; border-bottom: 1px solid var(--line); align-items: center; }
+.line { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 12px; padding-block: 14px; border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); align-items: center; }
 .line .mat { border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
 .line .sticker { border-width: 3px; font-size: 9px; padding: 2px; }
 .line .portrait-ph span { font-size: 8px; border-width: 1px; }
@@ -305,7 +305,7 @@ button { font: inherit; color: inherit; }
 .trash:hover, .trash:focus-visible { color: var(--ink); }
 .empty { padding: 40px 0; display: grid; justify-items: center; gap: 16px; color: var(--ink-soft); }
 .empty p { margin: 0; }
-.drawer-foot { border-top: 2px solid var(--ink); padding: 16px 20px; display: grid; gap: 10px; }
+.drawer-foot { border-top: 1.5px solid color-mix(in srgb, var(--ink) 60%, transparent); padding: 16px 20px; display: grid; gap: 10px; }
 .sum-row { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
 .sum-row.total { font-weight: 700; font-size: 18px; }
 .sum-row .free { font-weight: 700; }
