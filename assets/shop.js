@@ -23,6 +23,27 @@
   let cart = loadCart();
 
   // ---------- small helpers ----------
+  // The email address with a Copy button next to it (no mail link, so it never opens the wrong app).
+  const COPY_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></g></svg>`;
+  const DONE_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  // `after` is punctuation that follows it in a sentence, kept on the same line as the button.
+  function emailCopy(after = "") {
+    const e = esc(CONFIG.contactEmail);
+    return `<span class="email-copy"><b class="addr">${e}</b><span class="copy-wrap"><button type="button" class="copy-btn" data-copy="${e}" aria-label="Copy email address">${COPY_ICON}<span class="copy-label">Copy</span></button>${esc(after)}</span></span>`;
+  }
+  document.addEventListener("click", async (ev) => {
+    const btn = ev.target.closest("[data-copy]");
+    if (!btn) return;
+    const label = btn.querySelector(".copy-label");
+    try { await navigator.clipboard.writeText(btn.dataset.copy); }
+    catch (err) { // older browsers: select the address so it can be copied by hand
+      const addr = btn.parentElement.querySelector(".addr"), r = document.createRange();
+      r.selectNodeContents(addr); getSelection().removeAllRanges(); getSelection().addRange(r);
+      label.textContent = "Selected"; return;
+    }
+    btn.classList.add("done"); btn.innerHTML = `${DONE_ICON}<span class="copy-label">Copied</span>`;
+    setTimeout(() => { btn.classList.remove("done"); btn.innerHTML = `${COPY_ICON}<span class="copy-label">Copy</span>`; }, 2000);
+  });
   const money = (n) => "$" + n.toFixed(2).replace(/\.00$/, "");
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const byId = (id) => PRODUCTS.find((p) => p.id === id);
@@ -104,7 +125,7 @@
         <a href="#policies">Shop policies</a>
         ${CONFIG.etsyUrl ? `<a href="${esc(CONFIG.etsyUrl)}" target="_blank" rel="noopener">Etsy</a>` : ""}
         ${CONFIG.instagramUrl ? `<a href="${esc(CONFIG.instagramUrl)}" target="_blank" rel="noopener">Instagram</a>` : ""}
-        ${CONFIG.contactEmail ? `<span>${esc(CONFIG.contactEmail)}</span>` : ""}
+        ${CONFIG.contactEmail ? emailCopy() : ""}
       </nav>
     </div>`;
   }
@@ -200,7 +221,7 @@
               ${p.details && p.details.length ? `<h3>Details</h3><ul>${p.details.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
               ${p.steps && p.steps.length ? `<h3>How it works</h3><ol>${p.steps.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>` : ""}
               ${p.policy ? `<p class="fineprint">${esc(p.policy)}</p>` : ""}
-              ${p.deposit && CONFIG.contactEmail ? `<p class="fineprint">Photos of your home go to <b>${esc(CONFIG.contactEmail)}</b>.</p>` : ""}
+              ${p.deposit && CONFIG.contactEmail ? `<p class="fineprint">Photos of your home go to ${emailCopy(".")}</p>` : ""}
               ${p.disclaimer ? `<p class="fineprint">${esc(p.disclaimer)}</p>` : ""}
             </div>
           </div>
@@ -266,6 +287,12 @@
     try {
       if (policiesHtml === null) policiesHtml = await (await fetch("data/policies.html", { cache: "no-cache" })).text();
       document.getElementById("policies-body").innerHTML = policiesHtml;
+      // the email address there gets a copy button instead of a mail link
+      document.querySelectorAll("#policies-body a[href^='mailto:']").forEach((a) => {
+        const next = a.nextSibling, mark = next && next.nodeType === 3 ? (next.textContent.match(/^[.,;:!?]/) || [""])[0] : "";
+        if (mark) next.textContent = next.textContent.slice(1);
+        a.outerHTML = emailCopy(mark);
+      });
     } catch (e) {
       document.getElementById("policies-body").innerHTML = `<p class="msg error">The policies couldn't load. Please refresh the page.</p>`;
     }
@@ -280,7 +307,7 @@
       <p class="lead">Your order is in. Stripe is emailing you a receipt, and I'll ship your order soon.</p>
       <div class="note">
         <h2>Ordered a house portrait?</h2>
-        <p>Email a clear, straight-on photo of the home${CONFIG.contactEmail ? ` to <b>${esc(CONFIG.contactEmail)}</b>` : ""}, plus your deadline and any details that matter to you. I'll send a pencil sketch to approve before I start inking.</p>
+        <p>Email a clear, straight-on photo of the home${CONFIG.contactEmail ? ` to ${emailCopy(",")}` : ","} plus your deadline and any details that matter to you. I'll send a pencil sketch to approve before I start inking.</p>
       </div>
       <a class="btn btn-link" href="#">Keep shopping</a>
     </section></div>`;

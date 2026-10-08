@@ -339,6 +339,19 @@ button { font: inherit; color: inherit; }
   box-shadow: 0 10px 18px -6px var(--shadow-lift);
 }
 
+/* Email address + copy button */
+/* the address can wrap like a word; the button and any comma after it stay together */
+.email-copy .copy-wrap { white-space: nowrap; margin-left: 6px; }
+.email-copy .addr { font-weight: 700; color: var(--ink); }
+.copy-btn {
+  display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px 1px 6px; cursor: pointer; vertical-align: 1px;
+  border: 1.5px solid currentColor; border-radius: var(--radius); background: transparent; color: var(--ink);
+  font-size: 12px; font-weight: 700; line-height: 1.5; transition: background .15s, color .15s;
+}
+.copy-btn svg { width: 14px; height: 14px; }
+.copy-btn:hover, .copy-btn:focus-visible { background: var(--ink); color: var(--cream); outline: none; }
+.copy-btn.done { background: var(--ink); color: var(--cream); }
+
 /* ---------- Shop policies ---------- */
 .policies { max-width: 68ch; padding-block: 40px 64px; display: grid; gap: 14px; }
 .policies h1 { font-family: var(--display); font-weight: 400; font-size: clamp(36px, 6vw, 52px); line-height: 1.05; margin: 0 0 4px; }
