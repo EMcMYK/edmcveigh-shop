@@ -169,12 +169,19 @@
       acc.replace(new RegExp(`(^|\\n)(\\s*[•\\-–]\\s+)${from.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(\\s+\\w+)?:`, "g"), `$1$2${to}:`), t));
   }
 
+  // "email me" / "Email me" in product text becomes a mail link (takes already-escaped text).
+  const mailify = (html) => CONFIG.contactEmail
+    ? html.replace(/\b(email me)\b/gi, (m) => `<a class="email-link" href="mailto:${esc(CONFIG.contactEmail)}">${m}</a>`)
+    : html;
+  const escMail = (t) => mailify(esc(t));
+
   // ---------- pages ----------
   function homePage(filter) {
     const sections = CATEGORIES.filter((c) => !filter || c.id === filter).map((c) => {
       const list = PRODUCTS.filter((p) => p.category === c.id);
       return list.length ? `
         <section class="section" id="sec-${esc(c.id)}"><div class="wrap">
+          ${filter ? `<a class="back back-all" href="#">← Everything</a>` : ""}
           <div class="section-head"><h2>${esc(c.title)}</h2><p>${esc(c.note)}</p></div>
           <div class="grid">${list.map(card).join("")}</div>
         </div></section>` : "";
@@ -225,17 +232,14 @@
                 <output id="qty" aria-live="polite">1</output>
                 <button type="button" id="qty-plus" aria-label="One more">+</button>
               </div>`}
-              ${p.deposit && !p.soldOut
-                ? `<button class="btn" id="pay-deposit" type="button">Pay 50% deposit – <span id="pay-amount">${money(dueToday(p, v0))}</span></button>
-                   <button class="btn btn-secondary" id="add" type="button">Add to cart</button>`
-                : `<button class="btn" id="add" type="button" ${p.soldOut ? "disabled" : ""}>${p.soldOut ? "Sold out" : "Add to cart"}</button>`}
+              <button class="btn" id="add" type="button" ${p.soldOut ? "disabled" : ""}>${p.soldOut ? "Sold out"
+                : p.deposit ? `Pay 50% deposit – <span id="pay-amount">${money(dueToday(p, v0))}</span>` : "Add to cart"}</button>
             </div>
-            ${p.deposit ? `<div class="msg error" id="pay-msg" hidden></div>` : ""}
             <div class="prose">
-              ${describe(relabel(shownDescription(p)), esc)}
+              ${describe(relabel(shownDescription(p)), escMail)}
               ${p.details && p.details.length ? `<h3>Details</h3><ul>${p.details.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
-              ${p.steps && p.steps.length ? `<h3 id="how-it-works" class="jump-target">How it works</h3><ol>${p.steps.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>${p.deposit ? `<a class="policy-link" href="#policies-commissions">Full commission policy →</a>` : ""}` : ""}
-              ${p.policy ? `<p class="fineprint">${esc(p.policy)}</p>` : ""}
+              ${p.steps && p.steps.length ? `<h3 id="how-it-works" class="jump-target">How it works</h3><ol>${p.steps.map((t) => `<li>${escMail(t)}</li>`).join("")}</ol>${p.deposit ? `<a class="policy-link" href="#policies-commissions">Full commission policy →</a>` : ""}` : ""}
+              ${p.policy ? `<p class="fineprint">${escMail(p.policy)}</p>` : ""}
               ${p.deposit && CONFIG.contactEmail ? `<p class="fineprint">Photos of your home go to ${emailLink(".")}</p>` : ""}
               ${p.disclaimer ? `<p class="fineprint">${esc(p.disclaimer)}</p>` : ""}
             </div>
@@ -294,10 +298,6 @@
       e.preventDefault();
       document.getElementById(a.dataset.jump)?.scrollIntoView({ behavior: "smooth", block: "start" });
     }));
-    // Portraits: pay the deposit straight away (just this portrait, the cart is left as it is)
-    const pay = document.getElementById("pay-deposit");
-    if (pay) pay.addEventListener("click", () => startCheckout(
-      [{ id: p.id, variant: sel ? Number(sel.value) : 0, qty }], pay, document.getElementById("pay-msg")));
     document.getElementById("add").addEventListener("click", () => {
       addToCart(p.id, sel ? Number(sel.value) : 0, qty);
       openCart(); // the open cart is the confirmation, so no separate "Added" note

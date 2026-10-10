@@ -221,6 +221,7 @@ button { font: inherit; color: inherit; }
 
 /* ---------- Product page ---------- */
 .back { display: inline-block; margin-top: 26px; color: var(--ink-soft); text-decoration: none; font-size: 14px; font-weight: 600; }
+.back.back-all { margin: 0 0 6px; }
 .back:hover { color: var(--ink); }
 .product { display: grid; gap: clamp(24px, 5vw, 56px); grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); padding-block: 18px 56px; align-items: start; }
 @media (max-width: 760px) { .product { grid-template-columns: 1fr; } }
@@ -284,7 +285,7 @@ button { font: inherit; color: inherit; }
 /* the quieter second button (e.g. "Add to cart" under a portrait's "Pay 50% deposit") */
 .btn-secondary { background: var(--cream); color: var(--ink); box-shadow: none; font-weight: 600; }
 .btn-secondary:hover, .btn-secondary:focus-visible { background: var(--tint); }
-.buy-row #pay-deposit { flex-basis: 100%; font-size: 17px; padding-block: 14px; }
+.buy-row #add { font-size: 17px; }
 .jump-target { scroll-margin-top: calc(var(--header-h) + 24px); }
 .prose { display: grid; gap: 12px; max-width: 62ch; }
 .prose p { margin: 0; white-space: pre-line; }   /* keeps the line breaks in Etsy descriptions */
