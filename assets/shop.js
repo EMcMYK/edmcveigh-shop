@@ -239,7 +239,7 @@
               ${describe(relabel(shownDescription(p)), escMail)}
               ${p.details && p.details.length ? `<h3>Details</h3><ul>${p.details.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
               ${p.steps && p.steps.length ? `<h3 id="how-it-works" class="jump-target">How it works</h3><ol>${p.steps.map((t) => `<li>${escMail(t)}</li>`).join("")}</ol>${p.deposit ? `<a class="policy-link" href="#policies-commissions">Full commission policy →</a>` : ""}` : ""}
-              ${p.policy ? `<p class="fineprint">${escMail(p.policy)}</p>` : ""}
+              ${p.policy ? `<p class="fineprint">${esc(p.policy)}</p>` : ""}
               ${p.deposit && CONFIG.contactEmail ? `<p class="fineprint">Photos of your home go to ${emailLink(".")}</p>` : ""}
               ${p.disclaimer ? `<p class="fineprint">${esc(p.disclaimer)}</p>` : ""}
             </div>
