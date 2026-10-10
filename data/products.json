@@ -1,5 +1,8 @@
 {
   "_help": "Every product in the shop lives in this file. To add one, copy a whole product block (from { to }), paste it into the list, and change the details. Prices are in US dollars. The id must be unique, lowercase, with dashes instead of spaces. See README.md for the full guide.",
+  "optionLabels": {
+    "Holographic": "Holographic (sparkly)"
+  },
   "products": [
     {
       "id": "its-a-philly-thing-sheet",

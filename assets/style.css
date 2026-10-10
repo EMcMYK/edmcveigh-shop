@@ -281,6 +281,11 @@ button { font: inherit; color: inherit; }
 .btn:hover, .btn:focus-visible { transform: translateY(-3px); box-shadow: 0 10px 18px -6px var(--shadow-lift); outline: none; }
 .btn:active { transform: translateY(-1px); }
 .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+/* the quieter second button (e.g. "Add to cart" under a portrait's "Pay 50% deposit") */
+.btn-secondary { background: var(--cream); color: var(--ink); box-shadow: none; font-weight: 600; }
+.btn-secondary:hover, .btn-secondary:focus-visible { background: var(--tint); }
+.buy-row #pay-deposit { flex-basis: 100%; font-size: 17px; padding-block: 14px; }
+.jump-target { scroll-margin-top: calc(var(--header-h) + 24px); }
 .prose { display: grid; gap: 12px; max-width: 62ch; }
 .prose p { margin: 0; white-space: pre-line; }   /* keeps the line breaks in Etsy descriptions */
 .prose h3 { margin: 8px 0 0; font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
@@ -331,19 +336,9 @@ button { font: inherit; color: inherit; }
   box-shadow: 0 10px 18px -6px var(--shadow-lift);
 }
 
-/* Email address: click it to copy. A small icon after it turns into a check for a moment. */
-.email-copy {
-  position: relative; display: inline; padding: 0; border: 0; background: none; cursor: pointer;
-  font: inherit; font-weight: 700; color: var(--ink); text-align: left;
-  text-decoration: underline dotted; text-decoration-thickness: 1px; text-underline-offset: 3px;
-}
-.email-copy:hover { text-decoration-style: solid; }
-.email-copy:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-.email-copy .copy-icon { display: inline-block; width: .8em; height: .8em; margin-left: .3em; vertical-align: -.05em; opacity: .7; }
-.email-copy:hover .copy-icon, .email-copy.done .copy-icon { opacity: 1; }
-.email-copy .copy-icon svg { width: 100%; height: 100%; display: block; }
-/* "Copied" is announced to screen readers only; on screen the icon turns into a check */
-.copy-note { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* Email address: a mail link */
+.email-link { font-weight: 700; color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.email-link:hover { text-decoration-thickness: 2px; }
 
 /* ---------- Shop policies ---------- */
 .policies { max-width: 68ch; padding-block: 40px 64px; display: grid; gap: 14px; }

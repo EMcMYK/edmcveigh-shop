@@ -27,7 +27,8 @@ export async function onRequestPost({ request, env }) {
 
     // Load the product list that's published with the site.
     const res = await env.ASSETS.fetch(new URL("/data/products.json", request.url));
-    const { products } = await res.json();
+    const { products, optionLabels = {} } = await res.json();
+    const optName = (name) => optionLabels[name] || name;   // shop-only option names, e.g. "Holographic (sparkly)"
 
     const form = new URLSearchParams();
     let hasPortrait = false;
@@ -46,8 +47,8 @@ export async function onRequestPost({ request, env }) {
       const dollars = product.deposit ? variant.price * product.deposit : variant.price;
       const name = product.deposit ? `${product.name}: 50% deposit` : product.name;
       const description = product.deposit
-        ? `${variant.name}. Full price $${variant.price.toFixed(2)}; balance invoiced when finished.`
-        : (product.variants.length > 1 ? `${variant.name} · ${product.size}` : product.size);
+        ? `${optName(variant.name)}. Full price $${variant.price.toFixed(2)}; balance invoiced when finished.`
+        : (product.variants.length > 1 ? `${optName(variant.name)} · ${product.size}` : product.size);
 
       const key = `line_items[${i}]`;
       form.set(`${key}[quantity]`, String(qty));
@@ -94,7 +95,7 @@ export async function onRequestPost({ request, env }) {
     form.set("success_url", `${origin}/#thanks`);
     form.set("cancel_url", `${origin}/#cart`);
     form.set("billing_address_collection", "auto");
-    form.set("phone_number_collection[enabled]", hasPortrait ? "true" : "false");
+    // No phone number: Stripe can't make it optional, and email is enough to reach portrait buyers.
     SHIP_TO.forEach((c, i) => form.set(`shipping_address_collection[allowed_countries][${i}]`, c));
 
     // Free shipping on every order.

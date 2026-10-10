@@ -20,6 +20,8 @@
   const CART_KEY = "edm-cart-v1";
   const app = document.getElementById("app");
   let PRODUCTS = [];
+  let LABELS = {};   // shop-only names for options, from products.json "optionLabels" (Etsy keeps its own)
+  const optName = (name) => LABELS[name] || name;
   let gallery = null; // the product page's photo controls, for the left/right keys
 
   // Left/right arrow keys flip through a product's photos, unless someone is typing,
@@ -35,28 +37,12 @@
   let cart = loadCart();
 
   // ---------- small helpers ----------
-  // The email address with a Copy button next to it (no mail link, so it never opens the wrong app).
-  const COPY_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></g></svg>`;
-  const DONE_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-  // The whole address is the button: click it to copy. `after` is punctuation that follows it in a
-  // sentence, kept on the same line as the icon.
-  function emailCopy(after = "") {
+  // The email address as a mail link (opens the visitor's mail app). `after` is punctuation that
+  // follows it in a sentence.
+  function emailLink(after = "") {
     const e = esc(CONFIG.contactEmail);
-    return `<button type="button" class="email-copy" data-copy="${e}" title="Copy email address"><span class="addr">${e}</span><span class="copy-icon" aria-hidden="true">${COPY_ICON}</span><span class="copy-note" aria-live="polite"></span></button>${esc(after)}`;
+    return `<a class="email-link" href="mailto:${e}">${e}</a>${esc(after)}`;
   }
-  document.addEventListener("click", async (ev) => {
-    const btn = ev.target.closest("[data-copy]");
-    if (!btn) return;
-    const icon = btn.querySelector(".copy-icon"), note = btn.querySelector(".copy-note");
-    try { await navigator.clipboard.writeText(btn.dataset.copy); }
-    catch (err) { // older browsers: select the address so it can be copied by hand
-      const r = document.createRange(); r.selectNodeContents(btn.querySelector(".addr"));
-      getSelection().removeAllRanges(); getSelection().addRange(r); return;
-    }
-    btn.classList.add("done"); icon.innerHTML = DONE_ICON; note.textContent = "Copied";
-    clearTimeout(btn._t);
-    btn._t = setTimeout(() => { btn.classList.remove("done"); icon.innerHTML = COPY_ICON; note.textContent = ""; }, 1600);
-  });
   const money = (n) => "$" + n.toFixed(2).replace(/\.00$/, "");
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const byId = (id) => PRODUCTS.find((p) => p.id === id);
@@ -107,12 +93,17 @@
   function renderChrome(active) {
     document.getElementById("banner").textContent = CONFIG.shippingNote || "Free US shipping";
     const current = (c) => active === c.id ? 'aria-current="page"' : "";
+    const mail = CONFIG.contactEmail ? `mailto:${esc(CONFIG.contactEmail)}` : "";
     document.getElementById("nav").innerHTML = CATEGORIES.map((c) =>
-      `<a href="#${esc(c.id)}" ${current(c)}>${esc(c.title)}</a>`).join("");
+      `<a href="#${esc(c.id)}" ${current(c)}>${esc(c.title)}</a>`).join("") +
+      `<a href="#about" ${active === "about" ? 'aria-current="page"' : ""}>About</a>` +
+      (mail ? `<a href="${mail}">Contact</a>` : "");
     document.getElementById("menuPanel").innerHTML =
       `<a href="#" ${active === "" ? 'aria-current="page"' : ""}><span class="label">Everything</span><span class="sub">The whole shop</span><span class="arrow" aria-hidden="true">→</span></a>` +
       CATEGORIES.map((c) =>
-        `<a href="#${esc(c.id)}" ${current(c)}><span class="label">${esc(c.title)}</span><span class="sub">${esc(c.note)}</span><span class="arrow" aria-hidden="true">→</span></a>`).join("");
+        `<a href="#${esc(c.id)}" ${current(c)}><span class="label">${esc(c.title)}</span><span class="sub">${esc(c.note)}</span><span class="arrow" aria-hidden="true">→</span></a>`).join("") +
+      `<a href="#about" ${active === "about" ? 'aria-current="page"' : ""}><span class="label">About</span><span class="sub">Who makes all this</span><span class="arrow" aria-hidden="true">→</span></a>` +
+      (mail ? `<a href="${mail}"><span class="label">Contact</span><span class="sub">${esc(CONFIG.contactEmail)}</span><span class="arrow" aria-hidden="true">→</span></a>` : "");
     closeMenu();
   }
 
@@ -138,7 +129,7 @@
         <a href="#policies">Shop policies</a>
         ${CONFIG.etsyUrl ? `<a href="${esc(CONFIG.etsyUrl)}" target="_blank" rel="noopener">Etsy</a>` : ""}
         ${CONFIG.instagramUrl ? `<a href="${esc(CONFIG.instagramUrl)}" target="_blank" rel="noopener">Instagram</a>` : ""}
-        ${CONFIG.contactEmail ? emailCopy() : ""}
+        ${CONFIG.contactEmail ? emailLink() : ""}
       </nav>
     </div>`;
   }
@@ -170,6 +161,12 @@
           <span class="card-price">${p.soldOut ? "Sold out" : priceText}</span>
         </div>
       </a>`;
+  }
+
+  // In the description's finish list, "• Holographic: …" uses the shop's label too.
+  function relabel(paragraphs) {
+    return paragraphs.map((t) => Object.entries(LABELS).reduce((acc, [from, to]) =>
+      acc.replace(new RegExp(`(^|\\n)(\\s*[•\\-–]\\s+)${from.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(\\s+\\w+)?:`, "g"), `$1$2${to}:`), t));
   }
 
   // ---------- pages ----------
@@ -215,12 +212,12 @@
               <span class="price" id="price">${money(v0.price)}</span>
               ${p.deposit ? `<span class="deposit-note" id="deposit-note">${money(dueToday(p, v0))} deposit today, the rest when it's finished</span>` : ""}
             </div>
-            ${p.deposit ? `<a class="policy-link" href="#policies-commissions">How the deposit, sketch and final payment work →</a>` : ""}
+            ${p.deposit && p.steps && p.steps.length ? `<a class="policy-link" href="#how-it-works" data-jump="how-it-works">How the deposit, sketch and final payment work ↓</a>` : ""}
             ${p.size ? `<div class="size">Size: <b>${esc(p.size)}</b></div>` : ""}
             ${p.oneOfAKind && !p.soldOut ? `<div class="size">One of a kind: <b>only 1 available</b></div>` : ""}
             ${many ? `<div class="field">
               <label for="variant">${esc(p.variantLabel || "Option")}</label>
-              <span class="select"><select id="variant">${p.variants.map((v, i) => `<option value="${i}">${esc(v.name)} — ${money(v.price)}</option>`).join("")}</select></span>
+              <span class="select"><select id="variant">${p.variants.map((v, i) => `<option value="${i}">${esc(optName(v.name))} — ${money(v.price)}</option>`).join("")}</select></span>
             </div>` : ""}
             <div class="buy-row">
               ${singleOnly(p) ? "" : `<div class="qty" role="group" aria-label="Quantity">
@@ -228,14 +225,18 @@
                 <output id="qty" aria-live="polite">1</output>
                 <button type="button" id="qty-plus" aria-label="One more">+</button>
               </div>`}
-              <button class="btn" id="add" type="button" ${p.soldOut ? "disabled" : ""}>${p.soldOut ? "Sold out" : p.deposit ? "Add deposit to cart" : "Add to cart"}</button>
+              ${p.deposit && !p.soldOut
+                ? `<button class="btn" id="pay-deposit" type="button">Pay 50% deposit – <span id="pay-amount">${money(dueToday(p, v0))}</span></button>
+                   <button class="btn btn-secondary" id="add" type="button">Add to cart</button>`
+                : `<button class="btn" id="add" type="button" ${p.soldOut ? "disabled" : ""}>${p.soldOut ? "Sold out" : "Add to cart"}</button>`}
             </div>
+            ${p.deposit ? `<div class="msg error" id="pay-msg" hidden></div>` : ""}
             <div class="prose">
-              ${describe(shownDescription(p), esc)}
+              ${describe(relabel(shownDescription(p)), esc)}
               ${p.details && p.details.length ? `<h3>Details</h3><ul>${p.details.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
-              ${p.steps && p.steps.length ? `<h3>How it works</h3><ol>${p.steps.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>` : ""}
+              ${p.steps && p.steps.length ? `<h3 id="how-it-works" class="jump-target">How it works</h3><ol>${p.steps.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>${p.deposit ? `<a class="policy-link" href="#policies-commissions">Full commission policy →</a>` : ""}` : ""}
               ${p.policy ? `<p class="fineprint">${esc(p.policy)}</p>` : ""}
-              ${p.deposit && CONFIG.contactEmail ? `<p class="fineprint">Photos of your home go to ${emailCopy(".")}</p>` : ""}
+              ${p.deposit && CONFIG.contactEmail ? `<p class="fineprint">Photos of your home go to ${emailLink(".")}</p>` : ""}
               ${p.disclaimer ? `<p class="fineprint">${esc(p.disclaimer)}</p>` : ""}
             </div>
           </div>
@@ -251,9 +252,15 @@
       document.getElementById("price").textContent = money(current().price);
       const dn = document.getElementById("deposit-note");
       if (dn) dn.textContent = `${money(dueToday(p, current()))} deposit today, the rest when it's finished`;
+      const pa = document.getElementById("pay-amount");
+      if (pa) pa.textContent = money(dueToday(p, current()) * qty);
     });
     const out = document.getElementById("qty");
-    const setQty = (n) => { qty = Math.max(1, Math.min(50, n)); if (out) out.textContent = qty; };
+    const setQty = (n) => {
+      qty = Math.max(1, Math.min(50, n)); if (out) out.textContent = qty;
+      const pa = document.getElementById("pay-amount");
+      if (pa) pa.textContent = money(dueToday(p, current()) * qty);
+    };
     document.getElementById("qty-minus")?.addEventListener("click", () => setQty(qty - 1));
     document.getElementById("qty-plus")?.addEventListener("click", () => setQty(qty + 1));
     // Photos: thumbnails, arrows (desktop), swipe (phones) and the keyboard's left/right keys.
@@ -282,6 +289,15 @@
       x0 = y0 = null;
     }, { passive: true });
     gallery = total > 1 ? { next: () => show(shown + 1), prev: () => show(shown - 1) } : null;
+    // "How it works" link: scroll to the steps on this page (the address bar stays on the product)
+    document.querySelectorAll("[data-jump]").forEach((a) => a.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById(a.dataset.jump)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }));
+    // Portraits: pay the deposit straight away (just this portrait, the cart is left as it is)
+    const pay = document.getElementById("pay-deposit");
+    if (pay) pay.addEventListener("click", () => startCheckout(
+      [{ id: p.id, variant: sel ? Number(sel.value) : 0, qty }], pay, document.getElementById("pay-msg")));
     document.getElementById("add").addEventListener("click", () => {
       addToCart(p.id, sel ? Number(sel.value) : 0, qty);
       openCart(); // the open cart is the confirmation, so no separate "Added" note
@@ -295,17 +311,25 @@
     try {
       if (policiesHtml === null) policiesHtml = await (await fetch("data/policies.html", { cache: "no-cache" })).text();
       document.getElementById("policies-body").innerHTML = policiesHtml;
-      // the email address there gets a copy button instead of a mail link
-      document.querySelectorAll("#policies-body a[href^='mailto:']").forEach((a) => {
-        const next = a.nextSibling, mark = next && next.nodeType === 3 ? (next.textContent.match(/^[.,;:!?]/) || [""])[0] : "";
-        if (mark) next.textContent = next.textContent.slice(1);
-        a.outerHTML = emailCopy(mark);
-      });
+      document.querySelectorAll("#policies-body a[href^='mailto:']").forEach((a) => a.classList.add("email-link"));
     } catch (e) {
       document.getElementById("policies-body").innerHTML = `<p class="msg error">The policies couldn't load. Please refresh the page.</p>`;
     }
     const target = section && document.getElementById(section);
     if (target) target.scrollIntoView({ block: "start" });
+  }
+
+  // ---------- about (text lives in data/about.html) ----------
+  let aboutHtml = null;
+  async function showAbout() {
+    app.innerHTML = `<div class="wrap"><article class="policies about" id="about-body"><p class="fineprint">Loading…</p></article></div>`;
+    try {
+      if (aboutHtml === null) aboutHtml = await (await fetch("data/about.html", { cache: "no-cache" })).text();
+      document.getElementById("about-body").innerHTML = aboutHtml;
+      document.querySelectorAll("#about-body a[href^='mailto:']").forEach((a) => a.classList.add("email-link"));
+    } catch (e) {
+      document.getElementById("about-body").innerHTML = `<p class="msg error">This page couldn't load. Please refresh.</p>`;
+    }
   }
 
   function thanksPage() {
@@ -315,7 +339,7 @@
       <p class="lead">Your order is in. Stripe is emailing you a receipt, and I'll ship your order soon.</p>
       <div class="note">
         <h2>Ordered a house portrait?</h2>
-        <p>Email a clear, straight-on photo of the home${CONFIG.contactEmail ? ` to ${emailCopy(",")}` : ","} plus your deadline and any details that matter to you. I'll send a pencil sketch to approve before I start inking.</p>
+        <p>Email a clear, straight-on photo of the home${CONFIG.contactEmail ? ` to ${emailLink(",")}` : ","} plus your deadline and any details that matter to you. I'll send a pencil sketch to approve before I start inking.</p>
       </div>
       <a class="btn btn-link" href="#">Keep shopping</a>
     </section></div>`;
@@ -357,7 +381,7 @@
         ${picture(p)}
         <div>
           <div class="line-name">${esc(p.name)}</div>
-          <div class="line-variant">${esc(p.variants.length > 1 ? v.name : (p.size || v.name))}${p.deposit ? " · 50% deposit" : ""}${p.oneOfAKind ? " · one of a kind" : ""}</div>
+          <div class="line-variant">${esc(p.variants.length > 1 ? optName(v.name) : (p.size || v.name))}${p.deposit ? " · 50% deposit" : ""}${p.oneOfAKind ? " · one of a kind" : ""}</div>
           ${singleOnly(p) ? "" : `<div class="line-actions"><div class="qty" role="group" aria-label="Quantity of ${esc(p.name)}">
               <button type="button" data-dec="${i}" aria-label="One fewer">−</button><output>${l.qty}</output><button type="button" data-inc="${i}" aria-label="One more">+</button>
             </div></div>`}
@@ -399,24 +423,31 @@
   }
   function escClose(e) { if (e.key === "Escape") closeCart(); }
 
-  async function checkout() {
-    const btn = document.getElementById("checkout");
+  function checkout() {
     if (window.SHOP_DEMO) {
       openCart({ text: "This is a preview, so checkout is switched off. On your live site, this button opens Stripe's checkout page with everything in the cart." });
       return;
     }
+    startCheckout(cart.map(({ id, variant, qty }) => ({ id, variant, qty })), document.getElementById("checkout"), null);
+  }
+  // Sends items to Stripe's checkout page. `msg` shows errors (or null to show them in the cart).
+  async function startCheckout(items, btn, msg) {
+    const label = btn.innerHTML;
     btn.disabled = true; btn.textContent = "Opening checkout…";
+    if (msg) msg.hidden = true;
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: cart.map(({ id, variant, qty }) => ({ id, variant, qty })) })
+        body: JSON.stringify({ items })
       });
       const data = await res.json();
       if (!res.ok || !data.url) throw new Error(data.error || "Checkout isn't available right now.");
       window.location.href = data.url; // Stripe's hosted checkout page
     } catch (err) {
-      openCart({ error: true, text: err.message + " Please try again, or email me if it keeps happening." });
+      const text = err.message + " Please try again, or email me if it keeps happening.";
+      if (msg) { btn.disabled = false; btn.innerHTML = label; msg.textContent = text; msg.hidden = false; }
+      else openCart({ error: true, text });
     }
   }
 
@@ -443,6 +474,13 @@
       renderCartCount();
       if (hash === "policies") window.scrollTo(0, 0);
       return;
+    } else if (hash === "about") {
+      renderChrome("about");
+      document.title = "About · ed.mcveigh shop";
+      showAbout();
+      renderCartCount();
+      window.scrollTo(0, 0);
+      return;
     } else if (hash === "thanks") {
       app.innerHTML = thanksPage(); renderChrome("");
       document.title = "Thank you · ed.mcveigh shop";
@@ -460,6 +498,7 @@
     try {
       const data = window.SHOP_PRODUCTS || await (await fetch("data/products.json", { cache: "no-cache" })).json();
       PRODUCTS = data.products || [];
+      LABELS = data.optionLabels || {};
     } catch (e) {
       app.innerHTML = `<div class="wrap"><p class="msg error" style="margin-top:40px">The product list couldn't load. If you just edited data/products.json, check it for a missing comma or quote.</p></div>`;
       console.error(e);
