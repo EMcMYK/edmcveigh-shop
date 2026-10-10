@@ -162,7 +162,7 @@ button { font: inherit; color: inherit; }
 
 /* ---------- Intro on the front page ---------- */
 .hello { padding-block: 44px 4px; }
-.hello h1 { font-family: var(--display); font-weight: 400; font-size: clamp(40px, 7.7vw, 66px); line-height: 1.05; margin: 0 0 18px; text-wrap: balance; }
+.hello h1 { font-family: var(--display); font-weight: 400; font-size: clamp(46px, 8.8vw, 76px); line-height: 1.05; margin: 0 0 18px; text-wrap: balance; }
 .hello p { color: var(--ink-soft); max-width: 54ch; margin: 0; font-size: 17px; }
 
 .section { padding-block: 32px; }
