@@ -1779,7 +1779,7 @@
         "An original 8×10 drawing: never a print, no AI, no digital tools",
         "Pen and ink on cotton-blend watercolor paper, signed by me",
         "Matted to fit a standard 11×14 frame, or matted and framed, ready to hang",
-        "I can ship directly to your client with a handwritten gift note"
+        "I can ship directly to the recipient with a handwritten gift note"
       ],
       "steps": [
         "Pay the 50% deposit here, then email me a clear, straight-on photo of the home (send a few if you have them).",
@@ -1808,6 +1808,9 @@
       "shopOnly": [
         "description",
         "options"
+      ],
+      "collapse": [
+        "For realtors"
       ]
     }
   ]

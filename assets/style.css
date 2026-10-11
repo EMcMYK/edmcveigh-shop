@@ -16,7 +16,7 @@
 
   --edge: clamp(16px, 4vw, 56px);
   --header-h: clamp(64px, 6vw, 76px);
-  --btn-h: 42px;                              /* height of the cart, menu and mode buttons */
+  --btn-h: 44px;                              /* height of the cart, menu and mode buttons */
   --logo-f: calc(var(--btn-h) * 0.8 / 0.507); /* the e is 0.507em tall in Agbalumo, so this makes it 80% of the button height */
   --radius: 4px;
   color-scheme: light;
@@ -218,7 +218,11 @@ button { font: inherit; color: inherit; }
   .feature-cta { width: 100%; text-align: center; }
 }
 @media (max-width: 600px) {
-  .hello { padding-top: 30px; }
+  .hello { padding-top: 26px; }
+  .hello h1 { font-size: 42px; margin-bottom: 12px; }
+  .hello p { font-size: 16px; }
+  .feature-mat { padding: 18px 18px 20px; }
+  .feature-print { max-width: 290px; }
   .jump { margin-top: 18px; }
   .feature-sec { padding-top: 20px; }
   .feature-body h2 { font-size: 30px; }
@@ -292,12 +296,12 @@ button { font: inherit; color: inherit; }
 .back.back-all { margin: 0 0 6px; }
 .back:hover { color: var(--ink); }
 .product { display: grid; gap: clamp(24px, 5vw, 56px); grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); padding-block: 18px 56px; align-items: start; }
-@media (max-width: 760px) { .product { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .product { grid-template-columns: 1fr; } }
 .gallery { display: grid; gap: 10px; min-width: 0; }
 /* Stacked layout: the option questions and buy button sit a little in from the page edges */
-@media (max-width: 760px) { .buy { padding-inline: clamp(0px, 5vw - 12px, 36px); } }
+@media (max-width: 640px) { .buy { padding-inline: clamp(0px, 5vw - 12px, 36px); } }
 /* Computers: the photos stay in view while you read, when they fit on the screen (set by shop.js) */
-@media (min-width: 761px) { .gallery.pinned { position: sticky; top: calc(var(--header-h) + 20px); } }
+@media (min-width: 641px) { .gallery.pinned { position: sticky; top: calc(var(--header-h) + 20px); } }
 .gallery .frame { border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
 /* Photo stage: swipe on phones, left/right keys. Arrows sit at the ends of the thumbnail row
    (computers only), so nothing covers the photo itself. */
@@ -347,6 +351,10 @@ button { font: inherit; color: inherit; }
 .choice { border: 0; margin: 0; padding: 0; min-width: 0; }
 .choice legend { padding: 0; margin-bottom: 8px; font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
 .choice-need { display: none; color: var(--error); }
+.choice.needs .opt { border-color: var(--error); }
+.opt-add { font-weight: 500; opacity: .75; margin-left: 2px; }
+.buy-note { margin: -2px 0 0; font-size: 14px; color: var(--ink-soft); }
+.buy-note .email-link { font-weight: 600; }
 .choice.needs .choice-need { display: inline; }
 /* Every option button is the same size, in as many equal columns as the longest question has
    options (--cols, set by shop.js). A label never wraps: when any button is too narrow for its
@@ -395,7 +403,8 @@ button { font: inherit; color: inherit; }
 
 /* Phones: a buy bar at the bottom while the real button is off screen */
 .buybar { display: none; }
-@media (max-width: 760px) {
+.menu-open .buybar { display: none !important; }
+@media (max-width: 640px) {
   .buybar {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
     display: flex; align-items: center; gap: 12px;
@@ -506,6 +515,41 @@ button { font: inherit; color: inherit; }
 .about-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; }
 .about-pair figcaption { grid-column: 1 / -1; }
 .about-fig figcaption { font-size: 13px; color: var(--ink-soft); }
+
+/* Folded description sections (e.g. "For realtors"): a heading you can open */
+.prose .fold { border-top: 1px solid color-mix(in srgb, var(--ink) 25%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--ink) 25%, transparent); padding-block: 10px; }
+.prose .fold summary { cursor: pointer; font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.prose .fold summary::-webkit-details-marker { display: none; }
+.prose .fold summary::after { content: "+"; font-size: 18px; font-weight: 600; letter-spacing: 0; color: var(--ink); }
+.prose .fold[open] summary::after { content: "−"; }
+.prose .fold[open] summary { margin-bottom: 10px; }
+.prose .fold > :not(summary) { margin: 0 0 10px; }
+
+/* More from the same section, under a product */
+.related { padding-block: 8px 48px; }
+
+/* Front page ending: who makes all this */
+.about-strip { padding-block: 8px 40px; }
+.about-card {
+  display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: clamp(16px, 3vw, 32px); align-items: center;
+  border: 2px solid var(--ink); border-radius: var(--radius); padding: clamp(14px, 2.4vw, 22px);
+  color: var(--ink); text-decoration: none; background: var(--cream);
+  box-shadow: 0 2px 4px var(--shadow); transition: transform .22s cubic-bezier(.2,.7,.2,1), box-shadow .22s cubic-bezier(.2,.7,.2,1);
+}
+.about-card:hover, .about-card:focus-visible { transform: translateY(-4px); box-shadow: 0 10px 18px -6px var(--shadow-lift); outline: none; }
+.about-card img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius); border: 2px solid var(--ink); }
+.about-card-body { display: grid; gap: 8px; justify-items: start; }
+.about-card h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(26px, 4vw, 34px); line-height: 1.1; }
+.about-card p { margin: 0; max-width: 52ch; }
+@media (max-width: 520px) { .about-card { grid-template-columns: 96px minmax(0, 1fr); } .about-card p { font-size: 15px; } }
+
+/* Thank-you order recap */
+.thanks .recap { width: 100%; display: grid; gap: 8px; }
+.thanks .recap h2, .thanks .note h2 { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink); }
+.thanks .recap ul { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
+.thanks .recap li { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid color-mix(in srgb, var(--ink) 15%, transparent); font-variant-numeric: tabular-nums; }
+.thanks .recap small { display: block; font-size: 13px; color: var(--ink-soft); }
+.thanks .note .btn-link { justify-self: start; margin-top: 6px; }
 
 /* ---------- Thanks + footer ---------- */
 .thanks { padding-block: 64px; display: grid; gap: 20px; max-width: 60ch; justify-items: start; }

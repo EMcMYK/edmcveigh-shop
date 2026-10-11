@@ -80,7 +80,7 @@ components:
     backgroundColor: "{colors.paper-cream}"
     textColor: "{colors.fairmount-green}"
     rounded: "{rounded.base}"
-    height: "42px"
+    height: "44px"
   header-button-hover:
     backgroundColor: "{colors.fairmount-green}"
     textColor: "{colors.paper-cream}"
@@ -176,8 +176,8 @@ A single centred column, max 1120px, with a responsive side margin (`spacing.edg
 - **Front page:** the shop name as the heading (so visitors always know where they are), an intro line, section chips, the house-portrait feature, then stickers and paintings. Portraits lead, but the Stickers chip sits on the first phone screen, because stickers are the steady sellers. Stickers are split into groups by name (Philly, then Cats) from `config.js`, with chips under the section heading to jump between groups.
 - **Sections** open with a heading row, title on the left and a short soft-ink description on the right, closed by a 2px ink rule. Sections are 32px apart.
 - **Product grid:** auto-fill columns at least 210px wide with 26px row and 22px column gaps. At 480px and below it is exactly two columns with 20px and 12px gaps, because most visitors are on phones.
-- **Product page:** gallery and info side by side (1.1 to 1 ratio) with a gap of 24 to 56px. It stacks into one column at 760px and below.
-- **Navigation:** at 821px and up, section links sit in the header bar. At 820px and below they move into a drop-down menu panel behind a menu button.
+- **Product page:** gallery and info side by side (1.1 to 1 ratio) with a gap of 24 to 56px. It stacks into one column at 640px and below. A "More stickers" (or paintings) row of four cards ends every product page, the product's own group first.
+- **Navigation:** at 821px and up, section links sit in the header bar. At 820px and below they move into a drop-down menu panel behind a menu button (sections, About, Contact; the logo is the way home).
 - **Cart:** a right-hand drawer, up to 420px wide, full width on phones, over a dark scrim.
 - **Safe areas:** the header, drawer, toast and skip button respect `env(safe-area-inset-*)` for notched phones.
 
@@ -210,7 +210,7 @@ Sturdy and plain: a solid block of ink that lifts.
 - **Primary:** ink fill, paper text, weight 700, 12px by 22px padding, at least 180px wide and stretching to fill its row. Used for Add to cart, Checkout and "Pay 50% deposit".
 - **Hover / Focus:** rises 3px and the shadow changes from Rest to Lift. Pressed: rises only 1px. Disabled: 45% opacity, flat, no lift.
 - **Secondary:** paper fill, ink text, weight 600, no shadow. Hover fills with the tint. Used for the quieter second action next to a primary.
-- **Header buttons** (dark-mode toggle, cart, menu): 42px tall, outlined, transparent. On hover or focus they fill with ink, the text turns paper color and the button lifts 2px. The cart count is a small 2px-radius ink tile that inverts on hover.
+- **Header buttons** (dark-mode toggle, cart, menu): 44px tall, outlined, transparent. On hover or focus they fill with ink, the text turns paper color and the button lifts 2px. The cart count is a small 2px-radius ink tile that inverts on hover.
 
 ### Product Card
 - **Frame:** a square photo mat with a 2px ink outline, 4px radius and the Rest shadow. On hover the frame lifts 4px.
@@ -246,13 +246,22 @@ When a product's options are combinations ("Pen & ink only, framed"), each part 
 For commissions, directly under the buy button: a tint box with a 2px ink outline, a Label heading, and numbered steps with 26px ink number tiles. A hairline separates a closing note in full ink, never soft ink, because it sits on the tint.
 
 ### Trust Line
-A 13px soft-ink row under the buy button, separated by middots: free shipping, secure checkout with Stripe, and the same shop on Etsy (an ink link).
+A 13px soft-ink row under the buying details, separated by middots: free US shipping, secure checkout with Stripe, sold and shipped by me. The Etsy shop is linked only from the footer and About, never next to a buy button.
+
+### Price Framing
+A deposit product says its price one way everywhere: the total, then what's due today. Before options are picked: "From $185" and "50% today, the rest when it's finished" (bar: "From $185 · 50% today"). After: "$210", "$105 today, the rest when it's finished", button "Add deposit to cart – $105", bar "$210 · $105 today". Option buttons show what a choice adds ("+$40").
+
+### Folded Sections
+Description sections listed in a product's `collapse` (the portrait's "For realtors") start closed: a Label-style heading between hairlines with a +/− in ink.
+
+### About Strip
+The front page ends with an outlined card linking to About: a square photo of the drafting tools, "Who makes all this" in Title type, one line in the artist's voice and a "Read the story" link. Lifts on hover like a product card.
 
 ### Phone Buy Bar
-At 760px and below, a paper bar fixed to the bottom with a 2px ink top edge. It shows the name and price and has a solid button, and appears only while the real buy button is off screen. With options, it scrolls to them instead of adding to the cart.
+At 640px and below, a paper bar fixed to the bottom with a 2px ink top edge. It shows the name and price and has a solid button, and appears only while the real buy button and the footer are off screen, and never while the menu is open. With a menu (stickers, paintings) it adds the choice shown in the bar ("$3.99 · Glossy"). With option questions it scrolls to them until they're answered, then becomes "Check out": straight to Stripe when that's the only thing in the cart, otherwise it opens the cart first.
 
 ### Cart Drawer
-Paper panel with a 2px ink left edge, a Title heading, line items with 64px square thumbnails, and a footer that totals with tabular figures. Free shipping is written out in bold, not shown as $0. Line names link back to the product. Removing a line shows an "Undo" notice at the top. Tab stays inside the drawer, and closing it returns focus to what opened it.
+Paper panel with a 2px ink left edge, a Title heading, line items with 64px square thumbnails, and a footer that totals with tabular figures. Free shipping is written out in bold, not shown as $0. Line names link back to the product. Each portrait is its own line, numbered "House 1, House 2" when there's more than one; replacing a one-of-a-kind's choice says so in the drawer. Removing a line shows an "Undo" notice at the top. Tab stays inside the drawer, and closing it returns focus to what opened it.
 
 ### Wordmark and Intro
 The "e." mark is Agbalumo with the e rotated -9deg and the dot raised 0.12em. It is sized so the e fills about 80% of the header button height and is centred in the bar. On the front page an intro animation lands the mark in that exact spot once per visit, then the page fades in section by section (90ms apart). Reduced motion skips the intro and all transitions.

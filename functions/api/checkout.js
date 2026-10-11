@@ -31,7 +31,7 @@ export async function onRequestPost({ request, env }) {
     const optName = (name) => optionLabels[name] || name;   // shop-only option names, e.g. "Holographic (sparkly)"
 
     const form = new URLSearchParams();
-    let hasPortrait = false;
+    let hasPortrait = false, portraitCount = 0;
     const summary = [];
     const seen = new Set();
 
@@ -62,7 +62,7 @@ export async function onRequestPost({ request, env }) {
       if (product.images && product.images[0]) {
         form.set(`${key}[price_data][product_data][images][0]`, new URL(product.images[0], origin + "/").href);
       }
-      if (product.deposit) hasPortrait = true;
+      if (product.deposit) { hasPortrait = true; portraitCount++; }
       summary.push(`${qty}x ${product.id} (${variant.name})`);
     });
 
@@ -112,7 +112,7 @@ export async function onRequestPost({ request, env }) {
       form.set("customer_creation", "always");
       form.set("custom_fields[0][key]", "portrait_notes");
       form.set("custom_fields[0][label][type]", "custom");
-      form.set("custom_fields[0][label][custom]", "Portrait deadline or notes");
+      form.set("custom_fields[0][label][custom]", portraitCount > 1 ? "Deadlines or notes for each house" : "Portrait deadline or notes");
       form.set("custom_fields[0][type]", "text");
       form.set("custom_fields[0][optional]", "true");
       form.set("custom_text[submit][message]", "After checkout, email a clear, straight-on photo of the home. I'll send a pencil sketch to approve before inking.");

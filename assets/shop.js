@@ -104,7 +104,6 @@
       `<a href="#about" ${active === "about" ? 'aria-current="page"' : ""}>About</a>` +
       (mail ? `<a href="${mail}">Contact</a>` : "");
     document.getElementById("menuPanel").innerHTML =
-      `<a href="#" ${active === "" ? 'aria-current="page"' : ""}><span class="label">Everything</span><span class="sub">The whole shop</span><span class="arrow" aria-hidden="true">→</span></a>` +
       CATEGORIES.map((c) =>
         `<a href="${esc(sectionHref(c))}" ${current(c)}><span class="label">${esc(c.title)}</span><span class="sub">${esc(c.note)}</span><span class="arrow" aria-hidden="true">→</span></a>`).join("") +
       `<a href="#about" ${active === "about" ? 'aria-current="page"' : ""}><span class="label">About</span><span class="sub">Who makes all this</span><span class="arrow" aria-hidden="true">→</span></a>` +
@@ -116,6 +115,7 @@
   function setMenu(open) {
     const btn = document.getElementById("menuBtn"), panel = document.getElementById("menuPanel");
     panel.hidden = !open;
+    document.body.classList.toggle("menu-open", open); // the phone buy bar steps aside while it's open
     btn.setAttribute("aria-expanded", String(open));
     btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   }
@@ -161,7 +161,8 @@
       <a class="card ${p.soldOut ? "sold-out" : ""}" href="#${esc(p.id)}">
         <div class="frame">${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ""}${picture(p)}</div>
         <div class="card-body">
-          <span class="card-title">${esc(p.name)}</span>
+          <span class="card-title">${esc(p.category === "stickers" ? p.name.replace(/ Sticker$/, "") : p.name)}</span>
+          ${p.oneOfAKind && !p.soldOut ? `<span class="card-meta">One of a kind</span>` : ""}
           ${p.size ? `<span class="card-meta">${esc(p.size)}</span>` : ""}
           <span class="card-price">${p.soldOut ? "Sold out" : priceText}</span>
         </div>
@@ -245,7 +246,17 @@
           `<a href="${esc(sectionHref(x.c))}" data-jump="sec-${esc(x.c.id)}">${esc(x.c.title)}</a>`).join("")}</nav>
       </div></section>
       ${featured.map((x) => feature(x.c, x.list[0])).join("")}
-      ${shown.filter((x) => !x.c.feature).map((x) => section(x.c, x.list)).join("")}`;
+      ${shown.filter((x) => !x.c.feature).map((x) => section(x.c, x.list)).join("")}
+      <section class="about-strip"><div class="wrap">
+        <a class="about-card" href="#about">
+          <img src="images/about/drafting-set-detail.webp" width="900" height="1200" loading="lazy" alt="Close-up of vintage drafting compasses and dividers in a purple velvet case.">
+          <div class="about-card-body">
+            <h2>Who makes all this</h2>
+            <p>One Philadelphia artist. I draw my house portraits with my grandfather’s drafting tools from the ’50s, found in my grandmother’s attic.</p>
+            <span class="policy-link">Read the story</span>
+          </div>
+        </a>
+      </div></section>`;
   }
 
   // In-page jumps (front page section chips): scroll there, and the address bar stays put.
@@ -271,25 +282,47 @@
     if (values.reduce((a, x) => a * x.length, 1) !== parts.length) return null;
     const names = String(p.variantLabel || "").split(/\s+and\s+|,\s*/i);
     const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
-    return { parts, values, names: values.map((_, i) => cap(names.length === n ? names[i] : `Option ${i + 1}`)), cap };
+    // what each choice adds to the cheapest combination (watercolor +$40, framed +$25)
+    const low = Math.min(...p.variants.map((v) => v.price));
+    const adds = values.map((vals, i) => Object.fromEntries(vals.map((val) =>
+      [val, Math.min(...p.variants.filter((_, k) => parts[k][i] === val).map((v) => v.price)) - low])));
+    return { parts, values, adds, names: values.map((_, i) => cap(names.length === n ? names[i] : `Option ${i + 1}`)), cap };
   }
 
   // `v` is null while option questions are still unanswered (no price to show yet).
   const buyLabel = (p, v) => p.soldOut ? "Sold out"
     : p.deposit ? `Add deposit to cart<span class="pay-amount">${v ? ` – ${money(dueToday(p, v))}` : ""}</span>` : "Add to cart";
-  const priceRange = (p) => {
-    const prices = p.variants.map((v) => v.price), low = Math.min(...prices), high = Math.max(...prices);
-    return low === high ? money(low) : `${money(low)}–${money(high)}`;
-  };
+  // One way of saying a deposit price everywhere: "$210", "$105 today, the rest when it's finished".
+  const lowest = (p) => Math.min(...p.variants.map((v) => v.price));
+  const todayNote = (p, v) => v ? `${money(dueToday(p, v))} today, the rest when it's finished`
+    : `${Math.round(p.deposit * 100)}% today, the rest when it's finished`;
+  const barPrice = (p, v, label) => p.deposit
+    ? (v ? `${money(v.price)} · ${money(dueToday(p, v))} today` : `From ${money(lowest(p))} · ${Math.round(p.deposit * 100)}% today`)
+    : `${money(v.price)}${label ? ` · ${label}` : ""}`;
 
-  // Reasons to trust buying here: shipping, who handles payment, and the same shop on Etsy.
+  // Reasons to trust buying here: shipping, who handles payment, and who you're buying from.
+  // (The Etsy shop is linked from the footer and About, not here, so it doesn't pull people away.)
   function trustLine() {
-    const etsyName = CONFIG.etsyUrl ? CONFIG.etsyUrl.replace(/\/+$/, "").split("/").pop() : "";
     return `<p class="trust">
       <span>Free US shipping</span>
       <span>Secure checkout with Stripe</span>
-      ${etsyName ? `<span>Also on Etsy as <a href="${esc(CONFIG.etsyUrl)}" target="_blank" rel="noopener">${esc(etsyName)}</a></span>` : ""}
+      <span>Sold and shipped by me</span>
     </p>`;
+  }
+
+  // More from the same section under a product, its own group first (Philly stickers, then the rest).
+  function related(p) {
+    const c = categoryOf(p.category);
+    const list = inCategory(p.category).filter((x) => x.id !== p.id && !x.soldOut);
+    if (list.length < 2) return "";
+    const re = (c.groups || []).map((g) => new RegExp(g.match, "i"));
+    const groupOf = (x) => re.findIndex((r) => r.test(x.name));
+    const mine = groupOf(p);
+    const picks = list.filter((x) => groupOf(x) === mine).concat(list.filter((x) => groupOf(x) !== mine)).slice(0, 4);
+    return `<section class="related" aria-labelledby="related-title">
+      <div class="section-head"><h2 id="related-title">More ${esc(c.title.toLowerCase())}</h2><p><a class="policy-link" href="#${esc(c.id)}">See all</a></p></div>
+      <div class="grid">${picks.map(card).join("")}</div>
+    </section>`;
   }
 
   function productPage(p) {
@@ -320,15 +353,15 @@
           <div class="info">
             <h1>${esc(p.name)}</h1>
             <div class="price-line">
-              <span class="price" id="price">${vStart ? money(v0.price) : priceRange(p)}</span>
-              ${p.deposit ? `<span class="deposit-note" id="deposit-note">${vStart ? money(dueToday(p, v0)) : `${Math.round(p.deposit * 100)}%`} deposit today, the rest when it's finished</span>` : ""}
+              <span class="price" id="price">${vStart ? money(v0.price) : `From ${money(lowest(p))}`}</span>
+              ${p.deposit ? `<span class="deposit-note" id="deposit-note">${todayNote(p, vStart)}</span>` : ""}
             </div>
             ${p.size ? `<div class="size">Size: <b>${esc(p.size)}</b></div>` : ""}
             ${p.oneOfAKind && !p.soldOut ? `<div class="size">One of a kind: <b>only 1 available</b></div>` : ""}
             <div class="buy" id="buy" style="--cols:${cols}">
               ${axes ? axes.values.map((vals, i) => `<fieldset class="choice" id="axis-${i}">
                 <legend>${esc(axes.names[i])}<span class="choice-need"> · choose one</span></legend>
-                <div class="choices">${vals.map((val) => `<label><input type="radio" name="axis-${i}" value="${esc(val)}"><span class="opt"><svg class="tick" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.6 3.4 7.4-8"/></svg><span class="opt-text">${esc(axes.cap(val))}</span></span></label>`).join("")}</div>
+                <div class="choices">${vals.map((val) => `<label><input type="radio" name="axis-${i}" value="${esc(val)}"><span class="opt"><svg class="tick" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.6 3.4 7.4-8"/></svg><span class="opt-text">${esc(axes.cap(val))}${axes.adds[i][val] > 0 ? ` <span class="opt-add">+${money(axes.adds[i][val])}</span>` : ""}</span></span></label>`).join("")}</div>
               </fieldset>`).join("")
               : many ? `<div class="field">
                 <label for="variant">${esc(p.variantLabel || "Option")}</label>
@@ -342,6 +375,7 @@
                 </div>`}
                 <button class="btn" id="add" type="button" ${p.soldOut ? "disabled" : ""}>${buyLabel(p, vStart)}</button>
               </div>
+              ${p.deposit && !p.soldOut ? `<p class="buy-note">More than one house? Add each one to your cart, or ${CONFIG.contactEmail ? `<a class="email-link" href="mailto:${esc(CONFIG.contactEmail)}">email me</a>` : "email me"} about a multi-house discount.</p>` : ""}
             </div>
             ${p.steps && p.steps.length ? `<section class="steps" aria-labelledby="how-it-works">
               <h2 id="how-it-works">How it works</h2>
@@ -350,16 +384,17 @@
             </section>` : ""}
             ${p.soldOut ? "" : trustLine()}
             <div class="prose">
-              ${describe(relabel(shownDescription(p)), escMail)}
+              ${describe(relabel(shownDescription(p)), escMail, p.collapse)}
               ${p.details && p.details.length ? `<h2>Details</h2><ul>${p.details.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
               ${p.policy ? `<p class="fineprint">${escMail(p.policy)}</p>` : ""}
               ${p.disclaimer ? `<p class="fineprint">${esc(p.disclaimer)}</p>` : ""}
             </div>
           </div>
         </div>
+        ${related(p)}
         ${p.soldOut ? "" : `<div class="buybar" id="buybar" hidden>
-          <div class="buybar-text"><span class="buybar-name">${esc(p.name)}</span><span class="buybar-price" id="buybar-price">${!vStart ? `From ${money(Math.min(...p.variants.map((v) => dueToday(p, v))))}${p.deposit ? " deposit" : ""}` : p.deposit ? `${money(dueToday(p, v0))} deposit` : money(v0.price)}</span></div>
-          <button class="btn" type="button" id="buybar-btn">${many ? `Choose ${esc((p.variantLabel || "an option").toLowerCase())}` : "Add to cart"}</button>
+          <div class="buybar-text"><span class="buybar-name">${esc(p.name)}</span><span class="buybar-price" id="buybar-price">${barPrice(p, vStart, many && !axes ? optName(v0.name) : "")}</span></div>
+          <button class="btn" type="button" id="buybar-btn">${axes ? `Choose ${esc((p.variantLabel || "options").toLowerCase())}` : p.deposit ? buyLabel(p, v0) : "Add to cart"}</button>
         </div>`}
       </div>`;
   }
@@ -374,10 +409,10 @@
       const v = current();
       document.getElementById("price").textContent = money(v.price);
       const dn = document.getElementById("deposit-note");
-      if (dn) dn.textContent = `${money(dueToday(p, v))} deposit today, the rest when it's finished`;
+      if (dn) dn.textContent = todayNote(p, v);
       document.querySelectorAll(".pay-amount").forEach((el) => el.textContent = (p.deposit ? " – " : "") + money(dueToday(p, v) * qty));
       const bp = document.getElementById("buybar-price");
-      if (bp) bp.textContent = p.deposit ? `${money(dueToday(p, v))} deposit` : money(v.price * qty);
+      if (bp) bp.textContent = barPrice(p, v, sel ? optName(v.name) : "");
       const bb = document.getElementById("buybar-btn");
       if (bb && axes) bb.textContent = "Check out"; // every question answered: the bar can finish the job
     };
@@ -402,6 +437,7 @@
     if (axes) document.getElementById("buy").addEventListener("change", (e) => {
       if (!e.target.matches("input[type=radio]")) return;
       e.target.closest(".choice").classList.remove("needs");
+      e.target.closest(".choice").querySelectorAll("input").forEach((x) => x.removeAttribute("aria-invalid"));
       if (unanswered().length) return;
       const picked = axes.values.map((_, i) => document.querySelector(`input[name="axis-${i}"]:checked`).value);
       const i = axes.parts.findIndex((x) => x.every((val, k) => val === picked[k]));
@@ -448,22 +484,28 @@
       // Unanswered questions: point to them instead of guessing
       const missing = unanswered();
       if (missing.length) {
-        missing.forEach((i) => document.getElementById(`axis-${i}`).classList.add("needs"));
+        missing.forEach((i) => {
+          const f = document.getElementById(`axis-${i}`);
+          f.classList.add("needs");
+          f.querySelectorAll("input").forEach((x) => x.setAttribute("aria-invalid", "true"));
+        });
         document.querySelector(`input[name="axis-${missing[0]}"]`).focus();
         return;
       }
-      addToCart(p.id, vi, qty); openCart(); // the open cart is the confirmation
+      const result = addToCart(p.id, vi, qty);
+      // the open cart is the confirmation; say so when a one-of-a-kind's earlier choice was swapped out
+      openCart(result === "replaced" ? { text: `There's only one ${p.name}, so this choice replaced the one already in your cart.` } : null);
     };
     document.getElementById("add").addEventListener("click", buy);
     // Phone buy bar: adds straight away, or takes you to the options first when there are some.
     const bar = document.getElementById("buybar");
     if (bar && "IntersectionObserver" in window) {
       document.getElementById("buybar-btn").addEventListener("click", () => {
-        if (axes && !unanswered().length) { buy(); return checkout(); } // adds it, then off to payment
-        if (p.variants.length < 2) return buy();
+        // All answered: add it, then straight to payment, unless other things are in the cart (show them first)
+        if (axes && !unanswered().length) { buy(); return cart.length > 1 ? null : checkout(); }
+        if (!axes) return buy(); // a menu always has a choice showing (named in the bar), so just add it
         const target = document.getElementById("buy");
         target.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
-        // focus a choice button, never the dropdown: phones open a focused dropdown where it was mid-scroll
         target.querySelector("input[type=radio]")?.focus({ preventScroll: true });
       });
       // Hidden while the real buy button or the page footer is on screen, so neither gets covered.
@@ -515,27 +557,44 @@
       cart = []; saveCart();
       if (location.search) history.replaceState(null, "", location.pathname + location.hash);
     }
-    const portrait = order ? order.portrait : true; // unknown order: show the portrait step too
+    const portraits = order ? (order.portraits ?? (order.portrait ? 1 : 0)) : 1; // unknown order: show the portrait step too
+    const homes = portraits > 1 ? "each home" : "the home";
+    const mailto = CONFIG.contactEmail ? `mailto:${esc(CONFIG.contactEmail)}?subject=${encodeURIComponent("House portrait photo" + (portraits > 1 ? "s" : ""))}` : "";
+    const recap = order && order.recap && order.recap.length ? `<div class="recap">
+        <h2>Your order</h2>
+        <ul>${order.recap.map((l) => `<li><span>${esc(l.name)}${l.qty > 1 ? ` × ${l.qty}` : ""}${l.option ? `<small>${esc(l.option)}${l.deposit ? " · 50% deposit" : ""}</small>` : ""}</span><b>${money(l.today)}</b></li>`).join("")}</ul>
+      </div>` : "";
     return `<div class="wrap"><section class="thanks">
       <h1>Thank you!</h1>
-      <p class="lead">Your order is in. Stripe is emailing you a receipt${order && !order.shipsNow ? "." : ", and I'll ship your order soon."}</p>
-      ${portrait ? `<div class="note">
-        <h2>${order ? "Next: send me a photo of the home" : "Ordered a house portrait?"}</h2>
-        <p>Email at least one clear, straight-on photo of the home${CONFIG.contactEmail ? ` to ${emailLink(",")}` : ","} plus your deadline and any details that matter to you. I'll send a pencil sketch to approve before I start inking.</p>
+      <p class="lead">${paid ? `Your order is in. Stripe is emailing you a receipt${order && !order.shipsNow ? "." : ", and I'll ship your order soon."}`
+        : "If you've just checked out, Stripe is emailing you a receipt."}</p>
+      ${recap}
+      ${portraits ? `<div class="note">
+        <h2>${order ? `Next: email me a photo of ${homes}` : "Ordered a house portrait?"}</h2>
+        <p>Send at least one clear, straight-on photo of ${homes}${CONFIG.contactEmail ? ` to ${emailLink(",")}` : ","} plus any details that matter to you. I'll send a pencil sketch to approve before I start inking. Turnaround is usually 2 to 4 weeks from sketch approval.</p>
+        ${mailto ? `<a class="btn btn-link" href="${mailto}">Email your photo${portraits > 1 ? "s" : ""}</a>` : ""}
       </div>` : ""}
-      <a class="btn btn-link" href="#">Keep shopping</a>
+      <a class="btn btn-link ${portraits ? "btn-secondary" : ""}" href="#">Keep shopping</a>
     </section></div>`;
   }
 
   // ---------- cart ----------
+  // Returns "replaced" when a one-of-a-kind's earlier choice was swapped out.
   function addToCart(id, variant, qty) {
     const p = byId(id);
     if (p.oneOfAKind) {
       // Only one exists, so a second framing choice replaces the first instead of adding another.
+      const had = cart.find((l) => l.id === id);
       cart = cart.filter((l) => l.id !== id);
       cart.push({ id, variant, qty: 1 });
       saveCart();
-      return;
+      return had && had.variant !== variant ? "replaced" : "";
+    }
+    if (p.deposit) {
+      // Each portrait is a different house: always its own line (House 1, House 2…), one deposit each.
+      cart.push({ id, variant, qty: 1 });
+      saveCart();
+      return "";
     }
     const existing = cart.find((l) => l.id === id && l.variant === variant);
     if (existing && !singleOnly(p)) existing.qty = Math.min(50, existing.qty + qty);
@@ -559,15 +618,18 @@
     const root = document.getElementById("drawer-root");
     if (!root.querySelector(".drawer")) cartOpener = document.activeElement;
     let total = 0, later = 0;
+    const houses = (id) => cart.filter((l) => l.id === id).length;
     const rows = cart.map((l, i) => {
       const p = byId(l.id), v = p.variants[l.variant];
+      // portraits: number the houses when there's more than one
+      const house = p.deposit && houses(p.id) > 1 ? `House ${cart.slice(0, i + 1).filter((x) => x.id === p.id).length} · ` : "";
       const today = dueToday(p, v) * l.qty;
       total += today; later += (v.price * l.qty) - today;
       return `<div class="line">
         ${picture(p)}
         <div>
           <a class="line-name" href="#${esc(p.id)}" data-close>${esc(p.name)}</a>
-          <div class="line-variant">${esc(p.variants.length > 1 ? optName(v.name) : (p.size || v.name))}${p.deposit ? " · 50% deposit" : ""}${p.oneOfAKind ? " · one of a kind" : ""}</div>
+          <div class="line-variant">${esc(house)}${esc(p.variants.length > 1 ? optName(v.name) : (p.size || v.name))}${p.deposit ? " · 50% deposit" : ""}${p.oneOfAKind ? " · one of a kind" : ""}</div>
           ${singleOnly(p) ? "" : `<div class="line-actions"><div class="qty" role="group" aria-label="Quantity of ${esc(p.name)}">
               <button type="button" data-dec="${i}" aria-label="One fewer">−</button><output>${l.qty}</output><button type="button" data-inc="${i}" aria-label="One more">+</button>
             </div></div>`}
@@ -666,7 +728,9 @@
       if (!res.ok || !data.url) throw Object.assign(new Error(data.error || ""), { shown: Boolean(data.error) });
       // Remembered for the thank-you page, which empties the cart and tailors its note.
       const lines = items.map((l) => byId(l.id)).filter(Boolean);
-      try { sessionStorage.setItem(CHECKOUT_KEY, JSON.stringify({ portrait: lines.some((p) => p.deposit), shipsNow: lines.some((p) => !p.deposit) })); } catch { /* not saved */ }
+      const recap = items.map((l) => { const p = byId(l.id); const v = p && p.variants[l.variant];
+        return p && v ? { name: p.name, option: p.variants.length > 1 ? optName(v.name) : "", qty: l.qty, today: dueToday(p, v) * l.qty, deposit: Boolean(p.deposit) } : null; }).filter(Boolean);
+      try { sessionStorage.setItem(CHECKOUT_KEY, JSON.stringify({ portraits: lines.filter((p) => p.deposit).length, shipsNow: lines.some((p) => !p.deposit), recap })); } catch { /* not saved */ }
       window.location.href = data.url; // Stripe's hosted checkout page
     } catch (err) {
       if (!err.shown) console.error("Checkout failed", err);
@@ -755,18 +819,23 @@ function shownDescription(p) {
 // Turns description paragraphs into the same look as the Details section:
 // a short line ending in ":" (or starting with ✦) becomes a small heading, and lines starting
 // with "•" or "-" become a list. Lines under a heading on their own also become a list.
-function describe(paragraphs, esc) {
+function describe(paragraphs, esc, fold = []) {
   const isBullet = (l) => /^\s*[•\-–]\s+/.test(l);
   const strip = (l) => l.replace(/^\s*[•\-–]\s+/, "");
   const isHeading = (l) => /^✦/.test(l.trim()) || (/:\s*$/.test(l) && l.trim().length <= 40);
   const heading = (l) => `<h2>${esc(l.trim().replace(/^✦\s*/, "").replace(/:\s*$/, ""))}</h2>`;
   const list = (lines) => `<ul>${lines.map((l) => `<li>${esc(strip(l))}</li>`).join("")}</ul>`;
-  let out = "", afterHeading = false;
+  const title = (l) => l.trim().replace(/^✦\s*/, "").replace(/:\s*$/, "");
+  let out = "", afterHeading = false, folded = false;
   for (const para of paragraphs) {
     let lines = para.split("\n").map((l) => l.trim()).filter(Boolean);
+    folded = false;
     if (lines.length && isHeading(lines[0]) && (lines.length > 1 || /:\s*$/.test(lines[0]) || /^✦/.test(lines[0]))) {
-      out += heading(lines[0]); lines = lines.slice(1); afterHeading = true;
-      if (!lines.length) continue;
+      // a section named in the product's "collapse" list starts closed, behind its heading
+      if ((fold || []).includes(title(lines[0]))) { out += `<details class="fold"><summary>${esc(title(lines[0]))}</summary>`; folded = true; }
+      else out += heading(lines[0]);
+      lines = lines.slice(1); afterHeading = true;
+      if (!lines.length) { if (folded) out += "</details>"; continue; }
     }
     const firstBullet = lines.findIndex(isBullet);
     if (firstBullet === -1) {
@@ -776,6 +845,7 @@ function describe(paragraphs, esc) {
       if (firstBullet > 0) out += `<p>${esc(lines.slice(0, firstBullet).join("\n"))}</p>`;
       out += list(lines.slice(firstBullet));
     }
+    if (folded) out += "</details>";
     afterHeading = false;
   }
   return out;
