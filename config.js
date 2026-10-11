@@ -11,9 +11,15 @@ window.SHOP_CONFIG = {
   shippingNote: "Free US shipping on everything",
 
   // Shop sections, in the order they appear. Each product's "category" must match one of these ids.
+  //   groups:  splits a section into smaller groups by product name (a regular expression);
+  //            anything that matches no group goes first, under "otherTitle".
+  //   feature: shows the section as a big feature near the top of the front page instead of a
+  //            grid at the bottom, with "cta" as its button.
   categories: [
-    { id: "stickers", title: "Stickers", note: "Waterproof, die cut, glossy or holographic" },
+    { id: "stickers", title: "Stickers", note: "Waterproof, die cut, glossy or holographic",
+      otherTitle: "Philly", groups: [{ title: "Cats", match: "\\bcats?\\b" }] },
     { id: "originals", title: "Original paintings", note: "One-of-a-kind art" },
-    { id: "portraits", title: "House portraits", note: "Original 8×10 pen and ink" }
+    { id: "portraits", title: "House portraits", note: "Original 8×10 pen and ink",
+      feature: true, cta: "Commission a portrait" }
   ]
 };

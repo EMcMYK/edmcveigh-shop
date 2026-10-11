@@ -43,7 +43,7 @@ export async function onRequestPost({ request, env }) {
 
       if (product.oneOfAKind && seen.has(product.id)) throw new UserError(`There's only one ${product.name}. Please keep just one in your cart.`);
       seen.add(product.id);
-      const qty = product.oneOfAKind ? 1 : Math.max(1, Math.min(MAX_QTY, Math.floor(Number(item.qty) || 1)));
+      const qty = product.oneOfAKind || product.deposit ? 1 : Math.max(1, Math.min(MAX_QTY, Math.floor(Number(item.qty) || 1)));
       const dollars = product.deposit ? variant.price * product.deposit : variant.price;
       const name = product.deposit ? `${product.name}: 50% deposit` : product.name;
       const description = product.deposit
@@ -92,7 +92,7 @@ export async function onRequestPost({ request, env }) {
     if (unique.length) form.set("metadata[one_of_a_kind]", unique.map((p) => p.id).join(",").slice(0, 490));
 
     form.set("mode", "payment");
-    form.set("success_url", `${origin}/#thanks`);
+    form.set("success_url", `${origin}/?checkout=done#thanks`); // the shop empties the cart only after a real checkout
     form.set("cancel_url", `${origin}/#cart`);
     form.set("billing_address_collection", "auto");
     // No phone number: Stripe can't make it optional, and email is enough to reach portrait buyers.

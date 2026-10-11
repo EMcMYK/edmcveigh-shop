@@ -41,7 +41,7 @@
       var played = false;
       try { played = sessionStorage.getItem("edm-intro") === "1"; } catch (e) {}
       var page = location.hash.slice(1);
-      var front = page === "" || page === "stickers" || page === "originals" || page === "portraits";
+      var front = page === "" || page === "stickers" || page === "originals";
       if (!played && front && !matchMedia("(prefers-reduced-motion: reduce)").matches) root.classList.add("intro");
     })();
   </script>

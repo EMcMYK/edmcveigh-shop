@@ -18,6 +18,7 @@
 
   const CONFIG = window.SHOP_CONFIG || {};
   const CART_KEY = "edm-cart-v1";
+  const CHECKOUT_KEY = "edm-checkout";
   const app = document.getElementById("app");
   let PRODUCTS = [];
   let LABELS = {};   // shop-only names for options, from products.json "optionLabels" (Etsy keeps its own)
@@ -51,8 +52,12 @@
     { id: "portraits", title: "House portraits", note: "" }
   ];
   const categoryOf = (id) => CATEGORIES.find((c) => c.id === id) || { id, title: id, note: "" };
-  // One-of-a-kind originals are sold one at a time (portraits can be ordered in any number).
-  const singleOnly = (p) => Boolean(p.oneOfAKind);
+  // One-of-a-kind originals and portrait deposits are sold one at a time (more than one house
+  // is a custom quote by email).
+  const singleOnly = (p) => Boolean(p.oneOfAKind || p.deposit);
+  const inCategory = (id) => PRODUCTS.filter((p) => p.category === id);
+  // A section with a single product (house portraits) links straight to that product.
+  const sectionHref = (c) => { const list = inCategory(c.id); return "#" + (list.length === 1 ? list[0].id : c.id); };
 
   function loadCart() {
     try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; }
@@ -95,13 +100,13 @@
     const current = (c) => active === c.id ? 'aria-current="page"' : "";
     const mail = CONFIG.contactEmail ? `mailto:${esc(CONFIG.contactEmail)}` : "";
     document.getElementById("nav").innerHTML = CATEGORIES.map((c) =>
-      `<a href="#${esc(c.id)}" ${current(c)}>${esc(c.title)}</a>`).join("") +
+      `<a href="${esc(sectionHref(c))}" ${current(c)}>${esc(c.title)}</a>`).join("") +
       `<a href="#about" ${active === "about" ? 'aria-current="page"' : ""}>About</a>` +
       (mail ? `<a href="${mail}">Contact</a>` : "");
     document.getElementById("menuPanel").innerHTML =
       `<a href="#" ${active === "" ? 'aria-current="page"' : ""}><span class="label">Everything</span><span class="sub">The whole shop</span><span class="arrow" aria-hidden="true">→</span></a>` +
       CATEGORIES.map((c) =>
-        `<a href="#${esc(c.id)}" ${current(c)}><span class="label">${esc(c.title)}</span><span class="sub">${esc(c.note)}</span><span class="arrow" aria-hidden="true">→</span></a>`).join("") +
+        `<a href="${esc(sectionHref(c))}" ${current(c)}><span class="label">${esc(c.title)}</span><span class="sub">${esc(c.note)}</span><span class="arrow" aria-hidden="true">→</span></a>`).join("") +
       `<a href="#about" ${active === "about" ? 'aria-current="page"' : ""}><span class="label">About</span><span class="sub">Who makes all this</span><span class="arrow" aria-hidden="true">→</span></a>` +
       (mail ? `<a href="${mail}"><span class="label">Contact</span><span class="sub">${esc(CONFIG.contactEmail)}</span><span class="arrow" aria-hidden="true">→</span></a>` : "");
     closeMenu();
@@ -176,31 +181,130 @@
   const escMail = (t) => mailify(esc(t));
 
   // ---------- pages ----------
-  function homePage(filter) {
-    const sections = CATEGORIES.filter((c) => !filter || c.id === filter).map((c) => {
-      const list = PRODUCTS.filter((p) => p.category === c.id);
-      return list.length ? `
-        <section class="section" id="sec-${esc(c.id)}"><div class="wrap">
-          ${filter ? `<a class="back back-all" href="#">← Everything</a>` : ""}
-          <div class="section-head"><h2>${esc(c.title)}</h2><p>${esc(c.note)}</p></div>
-          <div class="grid">${list.map(card).join("")}</div>
-        </div></section>` : "";
-    }).join("");
+  // A section's grid, split into its groups (config.js "groups", e.g. stickers: Philly, then Cats).
+  function grids(c, list) {
+    if (!c.groups || !c.groups.length) return `<div class="grid">${list.map(card).join("")}</div>`;
+    const tests = c.groups.map((g) => ({ ...g, re: new RegExp(g.match, "i") }));
+    const groupOf = (p) => tests.find((g) => g.re.test(p.name));
+    const parts = [{ title: c.otherTitle || "More", items: list.filter((p) => !groupOf(p)) }]
+      .concat(tests.map((g) => ({ title: g.title, items: list.filter((p) => groupOf(p) === g) })))
+      .filter((g) => g.items.length);
+    if (parts.length < 2) return `<div class="grid">${list.map(card).join("")}</div>`;
+    const gid = (g) => `grp-${c.id}-${g.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+    return `<nav class="jump jump-groups" aria-label="${esc(c.title)} groups">${parts.map((g) =>
+        `<a href="#${esc(c.id)}" data-jump="${gid(g)}">${esc(g.title)}</a>`).join("")}</nav>` +
+      parts.map((g) => `<div class="group" id="${gid(g)}">
+        <h3 class="group-head">${esc(g.title)}</h3>
+        <div class="grid">${g.items.map(card).join("")}</div>
+      </div>`).join("");
+  }
+
+  function section(c, list, back) {
     return `
-      ${filter ? "" : `<section class="hello"><div class="wrap">
+        <section class="section" id="sec-${esc(c.id)}"><div class="wrap">
+          ${back ? `<a class="back back-all" href="#">← Everything</a>` : ""}
+          <div class="section-head"><h2>${esc(c.title)}</h2><p>${esc(c.note)}</p></div>
+          ${grids(c, list)}
+        </div></section>`;
+  }
+
+  // The front page's feature for a section marked "feature" in config.js (house portraits):
+  // its first product's first photo, laid on the mat like a print, with the way in.
+  function feature(c, p) {
+    const prices = p.variants.map((v) => v.price);
+    const from = Math.min(...prices);
+    const img = p.images && p.images[0];
+    return `
+        <section class="feature-sec" id="sec-${esc(c.id)}"><div class="wrap">
+          <a class="feature" href="#${esc(p.id)}">
+            <div class="feature-mat">${img
+              ? `<img class="feature-print" src="${esc(img)}" alt="A finished ${esc(c.title.toLowerCase().replace(/s$/, ""))}: ${esc(p.summary || p.name)}">`
+              : `<div class="portrait-ph"><span>Your home here</span></div>`}</div>
+            <div class="feature-body">
+              <h2>${esc(c.title)}</h2>
+              <p>${esc(p.summary || c.note)}</p>
+              <p class="feature-price">From ${money(from)}${p.deposit ? ` · ${Math.round(p.deposit * 100)}% deposit to start` : ""}</p>
+              <span class="btn feature-cta">${esc(c.cta || "Take a look")}</span>
+            </div>
+          </a>
+        </div></section>`;
+  }
+
+  function homePage(filter) {
+    if (filter) {
+      const c = categoryOf(filter);
+      return section(c, inCategory(c.id), true);
+    }
+    const shown = CATEGORIES.map((c) => ({ c, list: inCategory(c.id) })).filter((x) => x.list.length);
+    const featured = shown.filter((x) => x.c.feature);
+    return `
+      <section class="hello"><div class="wrap">
         <h1>ed.mcveigh shop</h1>
-        <p>Hand-drawn stickers for your stuff, one-of-a-kind art for your walls. Mix and match in one order, and shipping is always free in the US.</p>
-      </div></section>`}
-      ${sections}`;
+        <p>Drawn by hand in Philadelphia: stickers for your stuff, one-of-a-kind paintings for your walls, and pen and ink portraits of your home. Mix and match in one order, and shipping is always free in the US.</p>
+        <nav class="jump" aria-label="Jump to a section">${shown.filter((x) => !x.c.feature).map((x) =>
+          `<a href="${esc(sectionHref(x.c))}" data-jump="sec-${esc(x.c.id)}">${esc(x.c.title)}</a>`).join("")}</nav>
+      </div></section>
+      ${featured.map((x) => feature(x.c, x.list[0])).join("")}
+      ${shown.filter((x) => !x.c.feature).map((x) => section(x.c, x.list)).join("")}`;
+  }
+
+  // In-page jumps (front page section chips): scroll there, and the address bar stays put.
+  function wireJumps() {
+    app.querySelectorAll("[data-jump]").forEach((a) => a.addEventListener("click", (e) => {
+      const target = document.getElementById(a.dataset.jump);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    }));
+  }
+
+  // Options like "Pen & ink only, framed": when every option is the same few choices
+  // joined by commas, each choice is its own question (style, then finish) instead of one long menu.
+  // The questions' names come from the option label ("Style and finish"). Returns null otherwise.
+  function optionAxes(p) {
+    if (p.variants.length < 3) return null;
+    const parts = p.variants.map((v) => optName(v.name).split(/,\s*/));
+    const n = parts[0].length;
+    if (n < 2 || parts.some((x) => x.length !== n)) return null;
+    if (new Set(parts.map((x) => x.join("|"))).size !== parts.length) return null;
+    const values = Array.from({ length: n }, (_, i) => [...new Set(parts.map((x) => x[i]))]);
+    if (values.reduce((a, x) => a * x.length, 1) !== parts.length) return null;
+    const names = String(p.variantLabel || "").split(/\s+and\s+|,\s*/i);
+    const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+    return { parts, values, names: values.map((_, i) => cap(names.length === n ? names[i] : `Option ${i + 1}`)), cap };
+  }
+
+  // `v` is null while option questions are still unanswered (no price to show yet).
+  const buyLabel = (p, v) => p.soldOut ? "Sold out"
+    : p.deposit ? `Add deposit to cart<span class="pay-amount">${v ? ` – ${money(dueToday(p, v))}` : ""}</span>` : "Add to cart";
+  const priceRange = (p) => {
+    const prices = p.variants.map((v) => v.price), low = Math.min(...prices), high = Math.max(...prices);
+    return low === high ? money(low) : `${money(low)}–${money(high)}`;
+  };
+
+  // Reasons to trust buying here: shipping, who handles payment, and the same shop on Etsy.
+  function trustLine() {
+    const etsyName = CONFIG.etsyUrl ? CONFIG.etsyUrl.replace(/\/+$/, "").split("/").pop() : "";
+    return `<p class="trust">
+      <span>Free US shipping</span>
+      <span>Secure checkout with Stripe</span>
+      ${etsyName ? `<span>Also on Etsy as <a href="${esc(CONFIG.etsyUrl)}" target="_blank" rel="noopener">${esc(etsyName)}</a></span>` : ""}
+    </p>`;
   }
 
   function productPage(p) {
     const v0 = p.variants[0];
     const many = p.variants.length > 1;
+    const axes = many ? optionAxes(p) : null;
+    const samePrice = p.variants.every((v) => v.price === v0.price);
+    const vStart = axes ? null : v0; // option questions start unanswered, so nothing looks pre-picked
+    const cols = axes ? Math.max(...axes.values.map((x) => x.length)) : 1;
     const photos = (p.images || []);
+    const solo = inCategory(p.category).length === 1;
     return `
       <div class="wrap">
-        <a class="back" href="#${esc(p.category)}">← All ${esc(categoryOf(p.category).title.toLowerCase())}</a>
+        ${solo ? `<a class="back" href="#">← Everything</a>`
+          : `<a class="back" href="#${esc(p.category)}">← All ${esc(categoryOf(p.category).title.toLowerCase())}</a>`}
         <div class="product">
           <div class="gallery">
             <div class="stage" id="stage">
@@ -216,55 +320,95 @@
           <div class="info">
             <h1>${esc(p.name)}</h1>
             <div class="price-line">
-              <span class="price" id="price">${money(v0.price)}</span>
-              ${p.deposit ? `<span class="deposit-note" id="deposit-note">${money(dueToday(p, v0))} deposit today, the rest when it's finished</span>` : ""}
+              <span class="price" id="price">${vStart ? money(v0.price) : priceRange(p)}</span>
+              ${p.deposit ? `<span class="deposit-note" id="deposit-note">${vStart ? money(dueToday(p, v0)) : `${Math.round(p.deposit * 100)}%`} deposit today, the rest when it's finished</span>` : ""}
             </div>
-            ${p.deposit && p.steps && p.steps.length ? `<a class="policy-link" href="#how-it-works" data-jump="how-it-works">How the deposit, sketch and final payment work ↓</a>` : ""}
             ${p.size ? `<div class="size">Size: <b>${esc(p.size)}</b></div>` : ""}
             ${p.oneOfAKind && !p.soldOut ? `<div class="size">One of a kind: <b>only 1 available</b></div>` : ""}
-            ${many ? `<div class="field">
-              <label for="variant">${esc(p.variantLabel || "Option")}</label>
-              <span class="select"><select id="variant">${p.variants.map((v, i) => `<option value="${i}">${esc(optName(v.name))} — ${money(v.price)}</option>`).join("")}</select></span>
-            </div>` : ""}
-            <div class="buy-row">
-              ${singleOnly(p) ? "" : `<div class="qty" role="group" aria-label="Quantity">
-                <button type="button" id="qty-minus" aria-label="One fewer">−</button>
-                <output id="qty" aria-live="polite">1</output>
-                <button type="button" id="qty-plus" aria-label="One more">+</button>
-              </div>`}
-              <button class="btn" id="add" type="button" ${p.soldOut ? "disabled" : ""}>${p.soldOut ? "Sold out"
-                : p.deposit ? `Pay 50% deposit – <span id="pay-amount">${money(dueToday(p, v0))}</span>` : "Add to cart"}</button>
+            <div class="buy" id="buy" style="--cols:${cols}">
+              ${axes ? axes.values.map((vals, i) => `<fieldset class="choice" id="axis-${i}">
+                <legend>${esc(axes.names[i])}<span class="choice-need"> · choose one</span></legend>
+                <div class="choices">${vals.map((val) => `<label><input type="radio" name="axis-${i}" value="${esc(val)}"><span class="opt"><svg class="tick" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.6 3.4 7.4-8"/></svg><span class="opt-text">${esc(axes.cap(val))}</span></span></label>`).join("")}</div>
+              </fieldset>`).join("")
+              : many ? `<div class="field">
+                <label for="variant">${esc(p.variantLabel || "Option")}</label>
+                <span class="select"><select id="variant">${p.variants.map((v, i) => `<option value="${i}">${esc(optName(v.name))}${samePrice ? "" : ` — ${money(v.price)}`}</option>`).join("")}</select></span>
+              </div>` : ""}
+              <div class="buy-row">
+                ${singleOnly(p) ? "" : `<div class="qty" role="group" aria-label="Quantity">
+                  <button type="button" id="qty-minus" aria-label="One fewer">−</button>
+                  <output id="qty" aria-live="polite">1</output>
+                  <button type="button" id="qty-plus" aria-label="One more">+</button>
+                </div>`}
+                <button class="btn" id="add" type="button" ${p.soldOut ? "disabled" : ""}>${buyLabel(p, vStart)}</button>
+              </div>
             </div>
+            ${p.steps && p.steps.length ? `<section class="steps" aria-labelledby="how-it-works">
+              <h2 id="how-it-works">How it works</h2>
+              <ol class="steps-list">${p.steps.map((t) => `<li><span>${escMail(t)}</span></li>`).join("")}</ol>
+              ${p.deposit ? `<p class="steps-note">${CONFIG.contactEmail ? `Photos of your home go to ${emailLink(".")} ` : ""}At checkout there's a box for your deadline or any notes. <a class="policy-link" href="#policies-commissions">Full commission policy</a></p>` : ""}
+            </section>` : ""}
+            ${p.soldOut ? "" : trustLine()}
             <div class="prose">
               ${describe(relabel(shownDescription(p)), escMail)}
-              ${p.details && p.details.length ? `<h3>Details</h3><ul>${p.details.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
-              ${p.steps && p.steps.length ? `<h3 id="how-it-works" class="jump-target">How it works</h3><ol>${p.steps.map((t) => `<li>${escMail(t)}</li>`).join("")}</ol>${p.deposit ? `<a class="policy-link" href="#policies-commissions">Full commission policy →</a>` : ""}` : ""}
-              ${p.policy ? `<p class="fineprint">${esc(p.policy)}</p>` : ""}
-              ${p.deposit && CONFIG.contactEmail ? `<p class="fineprint">Photos of your home go to ${emailLink(".")}</p>` : ""}
+              ${p.details && p.details.length ? `<h2>Details</h2><ul>${p.details.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
+              ${p.policy ? `<p class="fineprint">${escMail(p.policy)}</p>` : ""}
               ${p.disclaimer ? `<p class="fineprint">${esc(p.disclaimer)}</p>` : ""}
             </div>
           </div>
         </div>
+        ${p.soldOut ? "" : `<div class="buybar" id="buybar" hidden>
+          <div class="buybar-text"><span class="buybar-name">${esc(p.name)}</span><span class="buybar-price" id="buybar-price">${!vStart ? `From ${money(Math.min(...p.variants.map((v) => dueToday(p, v))))}${p.deposit ? " deposit" : ""}` : p.deposit ? `${money(dueToday(p, v0))} deposit` : money(v0.price)}</span></div>
+          <button class="btn" type="button" id="buybar-btn">${many ? `Choose ${esc((p.variantLabel || "an option").toLowerCase())}` : "Add to cart"}</button>
+        </div>`}
       </div>`;
   }
 
+  let buyWatch = null; // shows the phone buy bar while the real buy button is off screen
   function wireProduct(p) {
-    let qty = 1;
     const sel = document.getElementById("variant");
-    const current = () => p.variants[sel ? Number(sel.value) : 0];
-    if (sel) sel.addEventListener("change", () => {
-      document.getElementById("price").textContent = money(current().price);
+    const axes = p.variants.length > 1 ? optionAxes(p) : null;
+    let qty = 1, vi = axes ? null : 0; // null until every option question is answered
+    const current = () => p.variants[vi];
+    const update = () => {
+      const v = current();
+      document.getElementById("price").textContent = money(v.price);
       const dn = document.getElementById("deposit-note");
-      if (dn) dn.textContent = `${money(dueToday(p, current()))} deposit today, the rest when it's finished`;
-      const pa = document.getElementById("pay-amount");
-      if (pa) pa.textContent = money(dueToday(p, current()) * qty);
+      if (dn) dn.textContent = `${money(dueToday(p, v))} deposit today, the rest when it's finished`;
+      document.querySelectorAll(".pay-amount").forEach((el) => el.textContent = (p.deposit ? " – " : "") + money(dueToday(p, v) * qty));
+      const bp = document.getElementById("buybar-price");
+      if (bp) bp.textContent = p.deposit ? `${money(dueToday(p, v))} deposit` : money(v.price * qty);
+      const bb = document.getElementById("buybar-btn");
+      if (bb && axes) bb.textContent = "Check out"; // every question answered: the bar can finish the job
+    };
+    if (sel) sel.addEventListener("change", () => { vi = Number(sel.value); update(); });
+    const unanswered = () => axes ? axes.values.map((_, i) => i).filter((i) => !document.querySelector(`input[name="axis-${i}"]:checked`)) : [];
+    // Option buttons: one per row as soon as any label would otherwise wrap (depends on the
+    // column's width, not the screen's, so it also covers the narrow two-column layout).
+    const buyBox = document.getElementById("buy");
+    const fit = () => {
+      if (!axes) return;
+      buyBox.classList.remove("stacked");
+      // room for the label plus the check's side padding on both sides (so the label stays centred)
+      const tight = [...buyBox.querySelectorAll(".choices .opt")].some((o) => {
+        const pad = parseFloat(getComputedStyle(o).paddingLeft) * 2;
+        return o.querySelector(".opt-text").offsetWidth + pad > o.clientWidth;
+      });
+      buyBox.classList.toggle("stacked", tight);
+    };
+    if (axes && "ResizeObserver" in window) new ResizeObserver(fit).observe(buyBox);
+    if (axes) document.fonts?.ready.then(fit);
+    fit();
+    if (axes) document.getElementById("buy").addEventListener("change", (e) => {
+      if (!e.target.matches("input[type=radio]")) return;
+      e.target.closest(".choice").classList.remove("needs");
+      if (unanswered().length) return;
+      const picked = axes.values.map((_, i) => document.querySelector(`input[name="axis-${i}"]:checked`).value);
+      const i = axes.parts.findIndex((x) => x.every((val, k) => val === picked[k]));
+      if (i !== -1) { vi = i; update(); }
     });
     const out = document.getElementById("qty");
-    const setQty = (n) => {
-      qty = Math.max(1, Math.min(50, n)); if (out) out.textContent = qty;
-      const pa = document.getElementById("pay-amount");
-      if (pa) pa.textContent = money(dueToday(p, current()) * qty);
-    };
+    const setQty = (n) => { qty = Math.max(1, Math.min(50, n)); if (out) out.textContent = qty; update(); };
     document.getElementById("qty-minus")?.addEventListener("click", () => setQty(qty - 1));
     document.getElementById("qty-plus")?.addEventListener("click", () => setQty(qty + 1));
     // Photos: thumbnails, arrows (desktop), swipe (phones) and the keyboard's left/right keys.
@@ -274,6 +418,8 @@
       if (total < 2) return;
       shown = (i + total) % total;
       document.getElementById("main-pic").innerHTML = picture(p, shown);
+      const img = document.querySelector("#main-pic img");
+      if (img) img.complete ? pin() : img.addEventListener("load", pin, { once: true });
       document.querySelectorAll("[data-pic]").forEach((x) => {
         const on = Number(x.dataset.pic) === shown;
         x.setAttribute("aria-pressed", on);
@@ -293,15 +439,41 @@
       x0 = y0 = null;
     }, { passive: true });
     gallery = total > 1 ? { next: () => show(shown + 1), prev: () => show(shown - 1) } : null;
-    // "How it works" link: scroll to the steps on this page (the address bar stays on the product)
-    document.querySelectorAll("[data-jump]").forEach((a) => a.addEventListener("click", (e) => {
-      e.preventDefault();
-      document.getElementById(a.dataset.jump)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }));
-    document.getElementById("add").addEventListener("click", () => {
-      addToCart(p.id, sel ? Number(sel.value) : 0, qty);
-      openCart(); // the open cart is the confirmation, so no separate "Added" note
-    });
+    // Computers: keep the photos in view while reading, but only when they fit on the screen.
+    const gal = document.querySelector(".gallery");
+    const pin = () => gal.classList.toggle("pinned", gal.offsetHeight < innerHeight - document.querySelector(".header").offsetHeight - 40);
+    gal.querySelectorAll("img").forEach((img) => img.complete || img.addEventListener("load", pin, { once: true }));
+    pin(); onresize = pin;
+    const buy = () => {
+      // Unanswered questions: point to them instead of guessing
+      const missing = unanswered();
+      if (missing.length) {
+        missing.forEach((i) => document.getElementById(`axis-${i}`).classList.add("needs"));
+        document.querySelector(`input[name="axis-${missing[0]}"]`).focus();
+        return;
+      }
+      addToCart(p.id, vi, qty); openCart(); // the open cart is the confirmation
+    };
+    document.getElementById("add").addEventListener("click", buy);
+    // Phone buy bar: adds straight away, or takes you to the options first when there are some.
+    const bar = document.getElementById("buybar");
+    if (bar && "IntersectionObserver" in window) {
+      document.getElementById("buybar-btn").addEventListener("click", () => {
+        if (axes && !unanswered().length) { buy(); return checkout(); } // adds it, then off to payment
+        if (p.variants.length < 2) return buy();
+        const target = document.getElementById("buy");
+        target.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+        target.querySelector("input:checked, select")?.focus({ preventScroll: true });
+      });
+      // Hidden while the real buy button or the page footer is on screen, so neither gets covered.
+      const onScreen = new Set();
+      buyWatch = new IntersectionObserver((entries) => {
+        entries.forEach((e) => e.isIntersecting ? onScreen.add(e.target) : onScreen.delete(e.target));
+        bar.hidden = onScreen.size > 0;
+      });
+      buyWatch.observe(document.getElementById("add"));
+      buyWatch.observe(document.getElementById("footer"));
+    }
   }
 
   // ---------- shop policies (text lives in data/policies.html) ----------
@@ -332,15 +504,24 @@
     }
   }
 
+  // The cart only empties after a real checkout: Stripe sends people back with ?checkout=done,
+  // and this tab remembers what was in the order (opening #thanks by hand changes nothing).
   function thanksPage() {
-    cart = []; saveCart();
+    let order = null;
+    try { order = JSON.parse(sessionStorage.getItem(CHECKOUT_KEY)); sessionStorage.removeItem(CHECKOUT_KEY); } catch { /* not saved */ }
+    const paid = Boolean(order) || /[?&]checkout=done\b/.test(location.search);
+    if (paid) {
+      cart = []; saveCart();
+      if (location.search) history.replaceState(null, "", location.pathname + location.hash);
+    }
+    const portrait = order ? order.portrait : true; // unknown order: show the portrait step too
     return `<div class="wrap"><section class="thanks">
       <h1>Thank you!</h1>
-      <p class="lead">Your order is in. Stripe is emailing you a receipt, and I'll ship your order soon.</p>
-      <div class="note">
-        <h2>Ordered a house portrait?</h2>
+      <p class="lead">Your order is in. Stripe is emailing you a receipt${order && !order.shipsNow ? "." : ", and I'll ship your order soon."}</p>
+      ${portrait ? `<div class="note">
+        <h2>${order ? "Next: send me a photo of the home" : "Ordered a house portrait?"}</h2>
         <p>Email a clear, straight-on photo of the home${CONFIG.contactEmail ? ` to ${emailLink(",")}` : ","} plus your deadline and any details that matter to you. I'll send a pencil sketch to approve before I start inking.</p>
-      </div>
+      </div>` : ""}
       <a class="btn btn-link" href="#">Keep shopping</a>
     </section></div>`;
   }
@@ -369,9 +550,13 @@
     if (el) el.textContent = cart.reduce((n, l) => n + l.qty, 0);
   }
 
-  function openCart(message) {
+  // `message` is a note or error to show; `focus` is a selector for what gets keyboard focus
+  // after the cart redraws (so changing a quantity doesn't throw you back to the top).
+  let cartOpener = null, removed = null;
+  function openCart(message, focus) {
     cart = validLines();
     const root = document.getElementById("drawer-root");
+    if (!root.querySelector(".drawer")) cartOpener = document.activeElement;
     let total = 0, later = 0;
     const rows = cart.map((l, i) => {
       const p = byId(l.id), v = p.variants[l.variant];
@@ -380,7 +565,7 @@
       return `<div class="line">
         ${picture(p)}
         <div>
-          <div class="line-name">${esc(p.name)}</div>
+          <a class="line-name" href="#${esc(p.id)}" data-close>${esc(p.name)}</a>
           <div class="line-variant">${esc(p.variants.length > 1 ? optName(v.name) : (p.size || v.name))}${p.deposit ? " · 50% deposit" : ""}${p.oneOfAKind ? " · one of a kind" : ""}</div>
           ${singleOnly(p) ? "" : `<div class="line-actions"><div class="qty" role="group" aria-label="Quantity of ${esc(p.name)}">
               <button type="button" data-dec="${i}" aria-label="One fewer">−</button><output>${l.qty}</output><button type="button" data-inc="${i}" aria-label="One more">+</button>
@@ -396,34 +581,68 @@
       <div class="scrim" id="scrim"></div>
       <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title">
         <div class="drawer-head"><h2 id="cart-title">Your cart</h2><button class="icon-btn" id="close-cart" type="button" aria-label="Close cart">×</button></div>
-        <div class="lines">${rows || `<div class="empty"><p>Your cart is empty.</p><a class="btn btn-link" href="#" id="cart-browse">Browse the shop</a></div>`}</div>
+        <div class="lines">${removed ? `<div class="msg undo" role="status">Removed ${esc(byId(removed.line.id).name)}. <button type="button" class="link-btn" id="undo">Undo</button></div>` : ""}${rows || `<div class="empty"><p>Your cart is empty.</p><a class="btn btn-link" href="#" id="cart-browse">Browse the shop</a></div>`}</div>
         ${cart.length ? `<div class="drawer-foot">
           <div class="sum-row"><span>Shipping</span><span class="free">Free</span></div>
           <div class="sum-row total"><span>Due today</span><span>${money(total)}</span></div>
           ${later > 0 ? `<div class="fineprint">Plus ${money(later)} for the portrait balance, invoiced when it's finished.</div>` : ""}
-          ${message ? `<div class="msg ${message.error ? "error" : ""}">${esc(message.text)}</div>` : ""}
+          ${message ? `<div class="msg ${message.error ? "error" : ""}" role="alert">${esc(message.text)}</div>` : ""}
           <button class="btn" id="checkout" type="button">Check out</button>
-          <div class="fineprint">You'll pay on Stripe's secure checkout page. Cards, Apple Pay and Google Pay accepted.</div>
+          <button class="btn btn-secondary" id="keep-shopping" type="button">Continue shopping</button>
+          <div class="fineprint">You'll pay on Stripe's secure checkout page, where any sales tax is added. Cards, Apple Pay and Google Pay accepted. <a href="#policies" data-close>Shipping and returns</a></div>
         </div>` : ""}
       </aside>`;
     document.getElementById("scrim").onclick = closeCart;
     document.getElementById("close-cart").onclick = closeCart;
     const browse = document.getElementById("cart-browse");
-    if (browse) browse.onclick = closeCart;
-    root.querySelectorAll("[data-inc]").forEach((b) => b.onclick = () => { cart[b.dataset.inc].qty = Math.min(50, cart[b.dataset.inc].qty + 1); saveCart(); openCart(); });
-    root.querySelectorAll("[data-dec]").forEach((b) => b.onclick = () => { const l = cart[b.dataset.dec]; l.qty > 1 ? l.qty-- : cart.splice(b.dataset.dec, 1); saveCart(); openCart(); });
-    root.querySelectorAll("[data-remove]").forEach((b) => b.onclick = () => { cart.splice(b.dataset.remove, 1); saveCart(); openCart(); });
+    if (browse) browse.onclick = () => closeCart(false);
+    root.querySelectorAll("[data-close]").forEach((a) => a.onclick = () => closeCart(false));
+    const redraw = (sel) => { removed = null; saveCart(); openCart(null, sel); };
+    root.querySelectorAll("[data-inc]").forEach((b) => b.onclick = () => { const i = b.dataset.inc; cart[i].qty = Math.min(50, cart[i].qty + 1); redraw(`[data-inc="${i}"]`); });
+    root.querySelectorAll("[data-dec]").forEach((b) => b.onclick = () => {
+      const i = Number(b.dataset.dec), l = cart[i];
+      if (l.qty > 1) { l.qty--; redraw(`[data-dec="${i}"]`); }
+      else { removed = { line: cart.splice(i, 1)[0], index: i }; saveCart(); openCart(null, "#undo"); }
+    });
+    root.querySelectorAll("[data-remove]").forEach((b) => b.onclick = () => {
+      const i = Number(b.dataset.remove);
+      removed = { line: cart.splice(i, 1)[0], index: i }; saveCart(); openCart(null, "#undo");
+    });
+    const undo = document.getElementById("undo");
+    if (undo) undo.onclick = () => {
+      cart.splice(Math.min(removed.index, cart.length), 0, removed.line);
+      redraw(`[data-remove="${Math.min(removed.index, cart.length - 1)}"]`);
+    };
     document.getElementById("checkout")?.addEventListener("click", checkout);
-    document.getElementById("close-cart").focus();
-    document.addEventListener("keydown", escClose);
+    const keep = document.getElementById("keep-shopping");
+    if (keep) keep.onclick = () => closeCart();
+    (focus && root.querySelector(focus) || document.getElementById("close-cart")).focus();
+    document.addEventListener("keydown", drawerKeys);
   }
-  function closeCart() {
+  // `restore` returns focus to whatever opened the cart (not when following a link out of it).
+  function closeCart(restore = true) {
     document.getElementById("drawer-root").innerHTML = "";
-    document.removeEventListener("keydown", escClose);
+    document.removeEventListener("keydown", drawerKeys);
+    removed = null;
+    if (restore) (cartOpener && document.contains(cartOpener) ? cartOpener : document.getElementById("open-cart")).focus();
+    cartOpener = null;
   }
-  function escClose(e) { if (e.key === "Escape") closeCart(); }
+  // Escape closes the cart; Tab stays inside it while it's open.
+  function drawerKeys(e) {
+    if (e.key === "Escape") return closeCart();
+    if (e.key !== "Tab") return;
+    const items = [...document.querySelectorAll("#drawer-root .drawer :is(a[href], button:not(:disabled))")];
+    if (!items.length) return;
+    const first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
 
   function checkout() {
+    if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
+      openCart({ text: "Checkout only runs on the real site (Cloudflare runs it). On shop.edmcveigh.com or your pages.dev address, this button opens Stripe's checkout page." });
+      return;
+    }
     if (window.SHOP_DEMO) {
       openCart({ text: "This is a preview, so checkout is switched off. On your live site, this button opens Stripe's checkout page with everything in the cart." });
       return;
@@ -441,11 +660,17 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ items })
       });
-      const data = await res.json();
-      if (!res.ok || !data.url) throw new Error(data.error || "Checkout isn't available right now.");
+      let data = {};
+      try { data = await res.json(); } catch { /* an error page instead of an answer */ }
+      if (!res.ok || !data.url) throw Object.assign(new Error(data.error || ""), { shown: Boolean(data.error) });
+      // Remembered for the thank-you page, which empties the cart and tailors its note.
+      const lines = items.map((l) => byId(l.id)).filter(Boolean);
+      try { sessionStorage.setItem(CHECKOUT_KEY, JSON.stringify({ portrait: lines.some((p) => p.deposit), shipsNow: lines.some((p) => !p.deposit) })); } catch { /* not saved */ }
       window.location.href = data.url; // Stripe's hosted checkout page
     } catch (err) {
-      const text = err.message + " Please try again, or email me if it keeps happening.";
+      if (!err.shown) console.error("Checkout failed", err);
+      const reason = err.shown ? err.message : "Checkout didn't open.";
+      const text = `${reason} Nothing was charged. Please try again, or email me if it keeps happening.`;
       if (msg) { btn.disabled = false; btn.innerHTML = label; msg.textContent = text; msg.hidden = false; }
       else openCart({ error: true, text });
     }
@@ -461,6 +686,8 @@
   // ---------- router ----------
   function route() {
     gallery = null;
+    if (buyWatch) { buyWatch.disconnect(); buyWatch = null; }
+    onresize = null;
     const hash = decodeURIComponent(location.hash.slice(1));
     const p = byId(hash);
     if (p) {
@@ -486,7 +713,9 @@
       document.title = "Thank you · ed.mcveigh shop";
     } else {
       const filter = CATEGORIES.some((c) => c.id === hash) ? hash : "";
-      app.innerHTML = homePage(filter); renderChrome(filter);
+      const only = filter && inCategory(filter);
+      if (only && only.length === 1) { location.replace("#" + only[0].id); return; }
+      app.innerHTML = homePage(filter); renderChrome(filter); wireJumps();
       document.title = "ed.mcveigh shop";
       if (hash === "cart") setTimeout(openCart);
     }
@@ -529,7 +758,7 @@ function describe(paragraphs, esc) {
   const isBullet = (l) => /^\s*[•\-–]\s+/.test(l);
   const strip = (l) => l.replace(/^\s*[•\-–]\s+/, "");
   const isHeading = (l) => /^✦/.test(l.trim()) || (/:\s*$/.test(l) && l.trim().length <= 40);
-  const heading = (l) => `<h3>${esc(l.trim().replace(/^✦\s*/, "").replace(/:\s*$/, ""))}</h3>`;
+  const heading = (l) => `<h2>${esc(l.trim().replace(/^✦\s*/, "").replace(/:\s*$/, ""))}</h2>`;
   const list = (lines) => `<ul>${lines.map((l) => `<li>${esc(strip(l))}</li>`).join("")}</ul>`;
   let out = "", afterHeading = false;
   for (const para of paragraphs) {

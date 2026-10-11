@@ -42,8 +42,9 @@ body {
   font: 16px/1.55 var(--ui);
   -webkit-font-smoothing: antialiased;
   min-height: 100svh;
-  transition: background .35s ease, color .35s ease;
+  transition: background .2s ease, color .2s ease;
 }
+::selection { background: var(--ink); color: var(--cream); }
 .intro body { overflow: hidden; }
 img { max-width: 100%; display: block; }
 a { color: var(--ink); }
@@ -63,7 +64,7 @@ button { font: inherit; color: inherit; }
   position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
   background: var(--cream);
   border-bottom: 2px solid var(--ink);
-  transition: background .35s ease, border-color .35s ease;
+  transition: background .2s ease, border-color .2s ease;
 }
 .header-inner {
   max-width: 1120px; margin: 0 auto; padding-inline: var(--edge);
@@ -98,8 +99,8 @@ button { font: inherit; color: inherit; }
 
 /* Lifting buttons keep a strip under them that still counts as hovering, so a pointer
    resting on the bottom edge doesn't make them bounce up and down. */
-.mode, .cart-btn, .menu-btn, .btn { position: relative; }
-.mode::after, .cart-btn::after, .menu-btn::after, .btn::after { content: ""; position: absolute; left: -2px; right: -2px; top: 100%; height: 6px; }
+.mode, .cart-btn, .menu-btn, .btn, .jump a { position: relative; }
+.mode::after, .cart-btn::after, .menu-btn::after, .btn::after, .jump a::after { content: ""; position: absolute; left: -2px; right: -2px; top: 100%; height: 6px; }
 .mode, .cart-btn, .menu-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   height: var(--btn-h); border: 2px solid var(--ink); border-radius: var(--radius);
@@ -163,12 +164,79 @@ button { font: inherit; color: inherit; }
 /* ---------- Intro on the front page ---------- */
 .hello { padding-block: 44px 4px; }
 .hello h1 { font-family: var(--display); font-weight: 400; font-size: clamp(46px, 8.8vw, 76px); line-height: 1.05; margin: 0 0 18px; text-wrap: balance; }
-.hello p { color: var(--ink-soft); max-width: 54ch; margin: 0; font-size: 17px; }
+.hello p { color: var(--ink-soft); max-width: 58ch; margin: 0; font-size: 17px; }
+
+/* Section chips under the intro: jump down the front page */
+.jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.jump a {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px;
+  border: 2px solid var(--ink); border-radius: var(--radius); color: var(--ink); text-decoration: none;
+  font-weight: 600; font-size: 15px; white-space: nowrap;
+  transition: transform .2s cubic-bezier(.2,.7,.2,1), background .2s, color .2s;
+}
+.jump a:hover, .jump a:focus-visible { transform: translateY(-2px); background: var(--ink); color: var(--cream); outline: none; }
+
+/* The feature: house portraits near the top of the front page. A real drawing laid on the mat
+   like a print; it straightens when you point at it. */
+.feature-sec { padding-block: 24px 0; }
+.section, .feature-sec { scroll-margin-top: calc(var(--header-h) + 12px); }
+.feature {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: center;
+  border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden;
+  background: var(--cream); color: var(--ink); text-decoration: none;
+  box-shadow: 0 2px 4px var(--shadow);
+  transition: transform .22s cubic-bezier(.2,.7,.2,1), box-shadow .22s cubic-bezier(.2,.7,.2,1);
+}
+.feature:hover, .feature:focus-visible { transform: translateY(-4px); box-shadow: 0 10px 18px -6px var(--shadow-lift); outline: none; }
+.feature-mat {
+  align-self: stretch; display: grid; place-items: center;
+  background: var(--tint); border-right: 2px solid var(--ink);
+  padding: clamp(20px, 3vw, 36px);
+}
+.feature-print {
+  width: 100%; max-width: 380px; background: #fff; padding: 3.5%;
+  transform: rotate(-2deg);
+  box-shadow: 0 2px 4px rgb(0 0 0 / .16), 0 12px 28px rgb(0 0 0 / .14);
+  transition: transform .45s cubic-bezier(.2,.7,.2,1);
+}
+.feature .portrait-ph { transform: rotate(-2deg); }
+.feature:hover .feature-print, .feature:focus-visible .feature-print { transform: rotate(0deg) scale(1.015); }
+.feature-body { display: grid; gap: 12px; justify-items: start; padding: clamp(22px, 4vw, 48px); }
+.feature-body h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(32px, 4.4vw, 46px); line-height: 1.05; }
+.feature-body p { margin: 0; max-width: 34ch; font-size: 17px; }
+.feature-body .feature-price { font-weight: 700; font-variant-numeric: tabular-nums; }
+/* the card lifts as a whole, so its button doesn't lift again on its own */
+.feature-cta, .feature:hover .feature-cta, .feature:focus-visible .feature-cta { flex: none; min-width: 0; margin-top: 6px; transform: none; box-shadow: none; }
+.feature-cta::after { content: none; }
+/* Below tablet width the drawing sits on top, large, with the words under it */
+@media (max-width: 767px) {
+  .feature { grid-template-columns: minmax(0, 1fr); }
+  .feature-mat { border-right: 0; border-bottom: 2px solid var(--ink); padding: 28px 24px 30px; }
+  .feature-print { max-width: 420px; padding: 3%; }
+  .feature-body { gap: 10px; padding: 18px 18px 20px; }
+  .feature-body p { max-width: 46ch; }
+  .feature-cta { width: 100%; text-align: center; }
+}
+@media (max-width: 600px) {
+  .hello { padding-top: 30px; }
+  .jump { margin-top: 18px; }
+  .feature-sec { padding-top: 20px; }
+  .feature-body h2 { font-size: 30px; }
+  .feature-body p { font-size: 16px; line-height: 1.5; }
+}
 
 .section { padding-block: 32px; }
 .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 20px; flex-wrap: wrap; border-bottom: 2px solid var(--ink); padding-bottom: 10px; }
 .section-head h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(26px, 4vw, 34px); line-height: 1.1; }
 .section-head p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+/* groups inside a section (stickers: Philly, then Cats), with chips to jump between them */
+.jump-groups { margin: -4px 0 22px; }
+.group { scroll-margin-top: calc(var(--header-h) + 12px); }
+.group + .group { margin-top: 34px; }
+.group-head {
+  display: flex; align-items: center; gap: 8px; margin: 0 0 14px;
+  font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+}
 
 /* ---------- Product grid ---------- */
 .grid { display: grid; gap: 26px 22px; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
@@ -216,7 +284,7 @@ button { font: inherit; color: inherit; }
 }
 .portrait-ph { width: 62%; aspect-ratio: 4 / 5; background: #fff; padding: 9%; box-shadow: 0 2px 4px rgb(0 0 0 / .16), 0 12px 28px rgb(0 0 0 / .14); display: grid; }
 .portrait-ph span { border: 2px solid var(--swatch, #18602a); display: grid; place-items: center; text-align: center; font-family: var(--display); color: var(--swatch, #18602a); font-size: clamp(14px, 2vw, 19px); padding: 6px; }
-.ph-note { position: absolute; bottom: 8px; right: 10px; font-size: 11px; color: var(--ink-soft); letter-spacing: .05em; text-transform: uppercase; }
+.ph-note { position: absolute; bottom: 8px; right: 10px; font-size: 11px; color: var(--ink); letter-spacing: .05em; text-transform: uppercase; }
 .sold-out .mat { filter: grayscale(.85); opacity: .6; }
 
 /* ---------- Product page ---------- */
@@ -226,6 +294,10 @@ button { font: inherit; color: inherit; }
 .product { display: grid; gap: clamp(24px, 5vw, 56px); grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); padding-block: 18px 56px; align-items: start; }
 @media (max-width: 760px) { .product { grid-template-columns: 1fr; } }
 .gallery { display: grid; gap: 10px; min-width: 0; }
+/* Stacked layout: the option questions and buy button sit a little in from the page edges */
+@media (max-width: 760px) { .buy { padding-inline: clamp(0px, 5vw - 12px, 36px); } }
+/* Computers: the photos stay in view while you read, when they fit on the screen (set by shop.js) */
+@media (min-width: 761px) { .gallery.pinned { position: sticky; top: calc(var(--header-h) + 20px); } }
 .gallery .frame { border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
 /* Photo stage: swipe on phones, left/right keys. Arrows sit at the ends of the thumbnail row
    (computers only), so nothing covers the photo itself. */
@@ -268,7 +340,75 @@ button { font: inherit; color: inherit; }
 /* focus: the border thickens instead of a second ring around it */
 .field select:focus { outline: none; }
 .field select:focus-visible { box-shadow: inset 0 0 0 1px var(--ink); }
+.buy { display: grid; gap: 16px; }
 .buy-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* Option questions as buttons (house portrait: style, then finish). The chosen one fills with ink. */
+.choice { border: 0; margin: 0; padding: 0; min-width: 0; }
+.choice legend { padding: 0; margin-bottom: 8px; font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
+.choice-need { display: none; color: var(--error); }
+.choice.needs .choice-need { display: inline; }
+/* Every option button is the same size, in as many equal columns as the longest question has
+   options (--cols, set by shop.js). A label never wraps: when any button is too narrow for its
+   label, shop.js adds .stacked and they all go one per row. All start as outlines. */
+.choices { display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); gap: 8px; }
+.buy.stacked .choices { grid-template-columns: minmax(0, 1fr); }
+.choices label { position: relative; display: flex; cursor: pointer; }
+.choices input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.choices .opt {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; width: 100%; min-height: 48px; padding: 6px 34px; white-space: nowrap;
+  border: 2px solid var(--ink); border-radius: var(--radius); background: var(--cream); text-align: center;
+  font-weight: 600; transition: background .15s, color .15s;
+}
+.choices label:hover .opt { background: var(--tint); }
+/* Picked: a light ink wash (so it never competes with the solid buy button) and a check
+   that draws itself in */
+.choices input:checked + span { background: color-mix(in srgb, var(--ink) 16%, var(--cream)); }
+.tick {
+  position: absolute; left: 11px; top: 50%; width: 18px; height: 18px; margin-top: -9px;
+  fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 20; stroke-dashoffset: 20; opacity: 0;
+  transition: stroke-dashoffset .32s cubic-bezier(.2,.7,.2,1) .04s, opacity .12s;
+}
+.choices input:checked + span .tick { stroke-dashoffset: 0; opacity: 1; }
+.choices input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* The commission's steps, right under the button: numbered ink tiles on the mat */
+.steps { margin-top: 12px; display: grid; gap: 12px; padding: 16px 18px 18px; border: 2px solid var(--ink); border-radius: var(--radius); background: var(--tint); }
+.steps h2 { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+.steps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: step; }
+.steps-list li { counter-increment: step; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; align-items: start; font-size: 15px; line-height: 1.45; }
+.steps-list li::before {
+  content: counter(step); width: 26px; height: 26px; margin-top: -1px; border-radius: 2px;
+  display: grid; place-items: center; background: var(--ink); color: var(--cream);
+  font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+.steps-note { margin: 0; padding-top: 10px; border-top: 1px solid color-mix(in srgb, var(--ink) 25%, transparent); font-size: 14px; }
+.steps .policy-link { white-space: nowrap; }
+
+/* Why it's safe to buy here, under the buy button */
+/* sits close under the box above it, with room before the description */
+.trust { margin: -6px 0 14px; display: flex; flex-wrap: wrap; row-gap: 4px; font-size: 13px; color: var(--ink-soft); }
+.trust span:not(:last-child)::after { content: "·"; margin-inline: 8px; }
+.trust a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+
+/* Phones: a buy bar at the bottom while the real button is off screen */
+.buybar { display: none; }
+@media (max-width: 760px) {
+  .buybar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px var(--edge) calc(10px + env(safe-area-inset-bottom, 0px));
+    background: var(--cream); border-top: 2px solid var(--ink);
+    box-shadow: 0 -10px 18px -12px var(--shadow-lift);
+  }
+  .buybar-text { flex: 1; min-width: 0; display: grid; }
+  /* the name wraps to a second line rather than being cut off (very long names stop at two) */
+  .buybar-name { font-size: 14px; font-weight: 600; line-height: 1.25; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+  .buybar-price { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .buybar .btn { flex: none; min-width: 0; max-width: 55%; padding: 10px 16px; font-size: 15px; line-height: 1.25; }  /* may wrap to two lines on narrow phones */
+  .product { padding-bottom: 88px; }
+}
 .qty { display: inline-flex; align-items: center; border: 2px solid var(--ink); border-radius: var(--radius); }
 .qty button { width: 38px; height: 44px; border: 0; background: none; cursor: pointer; font-size: 18px; color: var(--ink); }
 .qty button:hover { background: var(--tint); }
@@ -289,9 +429,10 @@ button { font: inherit; color: inherit; }
 .jump-target { scroll-margin-top: calc(var(--header-h) + 24px); }
 .prose { display: grid; gap: 12px; max-width: 62ch; }
 .prose p { margin: 0; white-space: pre-line; }   /* keeps the line breaks in Etsy descriptions */
-.prose h3 { margin: 8px 0 0; font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
+.prose h2, .prose h3 { margin: 8px 0 0; font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
 .prose ul, .prose ol { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
-.fineprint { font-size: 13px; color: var(--ink-soft); }
+.fineprint { font-size: 13px; color: var(--ink-soft); max-width: 72ch; }
+.prose .fineprint { max-width: none; font-size: 14px; }
 
 /* ---------- Cart drawer ---------- */
 .scrim { position: fixed; inset: 0; background: rgb(10 12 10 / .45); z-index: 40; }
@@ -311,12 +452,16 @@ button { font: inherit; color: inherit; }
 .line .sticker { border-width: 3px; font-size: 9px; padding: 2px; }
 .line .portrait-ph span { font-size: 8px; border-width: 1px; }
 .line .ph-note { display: none; }
-.line-name { font-weight: 600; font-size: 15px; line-height: 1.3; }
+.line-name { display: block; font-weight: 600; font-size: 15px; line-height: 1.3; color: var(--ink); text-decoration: none; }
+.line-name:hover { text-decoration: underline; text-underline-offset: 3px; }
 .line-variant { font-size: 13px; color: var(--ink-soft); }
 .line-actions { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
 .line-actions:empty { display: none; }
 .line .qty button { width: 30px; height: 30px; font-size: 16px; }
 .link-btn { border: 0; background: none; padding: 0; color: var(--ink-soft); font-size: 13px; text-decoration: underline; cursor: pointer; }
+.msg.undo { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; }
+.msg.undo .link-btn { color: var(--ink); font-size: 14px; font-weight: 700; text-underline-offset: 3px; padding: 4px 2px; }
+.drawer-foot .fineprint a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
 .line-end { align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; gap: 8px; }
 .line-price { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
 .trash { border: 0; background: none; padding: 4px; margin: -4px; color: var(--ink-soft); cursor: pointer; border-radius: var(--radius); display: grid; }
@@ -360,7 +505,7 @@ button { font: inherit; color: inherit; }
 .thanks p { margin: 0; }
 .thanks .lead { font-size: 18px; }
 .thanks .note { border: 2px solid var(--ink); border-radius: var(--radius); background: var(--tint); padding: 16px 18px; display: grid; gap: 6px; margin-bottom: 10px; } /* matches the visual gap above it (the lead line's spacing adds ~10px there) */
-.thanks .note h2 { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
+.thanks .note h2 { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink); }
 /* a link that looks like the main button (thank-you page, empty cart) */
 .btn-link { flex: none; display: inline-block; text-align: center; text-decoration: none; min-width: 0; }
 .footer { border-top: 2px solid var(--ink); margin-top: 24px; }

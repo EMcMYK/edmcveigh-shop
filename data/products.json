@@ -1736,22 +1736,22 @@
       "id": "house-portrait",
       "name": "Custom House Portrait",
       "category": "portraits",
-      "variantLabel": "Style and finish",
+      "variantLabel": "Style and framing",
       "variants": [
         {
-          "name": "Pen & ink + watercolor, matted",
+          "name": "Pen & ink + watercolor, unframed",
           "price": 225
         },
         {
-          "name": "Pen & ink + watercolor, matted & framed",
+          "name": "Pen & ink + watercolor, framed",
           "price": 250
         },
         {
-          "name": "Pen & ink only, matted",
+          "name": "Pen & ink only, unframed",
           "price": 185
         },
         {
-          "name": "Pen & ink only, matted & framed",
+          "name": "Pen & ink only, framed",
           "price": 210
         }
       ],
@@ -1771,11 +1771,11 @@
       "soldOut": false,
       "summary": "An original pen and ink portrait of your home, with or without watercolor.",
       "description": [
-        "A hand-drawn portrait of a home: the closing gift clients actually keep, and a one-of-a-kind keepsake for anyone who loves their house.",
+        "✦ What you get\nA hand-drawn portrait of a home: the closing gift clients actually keep, and a one-of-a-kind keepsake for anyone who loves their house.",
         "✦ A gift for every home story\nClosing gifts for clients • First homes • Housewarmings • A childhood home before it's sold • Anniversaries and holidays",
+        "✦ Good to know\nLet me know about any details that matter to you, and I'll make your home look its best.",
         "✦ For realtors\nLooking for a closing gift your clients will actually keep? A hand-drawn portrait of their new home is personal, memorable, and ready to hang the day they move in. I'm based in the Philadelphia area and love drawing the region's stone homes, rowhouses and twins.\n- Tell me your closing date and I'll plan around it\n- I can ship directly to your client with a handwritten gift note\n- Ordering for several clients, or coming back for your next closing? Email me about repeat-client discounts",
-        "✦ Good to know\n- Let me know about any details that matter to you, and I'll make your home look its best.\n- If you decide not to continue after seeing the sketch, you owe nothing more. The deposit covers my time and materials.\n- Want a larger size or more than one house? Email me for a custom quote.",
-        "Thank you for supporting an independent artist!\n— Ed"
+        "Thank you for supporting an independent artist!"
       ],
       "details": [
         "An original 8×10 drawing: never a print, no AI, no digital tools",
