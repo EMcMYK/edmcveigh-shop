@@ -40,6 +40,7 @@
 
   function finish() {
     if (finished) return; finished = true;
+    calm();
     cancelAnimationFrame(raf);
     overlay.remove(); skip.remove(); hero.remove();
     // The animated "e." has landed exactly where the header logo sits, so swap to the real one.
@@ -48,6 +49,11 @@
     setTimeout(() => { root.classList.remove("intro", "show"); logoStatic.style.visibility = ""; }, 1200);
   }
   skip.addEventListener("click", finish);
+  // Trying to scroll (swipe, wheel, arrow/space keys) ends the intro at once instead of feeling stuck.
+  const SCROLL_KEYS = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "];
+  const impatient = (e) => { if (e.type !== "keydown" || SCROLL_KEYS.includes(e.key)) finish(); };
+  ["touchmove", "wheel", "keydown"].forEach((t) => addEventListener(t, impatient, { passive: true }));
+  const calm = () => ["touchmove", "wheel", "keydown"].forEach((t) => removeEventListener(t, impatient));
 
   function setup() {
     const vw = innerWidth, vh = innerHeight;

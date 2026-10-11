@@ -57,8 +57,12 @@ window.edmSpinLogo = function (trigger, logo) {
     const c = document.createElement("canvas");
     c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
     c.setAttribute("aria-hidden", "true");
-    c.style.cssText = `position:absolute;left:${left + scrollX}px;top:${top + scrollY}px;width:${w}px;height:${h}px;pointer-events:none;z-index:50`;
-    document.body.appendChild(c);
+    // Placed inside the logo's own box (not on the page), so it moves with the logo if the page
+    // scrolls or changes mid-spin, e.g. tapping the logo jumps back to the top of the front page.
+    const host = trigger, hb = host.getBoundingClientRect();
+    if (getComputedStyle(host).position === "static") host.style.position = "relative";
+    c.style.cssText = `position:absolute;left:${left - hb.left}px;top:${top - hb.top}px;width:${w}px;height:${h}px;pointer-events:none;z-index:50`;
+    host.appendChild(c);
     const ctx = c.getContext("2d");
     const ink = (g) => {                                          // centre of a glyph's ink, in its own box
       ctx.font = `${g.size}px ${g.family}`;

@@ -463,7 +463,8 @@
         if (p.variants.length < 2) return buy();
         const target = document.getElementById("buy");
         target.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
-        target.querySelector("input:checked, select")?.focus({ preventScroll: true });
+        // focus a choice button, never the dropdown: phones open a focused dropdown where it was mid-scroll
+        target.querySelector("input[type=radio]")?.focus({ preventScroll: true });
       });
       // Hidden while the real buy button or the page footer is on screen, so neither gets covered.
       const onScreen = new Set();
@@ -520,7 +521,7 @@
       <p class="lead">Your order is in. Stripe is emailing you a receipt${order && !order.shipsNow ? "." : ", and I'll ship your order soon."}</p>
       ${portrait ? `<div class="note">
         <h2>${order ? "Next: send me a photo of the home" : "Ordered a house portrait?"}</h2>
-        <p>Email a clear, straight-on photo of the home${CONFIG.contactEmail ? ` to ${emailLink(",")}` : ","} plus your deadline and any details that matter to you. I'll send a pencil sketch to approve before I start inking.</p>
+        <p>Email at least one clear, straight-on photo of the home${CONFIG.contactEmail ? ` to ${emailLink(",")}` : ","} plus your deadline and any details that matter to you. I'll send a pencil sketch to approve before I start inking.</p>
       </div>` : ""}
       <a class="btn btn-link" href="#">Keep shopping</a>
     </section></div>`;

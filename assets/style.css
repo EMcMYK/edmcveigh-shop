@@ -45,7 +45,7 @@ body {
   transition: background .2s ease, color .2s ease;
 }
 ::selection { background: var(--ink); color: var(--cream); }
-.intro body { overflow: hidden; }
+.intro:not(.show) body { overflow: hidden; }   /* locked only while the logo animation runs */
 img { max-width: 100%; display: block; }
 a { color: var(--ink); }
 button { font: inherit; color: inherit; }
@@ -360,10 +360,11 @@ button { font: inherit; color: inherit; }
   border: 2px solid var(--ink); border-radius: var(--radius); background: var(--cream); text-align: center;
   font-weight: 600; transition: background .15s, color .15s;
 }
-.choices label:hover .opt { background: var(--tint); }
+.choices label { -webkit-tap-highlight-color: transparent; }
+@media (hover: hover) { .choices label:hover .opt { background: var(--tint); } }
 /* Picked: a light ink wash (so it never competes with the solid buy button) and a check
    that draws itself in */
-.choices input:checked + span { background: color-mix(in srgb, var(--ink) 16%, var(--cream)); }
+.choices input:checked + span, .choices label:active .opt { background: color-mix(in srgb, var(--ink) 16%, var(--cream)); }
 .tick {
   position: absolute; left: 11px; top: 50%; width: 18px; height: 18px; margin-top: -9px;
   fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
