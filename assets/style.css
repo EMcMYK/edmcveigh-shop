@@ -500,6 +500,13 @@ button { font: inherit; color: inherit; }
 .policies ol li::marker { font-weight: 700; }
 .policy-link { font-size: 14px; font-weight: 600; color: var(--ink); text-underline-offset: 3px; }
 
+/* About page photos: framed like the product photos, captions in the soft ink */
+.about-fig { margin: 10px 0 8px; display: grid; gap: 8px; }
+.about-fig img { width: 100%; height: auto; border: 2px solid var(--ink); border-radius: var(--radius); background: var(--tint); }
+.about-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; }
+.about-pair figcaption { grid-column: 1 / -1; }
+.about-fig figcaption { font-size: 13px; color: var(--ink-soft); }
+
 /* ---------- Thanks + footer ---------- */
 .thanks { padding-block: 64px; display: grid; gap: 20px; max-width: 60ch; justify-items: start; }
 .thanks h1 { font-family: var(--display); font-weight: 400; font-size: clamp(38px, 6vw, 58px); margin: 0; line-height: 1.05; }
