@@ -231,7 +231,7 @@ button { font: inherit; color: inherit; }
 
 .section { padding-block: 32px; }
 .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 20px; flex-wrap: wrap; border-bottom: 2px solid var(--ink); padding-bottom: 10px; }
-.section-head h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(26px, 4vw, 34px); line-height: 1.1; }
+.section-head h1, .section-head h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(26px, 4vw, 34px); line-height: 1.1; }
 .section-head p { margin: 0; color: var(--ink-soft); font-size: 14px; }
 /* groups inside a section (stickers: Philly, then Cats), with chips to jump between them */
 .jump-groups { margin: -4px 0 22px; }
@@ -488,11 +488,6 @@ button { font: inherit; color: inherit; }
 .msg { font-size: 14px; padding: 10px 12px; border-radius: var(--radius); border: 2px solid var(--ink); background: var(--tint); }
 .msg.error { border-color: var(--error); color: var(--error); }
 
-.toast {
-  position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
-  background: var(--ink); color: var(--cream); padding: 10px 18px; border-radius: var(--radius); font-weight: 700; z-index: 60;
-  box-shadow: 0 10px 18px -6px var(--shadow-lift);
-}
 
 /* Email address: a mail link */
 .email-link { font-weight: 700; color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
@@ -583,5 +578,10 @@ button { font: inherit; color: inherit; }
   position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 90;
   font: 600 13px var(--ui); color: var(--ink-soft); background: transparent; border: 0; padding: 8px 10px; cursor: pointer;
 }
+
+/* Keyboard focus gets a ring as well as the hover lift, so it's always distinguishable */
+.btn:focus-visible, .feature:focus-visible, .about-card:focus-visible, .pic-arrow:focus-visible,
+.mode:focus-visible, .cart-btn:focus-visible, .menu-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.card:focus-visible .frame { outline: 2px solid var(--ink); outline-offset: 3px; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }

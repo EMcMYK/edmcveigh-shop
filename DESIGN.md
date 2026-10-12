@@ -179,15 +179,15 @@ A single centred column, max 1120px, with a responsive side margin (`spacing.edg
 - **Product page:** gallery and info side by side (1.1 to 1 ratio) with a gap of 24 to 56px. It stacks into one column at 640px and below. A "More stickers" (or paintings) row of four cards ends every product page, the product's own group first.
 - **Navigation:** at 821px and up, section links sit in the header bar. At 820px and below they move into a drop-down menu panel behind a menu button (sections, About, Contact; the logo is the way home).
 - **Cart:** a right-hand drawer, up to 420px wide, full width on phones, over a dark scrim.
-- **Safe areas:** the header, drawer, toast and skip button respect `env(safe-area-inset-*)` for notched phones.
+- **Safe areas:** the header, drawer, phone buy bar and skip button respect `env(safe-area-inset-*)` for notched phones.
 
 ## Elevation & Depth
 
-Surfaces are flat with one faint ambient shadow on interactive objects. On hover or keyboard focus, buttons and product frames move up 2 to 4px and the shadow deepens. That is a hover effect only. It carries no layering meaning, and nothing sits permanently raised. Real layering is limited to the overlays: the menu panel, the cart drawer and the toast.
+Surfaces are flat with one faint ambient shadow on interactive objects. On hover or keyboard focus, buttons and product frames move up 2 to 4px and the shadow deepens. That is a hover effect only. It carries no layering meaning, and nothing sits permanently raised. Real layering is limited to the overlays: the menu panel, the cart drawer and the phone buy bar.
 
 ### Shadow Vocabulary
 - **Rest** (`0 2px 4px var(--shadow)`): product frames, solid buttons, menu-panel items.
-- **Lift** (`0 10px 18px -6px var(--shadow-lift)`): the hover and focus state of the above, and the toast.
+- **Lift** (`0 10px 18px -6px var(--shadow-lift)`): the hover and focus state of the above.
 - **Drawer** (`-10px 0 30px var(--shadow)`): the cart drawer's left edge.
 - **Menu drop** (`0 14px 24px -12px var(--shadow-lift)`): under the mobile menu panel.
 
@@ -229,9 +229,8 @@ Sturdy and plain: a solid block of ink that lifts.
 - **Mobile menu panel:** stacked outlined cards with a Title-style label, a soft sub-line and an arrow. Hover and the current page fill with ink.
 - **Back link:** small soft-ink "← Everything" that darkens to full ink on hover.
 
-### Notices and Toast
+### Notices
 - **Notice box:** tint fill, 2px ink border, 14px text. The error variant swaps border and text to the error color.
-- **Toast:** a solid ink block (4px radius) at the bottom centre with paper text and the Lift shadow.
 
 ### Section Chips
 Outlined 44px-tall links under the front-page intro, one per grid section, with no counts. They fill with ink and lift 2px on hover, and scroll to their section. A section shown as a feature gets no chip, because the feature sits right below.
@@ -277,6 +276,7 @@ The "e." mark is Agbalumo with the e rotated -9deg and the dot raised 0.12em. It
 - **Do** use the shared easing (`cubic-bezier(.2,.7,.2,1)`) and the hover-strip pattern for anything that lifts.
 - **Do** check new layouts at two-column phone width (480px and below) first.
 - **Do** respect `prefers-reduced-motion`: no transitions, no intro.
+- **Do** give every focusable control a visible 2px ink focus ring (offset 3px) on keyboard focus, on top of any hover lift, so focus never looks like a mouse hover.
 - **Do** keep the Stickers chip on the first phone screen whenever anything is added above it, and keep "ed.mcveigh shop" as the front-page heading.
 - **Do** say "Nothing was charged" in any checkout error, and never show raw technical messages.
 

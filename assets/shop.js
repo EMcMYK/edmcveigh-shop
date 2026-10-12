@@ -204,7 +204,7 @@
     return `
         <section class="section" id="sec-${esc(c.id)}"><div class="wrap">
           ${back ? `<a class="back back-all" href="#">← Everything</a>` : ""}
-          <div class="section-head"><h2>${esc(c.title)}</h2><p>${esc(c.note)}</p></div>
+          <div class="section-head">${back ? `<h1>${esc(c.title)}</h1>` : `<h2>${esc(c.title)}</h2>`}<p>${esc(c.note)}</p></div>
           ${grids(c, list)}
         </div></section>`;
   }
@@ -744,13 +744,6 @@
     }
   }
 
-  function toast(text) {
-    const t = document.createElement("div");
-    t.className = "toast"; t.setAttribute("role", "status"); t.textContent = text;
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), 1800);
-  }
-
   // ---------- router ----------
   function route() {
     gallery = null;
@@ -785,7 +778,7 @@
       const only = filter && inCategory(filter);
       if (only && only.length === 1) { location.replace("#" + only[0].id); return; }
       app.innerHTML = homePage(filter); renderChrome(filter); wireJumps();
-      document.title = "ed.mcveigh shop";
+      document.title = filter ? `${categoryOf(filter).title} · ed.mcveigh shop` : "ed.mcveigh shop";
       if (hash === "cart") setTimeout(openCart);
     }
     renderCartCount();
