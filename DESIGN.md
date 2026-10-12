@@ -216,7 +216,7 @@ Sturdy and plain: a solid block of ink that lifts.
 - **Frame:** a square photo mat with a 2px ink outline, 4px radius and the Rest shadow. On hover the frame lifts 4px.
 - **Body:** title (Body Strong), then meta (13px soft ink), then price (700, tabular).
 - **Badge:** an uppercase ink tag pinned 10px from the top-left of the frame (for example "New").
-- **Sold out:** the mat goes 85% greyscale at 60% opacity. The card stays in place.
+- **Sold out:** the mat goes 85% greyscale at 60% opacity. The card stays in place. A sold one-of-a-kind reads "Sold · found a home" (the second part in soft ink); restockable items say "Sold out".
 
 ### Inputs / Fields
 - **Select:** paper fill, 2px ink border, 4px radius, weight 500. The custom chevron is drawn from two ink strokes and sits as far in from the right edge as the text does from the left.
@@ -258,13 +258,13 @@ Description sections listed in a product's `collapse` (the portrait's "For realt
 The front page ends with an outlined card linking to About: a square photo of the drafting tools, "Who makes all this" in Title type, one line in the artist's voice and a "Read the story" link. Lifts on hover like a product card.
 
 ### Phone Buy Bar
-At 640px and below, a paper bar fixed to the bottom with a 2px ink top edge. It shows the name and price and has a solid button, and appears only while the real buy button and the footer are off screen, and never while the menu is open. With a menu (stickers, paintings) it adds the choice shown in the bar ("$3.99 · Glossy"). With option questions it scrolls to them until they're answered, then becomes "Check out": straight to Stripe when that's the only thing in the cart, otherwise it opens the cart first.
+At 640px and below, a paper bar fixed to the bottom with a 2px ink top edge. It shows the name and price and has a solid button, and appears only while the real buy button and the footer are off screen, and never while the menu is open. With options (a menu on stickers and paintings, questions on the portrait) it says "Choose finish" (or the option name) and scrolls to them without opening the menu. Once the portrait questions are answered it becomes "Check out": straight to Stripe when that's the only thing in the cart, otherwise it opens the cart first.
 
 ### Cart Drawer
 Paper panel with a 2px ink left edge, a Title heading, line items with 64px square thumbnails, and a footer that totals with tabular figures. Free shipping is written out in bold, not shown as $0. Line names link back to the product. Each portrait is its own line, numbered "House 1, House 2" when there's more than one; replacing a one-of-a-kind's choice says so in the drawer. Removing a line shows an "Undo" notice at the top. Tab stays inside the drawer, and closing it returns focus to what opened it.
 
 ### Wordmark and Intro
-The "e." mark is Agbalumo with the e rotated -9deg and the dot raised 0.12em. It is sized so the e fills about 80% of the header button height and is centred in the bar. On the front page an intro animation lands the mark in that exact spot once per visit, then the page fades in section by section (90ms apart). Reduced motion skips the intro and all transitions.
+The "e." mark is Agbalumo with the e rotated -9deg and the dot raised 0.12em. It is sized so the e fills about 80% of the header button height and is centred in the bar. On the front page an intro animation lands the mark in that exact spot once per visit, then the page fades in section by section (90ms apart). Reduced motion skips the intro and all transitions. The same mark has a hover/tap spin (the e winds back, whips around three times and springs home), and it plays once on its own on the thank-you page after a real order: the shop's one celebration, used only where it's earned.
 
 ## Do's and Don'ts
 

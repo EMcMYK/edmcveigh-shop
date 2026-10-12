@@ -7,11 +7,12 @@
   Used by the shop (assets/spin-logo.js) and the links page (landing/spin-logo.js): keep the two copies the same.
 
   Usage: edmSpinLogo(hoverTarget, logoElementContainingSpansDotEandDotD)
+  Returns a function that plays the spin once on cue (the shop plays it on the thank-you page).
 */
 window.edmSpinLogo = function (trigger, logo) {
-  if (!trigger || !logo || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!trigger || !logo || matchMedia("(prefers-reduced-motion: reduce)").matches) return () => {};
   const eEl = logo.querySelector(".e"), dEl = logo.querySelector(".d");
-  if (!eEl || !dEl) return;
+  if (!eEl || !dEl) return () => {};
 
   const TURNS = 3, OVERSHOOT = 28, T_WIND = 0.14, T_SPIN = 0.62, T_SETTLE = 1.0, LEN = T_WIND + T_SPIN + T_SETTLE;
   const easeOut = (x) => 1 - Math.pow(1 - x, 3);
@@ -116,4 +117,6 @@ window.edmSpinLogo = function (trigger, logo) {
   };
   trigger.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") go(); });
   trigger.addEventListener("touchstart", go, { passive: true });
+  // played on cue: wait for the logo's font first (on a fresh page it may not have loaded yet)
+  return () => (document.fonts ? document.fonts.load(`20px ${getComputedStyle(eEl).fontFamily}`) : Promise.resolve()).then(go, go);
 };

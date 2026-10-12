@@ -164,7 +164,7 @@
           <span class="card-title">${esc(p.category === "stickers" ? p.name.replace(/ Sticker$/, "") : p.name)}</span>
           ${p.oneOfAKind && !p.soldOut ? `<span class="card-meta">One of a kind</span>` : ""}
           ${p.size ? `<span class="card-meta">${esc(p.size)}</span>` : ""}
-          <span class="card-price">${p.soldOut ? "Sold out" : priceText}</span>
+          <span class="card-price">${p.soldOut ? (p.oneOfAKind ? `Sold <span class="found">· found a home</span>` : "Sold out") : priceText}</span>
         </div>
       </a>`;
   }
@@ -290,7 +290,7 @@
   }
 
   // `v` is null while option questions are still unanswered (no price to show yet).
-  const buyLabel = (p, v) => p.soldOut ? "Sold out"
+  const buyLabel = (p, v) => p.soldOut ? (p.oneOfAKind ? "Sold · found a home" : "Sold out")
     : p.deposit ? `Add deposit to cart<span class="pay-amount">${v ? ` – ${money(dueToday(p, v))}` : ""}</span>` : "Add to cart";
   // One way of saying a deposit price everywhere: "$210", "$105 today, the rest when it's finished".
   const lowest = (p) => Math.min(...p.variants.map((v) => v.price));
@@ -393,8 +393,8 @@
         </div>
         ${related(p)}
         ${p.soldOut ? "" : `<div class="buybar" id="buybar" hidden>
-          <div class="buybar-text"><span class="buybar-name">${esc(p.name)}</span><span class="buybar-price" id="buybar-price">${barPrice(p, vStart, many && !axes ? optName(v0.name) : "")}</span></div>
-          <button class="btn" type="button" id="buybar-btn">${axes ? `Choose ${esc((p.variantLabel || "options").toLowerCase())}` : p.deposit ? buyLabel(p, v0) : "Add to cart"}</button>
+          <div class="buybar-text"><span class="buybar-name">${esc(p.name)}</span><span class="buybar-price" id="buybar-price">${barPrice(p, vStart, "")}</span></div>
+          <button class="btn" type="button" id="buybar-btn">${many ? `Choose ${esc((p.variantLabel || "options").toLowerCase())}` : p.deposit ? buyLabel(p, v0) : "Add to cart"}</button>
         </div>`}
       </div>`;
   }
@@ -412,7 +412,7 @@
       if (dn) dn.textContent = todayNote(p, v);
       document.querySelectorAll(".pay-amount").forEach((el) => el.textContent = (p.deposit ? " – " : "") + money(dueToday(p, v) * qty));
       const bp = document.getElementById("buybar-price");
-      if (bp) bp.textContent = barPrice(p, v, sel ? optName(v.name) : "");
+      if (bp) bp.textContent = barPrice(p, v, "");
       const bb = document.getElementById("buybar-btn");
       if (bb && axes) bb.textContent = "Check out"; // every question answered: the bar can finish the job
     };
@@ -503,7 +503,8 @@
       document.getElementById("buybar-btn").addEventListener("click", () => {
         // All answered: add it, then straight to payment, unless other things are in the cart (show them first)
         if (axes && !unanswered().length) { buy(); return cart.length > 1 ? null : checkout(); }
-        if (!axes) return buy(); // a menu always has a choice showing (named in the bar), so just add it
+        if (p.variants.length < 2) return buy(); // nothing to choose: just add it
+        // options to choose (a menu or questions): take them there first
         const target = document.getElementById("buy");
         target.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
         target.querySelector("input[type=radio]")?.focus({ preventScroll: true });
@@ -549,11 +550,13 @@
 
   // The cart only empties after a real checkout: Stripe sends people back with ?checkout=done,
   // and this tab remembers what was in the order (opening #thanks by hand changes nothing).
+  let celebrate = false;
   function thanksPage() {
     let order = null;
     try { order = JSON.parse(sessionStorage.getItem(CHECKOUT_KEY)); sessionStorage.removeItem(CHECKOUT_KEY); } catch { /* not saved */ }
     const paid = Boolean(order) || /[?&]checkout=done\b/.test(location.search);
     if (paid) {
+      celebrate = true; // the "e." spins once when the page appears (route() plays it)
       cart = []; saveCart();
       if (location.search) history.replaceState(null, "", location.pathname + location.hash);
     }
@@ -644,7 +647,7 @@
       <div class="scrim" id="scrim"></div>
       <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title">
         <div class="drawer-head"><h2 id="cart-title">Your cart</h2><button class="icon-btn" id="close-cart" type="button" aria-label="Close cart">×</button></div>
-        <div class="lines">${removed ? `<div class="msg undo" role="status">Removed ${esc(byId(removed.line.id).name)}. <button type="button" class="link-btn" id="undo">Undo</button></div>` : ""}${rows || `<div class="empty"><p>Your cart is empty.</p><a class="btn btn-link" href="#" id="cart-browse">Browse the shop</a></div>`}</div>
+        <div class="lines">${removed ? `<div class="msg undo" role="status">Removed ${esc(byId(removed.line.id).name)}. <button type="button" class="link-btn" id="undo">Undo</button></div>` : ""}${rows || `<div class="empty"><p>Nothing in here yet.${byId("cheesesteak") && !byId("cheesesteak").soldOut ? ` The <a href="#cheesesteak" data-close>cheesesteak sticker</a> is a good place to start.` : ""}</p><a class="btn btn-link" href="#" id="cart-browse">Browse the shop</a></div>`}</div>
         ${cart.length ? `<div class="drawer-foot">
           <div class="sum-row"><span>Shipping</span><span class="free">Free</span></div>
           <div class="sum-row total"><span>Due today</span><span>${money(total)}</span></div>
@@ -775,6 +778,7 @@
       return;
     } else if (hash === "thanks") {
       app.innerHTML = thanksPage(); renderChrome("");
+      if (celebrate) { celebrate = false; setTimeout(() => window.edmLogoSpin && window.edmLogoSpin(), 450); }
       document.title = "Thank you · ed.mcveigh shop";
     } else {
       const filter = CATEGORIES.some((c) => c.id === hash) ? hash : "";

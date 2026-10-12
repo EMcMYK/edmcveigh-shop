@@ -478,7 +478,9 @@ button { font: inherit; color: inherit; }
 .trash svg { width: 18px; height: 18px; }
 .trash:hover, .trash:focus-visible { color: var(--ink); }
 .empty { padding: 40px 0; display: grid; justify-items: center; gap: 16px; color: var(--ink-soft); }
-.empty p { margin: 0; }
+.empty p { margin: 0; text-align: center; max-width: 30ch; }
+.empty p a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+.card-price .found { font-weight: 500; color: var(--ink-soft); }
 .drawer-foot { border-top: 1.5px solid color-mix(in srgb, var(--ink) 60%, transparent); padding: 16px 20px; display: grid; gap: 10px; }
 .sum-row { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
 .sum-row.total { font-weight: 700; font-size: 18px; }
