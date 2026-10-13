@@ -298,6 +298,24 @@
     return { parts, values, adds, label, additive, low, names: values.map((_, i) => cap(names.length === n ? names[i] : `Option ${i + 1}`)), cap };
   }
 
+  // The description, then the Details list under its own heading. A product can instead set
+  // "detailsUnder" to a description heading (the portrait: "What you get") to list them right there.
+  function proseWithDetails(p) {
+    const body = describe(relabel(shownDescription(p)), escMail, p.collapse);
+    const list = p.details && p.details.length ? `<ul>${p.details.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "";
+    if (!list) return body;
+    if (p.detailsUnder) {
+      const head = `<h2>${esc(p.detailsUnder)}</h2>`, at = body.indexOf(head);
+      if (at !== -1) {
+        // after that heading's own text (up to the next heading or folded section)
+        const rest = body.slice(at + head.length), next = rest.search(/<h2>|<details/);
+        const cut = at + head.length + (next === -1 ? rest.length : next);
+        return body.slice(0, cut) + list + body.slice(cut);
+      }
+    }
+    return body + `<h2>Details</h2>` + list;
+  }
+
   // Before any choice: "$185 for a pen & ink portrait. Watercolor and a frame are optional add-ons."
   function priceIntro(p, axes) {
     const extras = axes.values.flatMap((vals, i) => vals.filter((x) => axes.adds[i][x] > 0).map((x) => axes.label(x).replace(/^add /i, "")));
@@ -402,8 +420,7 @@
             </section>` : ""}
             ${p.soldOut ? "" : trustLine(p)}
             <div class="prose">
-              ${describe(relabel(shownDescription(p)), escMail, p.collapse)}
-              ${p.details && p.details.length ? `<h2>Details</h2><ul>${p.details.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
+              ${proseWithDetails(p)}
               ${p.policy ? `<p class="fineprint">${escMail(p.policy)}</p>` : ""}
               ${p.disclaimer ? `<p class="fineprint">${esc(p.disclaimer)}</p>` : ""}
             </div>
