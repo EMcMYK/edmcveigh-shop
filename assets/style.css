@@ -591,6 +591,8 @@ button { font: inherit; color: inherit; }
 .c-sum dd.none { color: var(--ink-soft); }
 .c-sum .link-btn { color: var(--ink); font-size: 14px; font-weight: 600; }
 @media (max-width: 520px) { .c-sum div { grid-template-columns: minmax(0, 1fr) auto; row-gap: 2px; } .c-sum dt { grid-column: 1 / -1; } }
+.c-acts { display: flex; flex-wrap: wrap; gap: 10px; }
+.c-acts .btn { flex: none; min-width: 0; }
 .c-trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .contact-foot .link-btn { color: var(--ink-soft); font-size: 14px; font-weight: 600; text-decoration: none; }
 .contact-foot .link-btn:hover { color: var(--ink); }

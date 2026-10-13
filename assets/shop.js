@@ -568,7 +568,9 @@
     ],
     steps: {
       portraitTopic: { type: "choice", key: "about", label: "About", q: "What about your portrait?",
-        opts: ["A deadline or gift date", "More than one house", "Sending photos of the home", "Something else"].map((v) => ({ v, label: v })) },
+        opts: ["A deadline or gift date", "More than one house", "Sending photos of the home", "Something else"].map((v) => ({ v, label: v }))
+          // the form can't carry photos (Web3Forms' free plan is text only), so this one points to email instead
+          .map((o) => o.v.startsWith("Sending photos") ? { ...o, photos: true } : o) },
       order: { type: "line", key: "order", label: "Order", q: "Which order is it?", field: "Order number or email you ordered with",
         hint: "From your Stripe receipt. Optional, but it helps me find it fast.", optional: true },
       message: { type: "message", key: "message", label: "Message", q: "What would you like to say?" },
@@ -596,7 +598,7 @@
 
   function wireContact() {
     const S = CONTACT, A = {}, stage = document.getElementById("c-stage");
-    let idx = 0, toReview = false;
+    let idx = 0, toReview = false, onPhotos = false;
     const topicLabel = () => (S.topics.find((t) => t.v === A.topic) || {}).label || "";
     const path = () => ["topic"].concat(S.routes[A.topic] || []);
     const step = (k) => k === "topic" ? { type: "choice", key: "topic", label: "Topic", q: "What's it about?", opts: S.topics } : S.steps[k];
@@ -611,6 +613,7 @@
     const heading = (q) => `<h2 id="c-q" tabindex="-1">${esc(q)}</h2>`;
 
     function render(focus = true) {
+      onPhotos = false;
       const p = path(), prog = document.getElementById("c-prog"), foot = document.getElementById("c-foot");
       const kind = idx === -1 ? "thanks" : idx >= p.length ? "review" : step(p[idx]).type;
       prog.hidden = kind === "thanks" || !A.topic; foot.hidden = kind === "thanks" || idx === 0;
@@ -662,6 +665,29 @@
         <a class="btn btn-link" href="#">Back to the shop</a></div>`;
     }
 
+    // Photos can't go through the form: say so, and make emailing them easy (with or without a mail app).
+    function photos() {
+      const to = CONFIG.contactEmail;
+      const subj = encodeURIComponent("House portrait photos");
+      onPhotos = true;
+      document.getElementById("c-foot").hidden = false;
+      document.getElementById("c-prog").hidden = true; // a dead end, not a step
+      stage.innerHTML = `<div class="c-step" role="group" aria-labelledby="c-q">${heading("Photos go by email")}
+        <p class="c-hint">This form can't take photos, so please email them to <b>${esc(to)}</b>. Send at least one clear, straight-on photo of the home, and include the name you ordered under.</p>
+        <div class="c-acts">
+          <a class="btn btn-link" href="mailto:${esc(to)}?subject=${subj}">Email your photos</a>
+          <button type="button" class="btn btn-secondary" id="c-copy">Copy email address</button>
+        </div>
+        <p class="fineprint">No email app on this computer? Copy the address into Gmail, Outlook or whatever you use.</p></div>`;
+      const copy = document.getElementById("c-copy");
+      copy.addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText(to); copy.textContent = "Copied"; }
+        catch { copy.textContent = to; } // clipboard blocked: show it to copy by hand
+        setTimeout(() => { if (copy.textContent === "Copied") copy.textContent = "Copy email address"; }, 1800);
+      });
+      document.getElementById("c-q").focus();
+    }
+
     function wire(kind, k) {
       if (kind === "choice") {
         const s = step(k);
@@ -670,7 +696,7 @@
           if (s.key === "topic" && A.topic !== o.v) { delete A.about; delete A.order; toReview = false; }
           A[s.key] = o.v;
           stage.querySelectorAll(".c-opt").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-          setTimeout(next, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 200);
+          setTimeout(o.photos ? photos : next, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 200);
         }));
       }
       const form = stage.querySelector("form"), err = document.getElementById("c-err");
@@ -719,7 +745,8 @@
         });
       }
     }
-    document.getElementById("c-back").addEventListener("click", () => { toReview = false; if (idx > 0) { idx--; render(); } });
+    // Back from the photos note returns to the portrait question it came from
+    document.getElementById("c-back").addEventListener("click", () => { toReview = false; if (onPhotos) return render(); if (idx > 0) { idx--; render(); } });
     render(false);
   }
 
