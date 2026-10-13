@@ -37,6 +37,8 @@
       try { m = localStorage.getItem("edm-mode"); } catch (e) {}
       if (m !== "light" && m !== "dark") m = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
       root.dataset.mode = m;
+      // the phone's browser bar matches the banner's ink in each mode
+      document.querySelector('meta[name="theme-color"]').content = m === "dark" ? "#86d8ef" : "#18602a";
       // The logo intro plays once per visit, only on the shop's front page, and never for reduced motion.
       var played = false;
       try { played = sessionStorage.getItem("edm-intro") === "1"; } catch (e) {}

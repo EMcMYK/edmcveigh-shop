@@ -230,6 +230,8 @@ Sturdy and plain: a solid block of ink that lifts.
 - **Back link:** small soft-ink "← Everything" that darkens to full ink on hover.
 
 ### Notices
+A link to a product that no longer exists (a removed listing, an old post) shows the front page under a notice: "That one's no longer in the shop. Here's everything that is." Navigating anywhere closes the cart.
+
 - **Notice box:** tint fill, 2px ink border, 14px text. The error variant swaps border and text to the error color.
 
 ### Section Chips
@@ -242,10 +244,10 @@ A wide outlined card near the top of the front page. On the left is the tint mat
 When a product's options are combinations ("Pen & ink only, framed"), each part becomes its own question under an uppercase label. The included choice comes first and add-ons read as actions with their price ("Pen & ink only" / "Add watercolor +$40", "No frame" / "Add a frame +$25", from the product's `choiceLabels`). A line under the price explains it: "$185 for a pen & ink portrait. Watercolor and a frame are optional add-ons." before choosing, then the sum ("$185 pen & ink portrait + $40 watercolor + $25 frame = $250"). Every button is the same size, in equal columns, 48px tall. Labels never wrap: as soon as any label would, all the buttons go one per row (measured against the column, so the narrow two-column layout stacks too). All start as outlines with nothing pre-picked; the chosen one gets a light ink wash (16% ink on paper) and a check that draws itself in, so it never competes with the solid buy button. Until every question is answered the price shows the range, and pressing the buy button marks the unanswered questions ("choose one" in the error color) instead of guessing. On stacked layouts the questions and buy button (only) sit slightly in from the page edges. Simple option lists stay a select.
 
 ### Steps Strip
-For commissions, directly under the buy button: a tint box with a 2px ink outline, a Label heading, and numbered steps with 26px ink number tiles. A hairline separates a closing note in full ink, never soft ink, because it sits on the tint.
+For commissions, directly under the buy button: a tint box with a 2px ink outline, a Label heading, and numbered steps with 26px ink number tiles. A hairline separates a closing note in full ink, never soft ink, because it sits on the tint. The note (the product's `stepsNote`) carries the facts a buyer needs before paying: turnaround, what to do with a firm deadline (email first), and the 2-day refund window, then the full policy link.
 
 ### Trust Line
-A 13px soft-ink row under the buying details, separated by middots: free US shipping, secure checkout with Stripe, sold and shipped by me. The Etsy shop is linked only from the footer and About, never next to a buy button.
+A 13px soft-ink row under the buying details, each item led by a small ink tick (never separator dots, which dangle when the row wraps): free US shipping, the section's delivery time and returns from `config.js` (stickers "Ships in 2–4 business days"; paintings "Ships in 2–4 business days", "30-day returns"; these must match data/policies.html), secure checkout with Stripe, sold and shipped by me. The Etsy shop is linked only from the footer and About, never next to a buy button.
 
 ### Price Framing
 A deposit product says its price one way everywhere: the total, then what's due today. Before options are picked: "From $185" and "50% today, the rest when it's finished" (bar: "From $185 · 50% today"). After: "$210", "$105 today, the rest when it's finished", button "Add deposit to cart – $105", bar "$210 · $105 today". Option buttons show what a choice adds ("+$40").
@@ -257,7 +259,7 @@ Description sections listed in a product's `collapse` (the portrait's "For realt
 The front page ends with an outlined card linking to About: a square photo of the drafting tools, "Who makes all this" in Title type, one line in the artist's voice and a "Read the story" link. Lifts on hover like a product card.
 
 ### Phone Buy Bar
-At 640px and below, a paper bar fixed to the bottom with a 2px ink top edge. It shows the name and price and has a solid button, and appears only while the real buy button and the footer are off screen, and never while the menu is open. With options (a menu on stickers and paintings, questions on the portrait) it says "Choose finish" (or the option name) and scrolls to them without opening the menu. Once the portrait questions are answered it becomes "Check out": straight to Stripe when that's the only thing in the cart, otherwise it opens the cart first.
+At 640px and below, a paper bar fixed to the bottom with a 2px ink top edge. It shows the name and price and has a solid button, and appears only while the real buy button and the footer are off screen, and never while the menu is open. With options (a menu on stickers and paintings, questions on the portrait) it says "Choose finish" (or the option name) and scrolls to them without opening the menu. Once the portrait questions are answered it becomes "Add deposit to cart" and, like the main button, adds it and opens the cart.
 
 ### Contact Flow
 The header's Contact opens a page that asks one thing at a time, like the portfolio's contact page, in the shop's own style: outlined option cards that fill with ink when picked (topic: order, house portrait, wholesale, something else), a follow-up where it helps, a message, name and email, then a review with Change links and Send. A thin ink progress line shows the step. Messages send through Web3Forms (`contactFormKey` in config.js); without a key, Send opens the visitor's email app. A failed send keeps everything and offers a retry or the email address. The form carries text only: choosing "Sending photos of the home" leads to a short "Photos go by email" note with an "Email your photos" button and a "Copy email address" button for people without a mail app.

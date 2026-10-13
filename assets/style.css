@@ -279,7 +279,7 @@ button { font: inherit; color: inherit; }
 .mat img { object-position: 50% 50%; }
 .sticker {
   width: 66%; aspect-ratio: var(--ratio, 1); max-height: 72%;
-  background: var(--swatch, #18602a); color: #fffaf0;
+  background: var(--swatch, var(--ink)); color: #fffaf0;
   border: 6px solid #fff; border-radius: 22% / 28%;
   box-shadow: 0 2px 4px rgb(0 0 0 / .18), 0 10px 24px rgb(0 0 0 / .14);
   display: grid; place-items: center; text-align: center; padding: 8px;
@@ -287,7 +287,7 @@ button { font: inherit; color: inherit; }
   transform: rotate(-4deg);
 }
 .portrait-ph { width: 62%; aspect-ratio: 4 / 5; background: #fff; padding: 9%; box-shadow: 0 2px 4px rgb(0 0 0 / .16), 0 12px 28px rgb(0 0 0 / .14); display: grid; }
-.portrait-ph span { border: 2px solid var(--swatch, #18602a); display: grid; place-items: center; text-align: center; font-family: var(--display); color: var(--swatch, #18602a); font-size: clamp(14px, 2vw, 19px); padding: 6px; }
+.portrait-ph span { border: 2px solid var(--swatch, var(--ink)); display: grid; place-items: center; text-align: center; font-family: var(--display); color: var(--swatch, var(--ink)); font-size: clamp(14px, 2vw, 19px); padding: 6px; }
 .ph-note { position: absolute; bottom: 8px; right: 10px; font-size: 11px; color: var(--ink); letter-spacing: .05em; text-transform: uppercase; }
 .sold-out .mat { filter: grayscale(.85); opacity: .6; }
 
@@ -353,6 +353,7 @@ button { font: inherit; color: inherit; }
 .choice-need { display: none; color: var(--error); }
 .choice.needs .opt { border-color: var(--error); }
 .opt-add { font-weight: 500; opacity: .75; margin-left: 2px; }
+.choices input:checked + .opt .opt-add { opacity: 1; }   /* on the picked wash, faded text drops below 4.5:1 */
 .price-math { margin: -8px 0 0; font-size: 14px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 .buy-note { margin: -2px 0 0; font-size: 14px; color: var(--ink-soft); }
 .buy-note .email-link { font-weight: 600; }
@@ -398,9 +399,9 @@ button { font: inherit; color: inherit; }
 
 /* Why it's safe to buy here, under the buy button */
 /* sits close under the box above it, with room before the description */
-.trust { margin: -6px 0 14px; display: flex; flex-wrap: wrap; row-gap: 4px; font-size: 13px; color: var(--ink-soft); }
-.trust span:not(:last-child)::after { content: "·"; margin-inline: 8px; }
-.trust a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+.trust { list-style: none; padding: 0; margin: -6px 0 14px; display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--ink-soft); }
+.trust li { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.trust svg { flex: none; width: 13px; height: 13px; fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 
 /* Phones: a buy bar at the bottom while the real button is off screen */
 .buybar { display: none; }
@@ -488,6 +489,7 @@ button { font: inherit; color: inherit; }
 .sum-row .free { font-weight: 700; }
 .msg { font-size: 14px; padding: 10px 12px; border-radius: var(--radius); border: 2px solid var(--ink); background: var(--tint); }
 .msg.error { border-color: var(--error); color: var(--error); }
+.gone-note { margin: 24px 0 0; }
 
 
 /* Email address: a mail link */
@@ -634,4 +636,4 @@ button { font: inherit; color: inherit; }
 .mode:focus-visible, .cart-btn:focus-visible, .menu-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .card:focus-visible .frame { outline: 2px solid var(--ink); outline-offset: 3px; }
 
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } .c-step { animation: none; } }

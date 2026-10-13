@@ -19,10 +19,14 @@ window.SHOP_CONFIG = {
   //            anything that matches no group goes first, under "otherTitle".
   //   feature: shows the section as a big feature near the top of the front page instead of a
   //            grid at the bottom, with "cta" as its button.
+  //   ships, returns: shown under the buy button on that section's products (keep them matching
+  //            data/policies.html).
   categories: [
     { id: "stickers", title: "Stickers", note: "Waterproof, die cut, glossy or holographic",
-      otherTitle: "Philly", groups: [{ title: "Cats", match: "\\bcats?\\b" }] },
-    { id: "originals", title: "Original paintings", note: "One-of-a-kind art" },
+      otherTitle: "Philly", groups: [{ title: "Cats", match: "\\bcats?\\b" }],
+      ships: "Ships in 2–4 business days" },
+    { id: "originals", title: "Original paintings", note: "One-of-a-kind art",
+      ships: "Ships in 2–4 business days", returns: "30-day returns" },
     { id: "portraits", title: "House portraits", note: "Original 8×10 pen and ink",
       feature: true, cta: "Commission a portrait" }
   ]

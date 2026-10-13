@@ -81,12 +81,14 @@
   }
 
   // A product's picture: its first photo, or a drawn placeholder until photos are added.
-  function picture(p, index = 0) {
+  // `main` is the big photo at the top of a product page: fetched right away at high priority
+  // (it's what the page is about), while grid, cart and thumbnail photos load lazily.
+  function picture(p, index = 0, main = false) {
     const style = `--swatch:${esc(p.swatch || "#2e6b47")}`;
     const img = p.images && p.images[index];
     // Paintings are shown whole (no cropping); everything else fills the square.
     const fit = p.category === "stickers" ? "" : " natural";
-    if (img) return `<div class="mat${fit}" style="${style}"><img src="${esc(img)}" alt="${esc(p.name)}" loading="lazy"></div>`;
+    if (img) return `<div class="mat${fit}" style="${style}"><img src="${esc(img)}" alt="${esc(p.name)}" ${main ? 'fetchpriority="high" decoding="async"' : 'loading="lazy"'}></div>`;
     const art = p.category !== "stickers"
       ? `<div class="portrait-ph"><span>${p.category === "portraits" ? "Your home here" : esc(p.name)}</span></div>`
       : `<div class="sticker" style="--ratio:${ratioFromSize(p.size)}">${esc(p.name.replace(/ Sticker( Sheet)?$/, ""))}</div>`;
@@ -147,6 +149,7 @@
     label();
     btn.addEventListener("click", () => {
       root.dataset.mode = root.dataset.mode === "dark" ? "light" : "dark";
+      document.querySelector('meta[name="theme-color"]').content = getComputedStyle(root).getPropertyValue("--ink").trim();
       try { localStorage.setItem("edm-mode", root.dataset.mode); } catch (e) { /* not saved, still switches */ }
       label();
     });
@@ -315,12 +318,13 @@
 
   // Reasons to trust buying here: shipping, who handles payment, and who you're buying from.
   // (The Etsy shop is linked from the footer and About, not here, so it doesn't pull people away.)
-  function trustLine() {
-    return `<p class="trust">
-      <span>Free US shipping</span>
-      <span>Secure checkout with Stripe</span>
-      <span>Sold and shipped by me</span>
-    </p>`;
+  // Each section can add its delivery time and returns (config.js "ships", "returns"), from the policies.
+  // Ticks, not separator dots, so nothing is left dangling when the line wraps.
+  function trustLine(p) {
+    const c = categoryOf(p.category);
+    const tick = `<svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.6 3.4 7.4-8"/></svg>`;
+    const items = ["Free US shipping", c.ships, c.returns, "Secure checkout with Stripe", "Sold and shipped by me"].filter(Boolean);
+    return `<ul class="trust">${items.map((t) => `<li>${tick}${esc(t)}</li>`).join("")}</ul>`;
   }
 
   // More from the same section under a product, its own group first (Philly stickers, then the rest).
@@ -354,7 +358,7 @@
         <div class="product">
           <div class="gallery">
             <div class="stage" id="stage">
-              <div class="frame" id="main-pic">${picture(p, 0)}</div>
+              <div class="frame" id="main-pic">${picture(p, 0, true)}</div>
             </div>
             ${photos.length > 1 ? `<div class="thumb-row">
               <button type="button" class="pic-arrow" id="pic-prev" aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -394,9 +398,9 @@
             ${p.steps && p.steps.length ? `<section class="steps" aria-labelledby="how-it-works">
               <h2 id="how-it-works">How it works</h2>
               <ol class="steps-list">${p.steps.map((t) => `<li><span>${escMail(t)}</span></li>`).join("")}</ol>
-              ${p.deposit ? `<p class="steps-note">${CONFIG.contactEmail ? `Photos of your home go to ${emailLink(".")} ` : ""}At checkout there's a box for your deadline or any notes. <a class="policy-link" href="#policies-commissions">Full commission policy</a></p>` : ""}
+              ${p.deposit ? `<p class="steps-note">${p.stepsNote ? `${escMail(p.stepsNote).replace(/\{email\}/g, CONFIG.contactEmail ? emailLink() : "me")} ` : ""}<a class="policy-link" href="#policies-commissions">Full commission policy</a></p>` : ""}
             </section>` : ""}
-            ${p.soldOut ? "" : trustLine()}
+            ${p.soldOut ? "" : trustLine(p)}
             <div class="prose">
               ${describe(relabel(shownDescription(p)), escMail, p.collapse)}
               ${p.details && p.details.length ? `<h2>Details</h2><ul>${p.details.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
@@ -428,7 +432,7 @@
       const bp = document.getElementById("buybar-price");
       if (bp) bp.textContent = barPrice(p, v, "");
       const bb = document.getElementById("buybar-btn");
-      if (bb && axes) bb.textContent = "Check out"; // every question answered: the bar can finish the job
+      if (bb && axes) bb.textContent = p.deposit ? "Add deposit to cart" : "Add to cart"; // every question answered: the bar can add it
       // the total as a sum: "$185 portrait + $40 watercolor + $25 frame"
       const pm = document.getElementById("price-math");
       if (pm && axes && axes.additive) {
@@ -474,13 +478,13 @@
     const show = (i) => {
       if (total < 2) return;
       shown = (i + total) % total;
-      document.getElementById("main-pic").innerHTML = picture(p, shown);
+      document.getElementById("main-pic").innerHTML = picture(p, shown, true);
       const img = document.querySelector("#main-pic img");
       if (img) img.complete ? pin() : img.addEventListener("load", pin, { once: true });
       document.querySelectorAll("[data-pic]").forEach((x) => {
         const on = Number(x.dataset.pic) === shown;
         x.setAttribute("aria-pressed", on);
-        if (on) x.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+        if (on) x.scrollIntoView({ block: "nearest", inline: "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
       });
     };
     document.querySelectorAll("[data-pic]").forEach((b) => b.addEventListener("click", () => show(Number(b.dataset.pic))));
@@ -522,8 +526,8 @@
     const bar = document.getElementById("buybar");
     if (bar && "IntersectionObserver" in window) {
       document.getElementById("buybar-btn").addEventListener("click", () => {
-        // All answered: add it, then straight to payment, unless other things are in the cart (show them first)
-        if (axes && !unanswered().length) { buy(); return cart.length > 1 ? null : checkout(); }
+        // All answered: add it and open the cart, like the main button
+        if (axes && !unanswered().length) return buy();
         if (p.variants.length < 2) return buy(); // nothing to choose: just add it
         // options to choose (a menu or questions): take them there first
         const target = document.getElementById("buy");
@@ -961,6 +965,8 @@
 
   // ---------- router ----------
   function route() {
+    // going anywhere (a link, the browser's Back) closes the cart, so it never covers the new page
+    if (document.querySelector("#drawer-root .drawer")) closeCart(false);
     gallery = null;
     if (buyWatch) { buyWatch.disconnect(); buyWatch = null; }
     onresize = null;
@@ -996,7 +1002,11 @@
       const filter = CATEGORIES.some((c) => c.id === hash) ? hash : "";
       const only = filter && inCategory(filter);
       if (only && only.length === 1) { location.replace("#" + only[0].id); return; }
-      app.innerHTML = homePage(filter); renderChrome(filter); wireJumps();
+      // a link to something that isn't here (often a sold or removed listing): say so, then the shop
+      const missing = hash && !filter && hash !== "cart";
+      app.innerHTML = (missing ? `<div class="wrap"><p class="msg gone-note" role="status">That one's no longer in the shop. Here's everything that is.</p></div>` : "")
+        + homePage(filter);
+      renderChrome(filter); wireJumps();
       document.title = filter ? `${categoryOf(filter).title} · ed.mcveigh shop` : "ed.mcveigh shop";
       if (hash === "cart") setTimeout(openCart);
     }
