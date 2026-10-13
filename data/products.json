@@ -1811,7 +1811,14 @@
       ],
       "collapse": [
         "For realtors"
-      ]
+      ],
+      "choiceLabels": {
+        "Pen & ink only": "Pen & ink only",
+        "Pen & ink + watercolor": "Add watercolor",
+        "unframed": "No frame",
+        "framed": "Add a frame"
+      },
+      "baseLabel": "pen & ink portrait"
     }
   ]
 }

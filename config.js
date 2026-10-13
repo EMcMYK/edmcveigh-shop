@@ -7,6 +7,10 @@ window.SHOP_CONFIG = {
   etsyUrl: "https://www.etsy.com/shop/EdMcveighArt",
   instagramUrl: "https://www.instagram.com/ed.mcveigh",
 
+  // The contact form sends through Web3Forms (web3forms.com). Paste the access key they email you
+  // here. Until then, the form's Send button opens the visitor's email app instead.
+  contactFormKey: "64e0fe1c-738f-4690-8a84-5561d1917d16",
+
   // Text shown in the banner and cart.
   shippingNote: "Free US shipping on everything",
 

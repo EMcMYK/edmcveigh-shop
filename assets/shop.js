@@ -98,16 +98,15 @@
   function renderChrome(active) {
     document.getElementById("banner").textContent = CONFIG.shippingNote || "Free US shipping";
     const current = (c) => active === c.id ? 'aria-current="page"' : "";
-    const mail = CONFIG.contactEmail ? `mailto:${esc(CONFIG.contactEmail)}` : "";
     document.getElementById("nav").innerHTML = CATEGORIES.map((c) =>
       `<a href="${esc(sectionHref(c))}" ${current(c)}>${esc(c.title)}</a>`).join("") +
       `<a href="#about" ${active === "about" ? 'aria-current="page"' : ""}>About</a>` +
-      (mail ? `<a href="${mail}">Contact</a>` : "");
+      `<a href="#contact" ${active === "contact" ? 'aria-current="page"' : ""}>Contact</a>`;
     document.getElementById("menuPanel").innerHTML =
       CATEGORIES.map((c) =>
         `<a href="${esc(sectionHref(c))}" ${current(c)}><span class="label">${esc(c.title)}</span><span class="sub">${esc(c.note)}</span><span class="arrow" aria-hidden="true">→</span></a>`).join("") +
       `<a href="#about" ${active === "about" ? 'aria-current="page"' : ""}><span class="label">About</span><span class="sub">Who makes all this</span><span class="arrow" aria-hidden="true">→</span></a>` +
-      (mail ? `<a href="${mail}"><span class="label">Contact</span><span class="sub">${esc(CONFIG.contactEmail)}</span><span class="arrow" aria-hidden="true">→</span></a>` : "");
+      `<a href="#contact" ${active === "contact" ? 'aria-current="page"' : ""}><span class="label">Contact</span><span class="sub">Questions, portraits, wholesale</span><span class="arrow" aria-hidden="true">→</span></a>`;
     closeMenu();
   }
 
@@ -286,7 +285,21 @@
     const low = Math.min(...p.variants.map((v) => v.price));
     const adds = values.map((vals, i) => Object.fromEntries(vals.map((val) =>
       [val, Math.min(...p.variants.filter((_, k) => parts[k][i] === val).map((v) => v.price)) - low])));
-    return { parts, values, adds, names: values.map((_, i) => cap(names.length === n ? names[i] : `Option ${i + 1}`)), cap };
+    // the included choice first, then the add-ons (Pen & ink only, then Add watercolor)
+    values.forEach((vals, i) => vals.sort((a, b) => adds[i][a] - adds[i][b]));
+    // how a choice reads on its button: the product's "choiceLabels" ("Add watercolor"), else the option name
+    const labels = p.choiceLabels || {};
+    const label = (val) => labels[val] || cap(val);
+    // when prices simply add up (base + each add-on), the total can be shown as a sum
+    const additive = p.variants.every((v, k) => v.price === low + parts[k].reduce((s, val, i) => s + adds[i][val], 0));
+    return { parts, values, adds, label, additive, low, names: values.map((_, i) => cap(names.length === n ? names[i] : `Option ${i + 1}`)), cap };
+  }
+
+  // Before any choice: "$185 for a pen & ink portrait. Watercolor and a frame are optional add-ons."
+  function priceIntro(p, axes) {
+    const extras = axes.values.flatMap((vals, i) => vals.filter((x) => axes.adds[i][x] > 0).map((x) => axes.label(x).replace(/^add /i, "")));
+    const list = extras.length > 1 ? `${extras.slice(0, -1).join(", ")} and ${extras[extras.length - 1]}` : extras.join("");
+    return `${money(axes.low)} for a ${p.baseLabel || "base"}.${list ? ` ${list.charAt(0).toUpperCase() + list.slice(1)} ${extras.length > 1 ? "are optional add-ons" : "is an optional add-on"}.` : ""}`;
   }
 
   // `v` is null while option questions are still unanswered (no price to show yet).
@@ -356,12 +369,13 @@
               <span class="price" id="price">${vStart ? money(v0.price) : `From ${money(lowest(p))}`}</span>
               ${p.deposit ? `<span class="deposit-note" id="deposit-note">${todayNote(p, vStart)}</span>` : ""}
             </div>
+            ${axes && axes.additive ? `<p class="price-math" id="price-math">${esc(priceIntro(p, axes))}</p>` : ""}
             ${p.size ? `<div class="size">Size: <b>${esc(p.size)}</b></div>` : ""}
             ${p.oneOfAKind && !p.soldOut ? `<div class="size">One of a kind: <b>only 1 available</b></div>` : ""}
             <div class="buy" id="buy" style="--cols:${cols}">
               ${axes ? axes.values.map((vals, i) => `<fieldset class="choice" id="axis-${i}">
                 <legend>${esc(axes.names[i])}<span class="choice-need"> · choose one</span></legend>
-                <div class="choices">${vals.map((val) => `<label><input type="radio" name="axis-${i}" value="${esc(val)}"><span class="opt"><svg class="tick" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.6 3.4 7.4-8"/></svg><span class="opt-text">${esc(axes.cap(val))}${axes.adds[i][val] > 0 ? ` <span class="opt-add">+${money(axes.adds[i][val])}</span>` : ""}</span></span></label>`).join("")}</div>
+                <div class="choices">${vals.map((val) => `<label><input type="radio" name="axis-${i}" value="${esc(val)}"><span class="opt"><svg class="tick" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.6 3.4 7.4-8"/></svg><span class="opt-text">${esc(axes.label(val))}${axes.adds[i][val] > 0 ? ` <span class="opt-add">+${money(axes.adds[i][val])}</span>` : ""}</span></span></label>`).join("")}</div>
               </fieldset>`).join("")
               : many ? `<div class="field">
                 <label for="variant">${esc(p.variantLabel || "Option")}</label>
@@ -415,6 +429,13 @@
       if (bp) bp.textContent = barPrice(p, v, "");
       const bb = document.getElementById("buybar-btn");
       if (bb && axes) bb.textContent = "Check out"; // every question answered: the bar can finish the job
+      // the total as a sum: "$185 portrait + $40 watercolor + $25 frame"
+      const pm = document.getElementById("price-math");
+      if (pm && axes && axes.additive) {
+        const extras = axes.parts[vi].map((val, i) => axes.adds[i][val] > 0 ? ` + ${money(axes.adds[i][val])} ${axes.label(val).replace(/^add (a |an )?/i, "")}` : "").join("");
+        pm.textContent = extras ? `${money(axes.low)} ${p.baseLabel || "base"}${extras} = ${money(v.price)}`
+          : `${money(axes.low)} ${p.baseLabel || "base"}, no add-ons`;
+      }
     };
     if (sel) sel.addEventListener("change", () => { vi = Number(sel.value); update(); });
     const unanswered = () => axes ? axes.values.map((_, i) => i).filter((i) => !document.querySelector(`input[name="axis-${i}"]:checked`)) : [];
@@ -533,6 +554,173 @@
     }
     const target = section && document.getElementById(section);
     if (target) target.scrollIntoView({ block: "start" });
+  }
+
+  // ---------- contact (one question at a time, like the portfolio's contact page) ----------
+  // Messages are sent through Web3Forms when config.js has a "contactFormKey"; until then, Send
+  // opens the visitor's email app with everything filled in.
+  const CONTACT = {
+    topics: [
+      { v: "order", label: "A question about an order", sub: "Shipping, a missing package, a change" },
+      { v: "portrait", label: "A house portrait", sub: "A deadline, more than one house, photos" },
+      { v: "wholesale", label: "Wholesale", sub: "Carrying my stickers in your shop" },
+      { v: "other", label: "Something else", sub: "Or just hello" }
+    ],
+    steps: {
+      portraitTopic: { type: "choice", key: "about", label: "About", q: "What about your portrait?",
+        opts: ["A deadline or gift date", "More than one house", "Sending photos of the home", "Something else"].map((v) => ({ v, label: v })) },
+      order: { type: "line", key: "order", label: "Order", q: "Which order is it?", field: "Order number or email you ordered with",
+        hint: "From your Stripe receipt. Optional, but it helps me find it fast.", optional: true },
+      message: { type: "message", key: "message", label: "Message", q: "What would you like to say?" },
+      who: { type: "who", label: "Your details", q: "Where can I reach you?", hint: "Only used to reply to you." }
+    },
+    routes: { order: ["order", "message", "who"], portrait: ["portraitTopic", "message", "who"], wholesale: ["message", "who"], other: ["message", "who"] },
+    hints: {
+      order: "What happened, and what would you like me to do?",
+      portrait: "A gift date, how many houses, anything that matters to you.",
+      wholesale: "Your shop's name and where it is, and what you have in mind.",
+      other: "A line or two is plenty."
+    }
+  };
+  const ARROW = `<svg class="go" viewBox="0 0 22 12" aria-hidden="true"><path d="M1 6h18M14 1.5 19 6l-5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+  function contactPage() {
+    return `<div class="wrap"><section class="contact" aria-labelledby="contact-title">
+      <h1 id="contact-title">Contact</h1>
+      <div class="contact-prog" id="c-prog" hidden><div class="bar"><i></i></div><span id="c-count"></span></div>
+      <div id="c-stage" aria-live="polite"></div>
+      <div class="contact-foot" id="c-foot" hidden><button type="button" class="link-btn" id="c-back">← Back</button></div>
+      ${CONFIG.contactEmail ? `<p class="fineprint contact-direct">Prefer email? Write to ${emailLink(".")}</p>` : ""}
+    </section></div>`;
+  }
+
+  function wireContact() {
+    const S = CONTACT, A = {}, stage = document.getElementById("c-stage");
+    let idx = 0, toReview = false;
+    const topicLabel = () => (S.topics.find((t) => t.v === A.topic) || {}).label || "";
+    const path = () => ["topic"].concat(S.routes[A.topic] || []);
+    const step = (k) => k === "topic" ? { type: "choice", key: "topic", label: "Topic", q: "What's it about?", opts: S.topics } : S.steps[k];
+    const rows = () => path().flatMap((k) => {
+      const s = step(k);
+      if (s.type === "who") return [["Name", A.name, k], ["Email", A.email, k]];
+      return [[s.label, k === "topic" ? topicLabel() : A[s.key], k]];
+    });
+    const text = () => rows().filter((r) => r[1]).map((r) => `${r[0]}: ${r[1]}`).join("\n");
+    const subject = () => `Shop: ${topicLabel() || "Hello"}${A.name ? ` · ${A.name}` : ""}`;
+    const mailto = () => `mailto:${CONFIG.contactEmail}?subject=${encodeURIComponent(subject())}&body=${encodeURIComponent(text())}`;
+    const heading = (q) => `<h2 id="c-q" tabindex="-1">${esc(q)}</h2>`;
+
+    function render(focus = true) {
+      const p = path(), prog = document.getElementById("c-prog"), foot = document.getElementById("c-foot");
+      const kind = idx === -1 ? "thanks" : idx >= p.length ? "review" : step(p[idx]).type;
+      prog.hidden = kind === "thanks" || !A.topic; foot.hidden = kind === "thanks" || idx === 0;
+      const pct = kind === "review" ? 100 : Math.round(idx / p.length * 100);
+      prog.querySelector("i").style.width = (A.topic ? pct : 0) + "%";
+      document.getElementById("c-count").textContent = kind === "review" ? "Review" : A.topic ? `Step ${idx + 1} of ${p.length}` : "";
+      stage.innerHTML = kind === "choice" ? choice(step(p[idx])) : kind === "line" || kind === "message" ? entry(step(p[idx]), kind)
+        : kind === "who" ? who(step(p[idx])) : kind === "review" ? review() : thanks();
+      wire(kind, p[idx]);
+      if (focus) document.getElementById("c-q")?.focus();
+    }
+    const next = () => { idx = toReview ? path().length : idx + 1; toReview = false; render(); };
+
+    function choice(s) {
+      return `<div class="c-step" role="group" aria-labelledby="c-q">${heading(s.q)}
+        <div class="c-opts">${s.opts.map((o, i) => `<button type="button" class="c-opt" data-i="${i}" aria-pressed="${A[s.key] === o.v}">
+          <span class="t">${esc(o.label)}${o.sub ? `<small>${esc(o.sub)}</small>` : ""}</span>${ARROW}</button>`).join("")}</div></div>`;
+    }
+    function entry(s, kind) {
+      const long = kind === "message";
+      const hint = long ? S.hints[A.topic] : s.hint;
+      return `<form class="c-step" novalidate aria-labelledby="c-q">${heading(s.q)}${hint ? `<p class="c-hint">${esc(hint)}</p>` : ""}
+        <div class="field"><label for="c-in">${esc(long ? "Message" : s.field)}${s.optional ? " (optional)" : ""}</label>
+        ${long ? `<textarea id="c-in" rows="6" maxlength="3000">${esc(A[s.key] || "")}</textarea>` : `<input id="c-in" type="text" maxlength="200" value="${esc(A[s.key] || "")}">`}</div>
+        <p class="c-err" id="c-err" role="alert"></p>
+        <button class="btn" type="submit">${s.optional && !A[s.key] ? "Skip" : "Continue"}</button></form>`;
+    }
+    function who(s) {
+      return `<form class="c-step" novalidate aria-labelledby="c-q">${heading(s.q)}<p class="c-hint">${esc(s.hint)}</p>
+        <div class="field"><label for="c-name">Name</label><input id="c-name" type="text" autocomplete="name" maxlength="120" value="${esc(A.name || "")}"></div>
+        <div class="field"><label for="c-email">Email</label><input id="c-email" type="email" autocomplete="email" maxlength="200" value="${esc(A.email || "")}"></div>
+        <p class="c-err" id="c-err" role="alert"></p>
+        <button class="btn" type="submit">Review message</button></form>`;
+    }
+    function review() {
+      return `<div class="c-step" role="group" aria-labelledby="c-q">${heading("Ready to send?")}<p class="c-hint">Here's what I'll get. You can change anything.</p>
+        <dl class="c-sum">${rows().map((r, i) => `<div><dt>${esc(r[0])}</dt><dd class="${r[1] ? "" : "none"}">${esc(r[1] || "Skipped")}</dd>
+          ${r[0] === "Email" ? "<span></span>" : `<button type="button" class="link-btn" data-change="${r[2]}" aria-label="Change ${esc(r[0].toLowerCase())}">Change</button>`}</div>`).join("")}</dl>
+        <label class="c-trap" aria-hidden="true">Leave this empty <input type="checkbox" id="c-bot" tabindex="-1"></label>
+        <p class="c-err" id="c-err" role="alert"></p>
+        <button class="btn" type="button" id="c-send">Send message</button>
+        ${CONFIG.contactFormKey ? "" : `<p class="fineprint">This opens your email app with everything filled in.</p>`}</div>`;
+    }
+    function thanks() {
+      const first = (A.name || "").split(" ")[0];
+      return `<div class="c-step c-thanks" role="group" aria-labelledby="c-q">${heading(`Thank you${first ? `, ${first}` : ""}!`)}
+        <p class="c-hint">${CONFIG.contactFormKey ? `Your message is on its way. I'll reply to ${esc(A.email)}.`
+          : `Your email app should have opened with the message ready to send. If nothing opened, email ${emailLink(".")}`}</p>
+        <a class="btn btn-link" href="#">Back to the shop</a></div>`;
+    }
+
+    function wire(kind, k) {
+      if (kind === "choice") {
+        const s = step(k);
+        stage.querySelectorAll(".c-opt").forEach((b) => b.addEventListener("click", () => {
+          const o = s.opts[b.dataset.i];
+          if (s.key === "topic" && A.topic !== o.v) { delete A.about; delete A.order; toReview = false; }
+          A[s.key] = o.v;
+          stage.querySelectorAll(".c-opt").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+          setTimeout(next, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 200);
+        }));
+      }
+      const form = stage.querySelector("form"), err = document.getElementById("c-err");
+      const fail = (input, msg) => { err.textContent = msg; input.setAttribute("aria-invalid", "true"); input.focus(); };
+      if (kind === "line" || kind === "message") {
+        const s = step(k), input = document.getElementById("c-in"), btn = form.querySelector(".btn");
+        if (s.optional) input.addEventListener("input", () => { btn.textContent = input.value.trim() ? "Continue" : "Skip"; });
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          A[s.key] = input.value.trim();
+          if (!s.optional && !A[s.key]) return fail(input, "Please write a message first.");
+          next();
+        });
+      }
+      if (kind === "who") form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const n = document.getElementById("c-name"), m = document.getElementById("c-email");
+        [n, m].forEach((x) => x.removeAttribute("aria-invalid"));
+        if (!n.value.trim()) return fail(n, "Please add your name.");
+        if (!m.value.trim() || !m.checkValidity()) return fail(m, "That email address looks incomplete.");
+        A.name = n.value.trim(); A.email = m.value.trim(); next();
+      });
+      if (kind === "review") {
+        stage.querySelectorAll("[data-change]").forEach((b) => b.addEventListener("click", () => {
+          toReview = b.dataset.change !== "topic"; idx = path().indexOf(b.dataset.change); render();
+        }));
+        const send = document.getElementById("c-send");
+        send.addEventListener("click", async () => {
+          if (!CONFIG.contactFormKey) { location.href = mailto(); idx = -1; return render(); }
+          send.disabled = true; send.textContent = "Sending…"; err.textContent = "";
+          try {
+            const res = await fetch("https://api.web3forms.com/submit", {
+              method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
+              body: JSON.stringify({ access_key: CONFIG.contactFormKey, subject: subject(), from_name: "ed.mcveigh shop",
+                name: A.name, email: A.email, topic: topicLabel(), about: A.about || "", order: A.order || "", message: A.message || "",
+                botcheck: document.getElementById("c-bot").checked })
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok || !data.success) throw new Error(data.message || res.status);
+            idx = -1; render();
+          } catch (e2) {
+            console.error("Contact form failed", e2);
+            send.disabled = false; send.textContent = "Try again";
+            err.innerHTML = `That didn't send, but your message is still here. Try again, or email it to ${emailLink(".")}`;
+          }
+        });
+      }
+    }
+    document.getElementById("c-back").addEventListener("click", () => { toReview = false; if (idx > 0) { idx--; render(); } });
+    render(false);
   }
 
   // ---------- about (text lives in data/about.html) ----------
@@ -762,6 +950,10 @@
       renderCartCount();
       if (hash === "policies") window.scrollTo(0, 0);
       return;
+    } else if (hash === "contact") {
+      app.innerHTML = contactPage(); renderChrome("contact");
+      document.title = "Contact · ed.mcveigh shop";
+      wireContact();
     } else if (hash === "about") {
       renderChrome("about");
       document.title = "About · ed.mcveigh shop";
@@ -806,8 +998,12 @@
 
 // The Etsy description repeats the "drawn by me, no AI" note that Details already shows here,
 // so the shop hides that paragraph (it stays on Etsy).
+// It also drops the "Not affiliated with…" paragraph when the product's disclaimer already says it
+// in the fine print, so it shows once.
 function shownDescription(p) {
-  const desc = p.description || [];
+  let desc = p.description || [];
+  const squash = (t) => String(t).toLowerCase().replace(/[^a-z]+/g, " ").trim();
+  if (p.disclaimer) desc = desc.filter((t) => !/^not affiliated with\b/i.test(t.trim()) && squash(t) !== squash(p.disclaimer));
   const detailsSayIt = (p.details || []).some((d) => /no ai/i.test(d));
   if (!detailsSayIt) return desc;
   return desc.filter((t) => !/^(every sticker is |all of my stickers are )?drawn, designed, printed,? and cut by me\b[^]*no ai/i.test(t.trim()));
