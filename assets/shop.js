@@ -411,6 +411,7 @@
                 </div>`}
                 <button class="btn" id="add" type="button" ${p.soldOut ? "disabled" : ""}>${buyLabel(p, vStart)}</button>
               </div>
+              ${p.faireUrl ? `<p class="wholesale-note">Want to sell this item in your own shop?<br><a href="${esc(p.faireUrl)}" target="_blank" rel="noopener">Order wholesale on Faire ↗</a></p>` : ""}
               ${p.deposit && !p.soldOut ? `<p class="buy-note">More than one house? Add each one to your cart, or ${CONFIG.contactEmail ? `<a class="email-link" href="mailto:${esc(CONFIG.contactEmail)}">email me</a>` : "email me"} about a multi-house discount.</p>` : ""}
             </div>
             ${p.steps && p.steps.length ? `<section class="steps" aria-labelledby="how-it-works">

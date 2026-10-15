@@ -637,3 +637,7 @@ button { font: inherit; color: inherit; }
 .card:focus-visible .frame { outline: 2px solid var(--ink); outline-offset: 3px; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } .c-step { animation: none; } }
+
+/* Faire link for store owners, under the buy button (products with a "faireUrl") */
+.wholesale-note { margin: 2px 0 0; font-size: 14px; line-height: 1.5; color: var(--ink-soft); text-align: right; }
+.wholesale-note a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
