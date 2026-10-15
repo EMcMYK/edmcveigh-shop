@@ -158,7 +158,7 @@ Then add `edmcveigh.com` (and `www.edmcveigh.com`) under that project's Custom d
 
 ### Faire (wholesale) links
 
-A product with a `"faireUrl"` shows a small "Want to sell this item in your own shop? Order wholesale on Faire" link under its buy button. To add one for a new product, copy the product's link from Faire (it looks like `https://www.faire.com/product/p_...`) and add a line `"faireUrl": "https://www.faire.com/product/p_...",` to that product in `data/products.json`. The Etsy sync leaves this field alone.
+A product with a `"faireUrl"` shows a small "Want to sell this item in your own shop? Order wholesale on Faire" link under its buy button. To add one for a new product, copy the product's link from Faire (it looks like `https://www.faire.com/product/p_...?fdb=edmcveighart`; keep the `?fdb=edmcveighart` ending so the order is credited to you) and add a line `"faireUrl": "https://www.faire.com/product/p_...",` to that product in `data/products.json`. The Etsy sync leaves this field alone.
 
 ## Etsy sync
 
