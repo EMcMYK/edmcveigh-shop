@@ -1,3 +1,5 @@
-# Old Squarespace house portrait page -> house portrait listing.
-# 302 (temporary) because the destination moves to https://shop.edmcveigh.com/#portraits when the shop launches.
-/shop/p/kvsfrzg2pqe6uiarlu13hf6blc978y https://www.etsy.com/listing/4587496463 302
+# Old Squarespace store (every product lived under /shop) -> new shop.
+# 302 (temporary) for now; can be made permanent (301) once the shop is settled.
+/shop/p/kvsfrzg2pqe6uiarlu13hf6blc978y https://shop.edmcveigh.com/#portraits 302
+/shop https://shop.edmcveigh.com/ 302
+/shop/* https://shop.edmcveigh.com/ 302
