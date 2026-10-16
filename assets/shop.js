@@ -9,7 +9,7 @@
       shop.edmcveigh.com/#portraits  → house portraits only
       shop.edmcveigh.com/#cat-burger → one product (uses the product's id)
       shop.edmcveigh.com/#thanks     → shown after someone pays
-      shop.edmcveigh.com/#policies   → shipping, returns and commission policies (text: data/policies.html)
+      shop.edmcveigh.com/#policies   → shipping, returns, commission policies and terms (text: data/policies.html)
       shop.edmcveigh.com/#privacy    → privacy policy (text: data/privacy.html; /privacy redirects here)
   - Keeps a cart in the visitor's browser and sends it to /api/checkout,
     which hands the customer off to Stripe's secure checkout page.
@@ -133,7 +133,7 @@
     document.getElementById("footer").innerHTML = `<div class="wrap">
       <span>Drawn, painted, printed and cut by hand in Philadelphia.</span>
       <nav aria-label="Elsewhere">
-        <a href="#policies">Shop policies</a>
+        <a href="#policies">Shop policies &amp; terms</a>
         <a href="#privacy">Privacy</a>
         ${CONFIG.etsyUrl ? `<a href="${esc(CONFIG.etsyUrl)}" target="_blank" rel="noopener">Etsy</a>` : ""}
         ${CONFIG.instagramUrl ? `<a href="${esc(CONFIG.instagramUrl)}" target="_blank" rel="noopener">Instagram</a>` : ""}
@@ -1011,7 +1011,7 @@
       wireProduct(p);
     } else if (hash === "policies" || hash.startsWith("policies-")) {
       renderChrome("");
-      document.title = "Shop policies · ed.mcveigh shop";
+      document.title = "Shop policies & terms · ed.mcveigh shop";
       showPolicies(hash.slice("policies-".length));
       renderCartCount();
       if (hash === "policies") window.scrollTo(0, 0);
