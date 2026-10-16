@@ -203,3 +203,11 @@ Reading Etsy only needs the keys above. Changing your Etsy listings from here (c
 **Copy edits:** the list lives in `data/etsy-edits.json`. Actions → **Apply Etsy edits** → Run workflow, first with "Dry run" ticked (checks every listing, changes nothing), then unticked. Each run saves what Etsy had before and after to `data/etsy-edits-result.json`, and the next morning's sync brings the new text into the shop.
 
 **Shop-only text:** a product with `"shopOnly": ["description"]` (or `"tags"`, `"options"`, `"photos"`) keeps its own version and the sync leaves it alone. The house portrait uses this, since its Etsy wording is about Etsy's checkout.
+
+## Orders page (shop.edmcveigh.com/orders)
+
+Your packing list: every paid order with what was bought (option and photo), where it's going, a ship-by date
+(4 business days, from the shipping policy), notes, and a "Mark shipped" button (with an optional tracking number).
+It reads straight from Stripe, and "shipped" is saved on the payment in Stripe, so nothing else stores order data.
+Sign in with your admin key (ETSY_ADMIN_KEY); the device remembers it. "Addresses for Pirate Ship (CSV)" downloads
+the unshipped sticker and painting orders for Pirate Ship's spreadsheet import.

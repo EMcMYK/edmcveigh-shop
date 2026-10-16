@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Orders · ed.mcveigh shop</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
+<meta name="theme-color" content="#18602a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Instrument+Sans:wght@400;500;600&display=swap">
+<script>
+  (() => {
+    let m = null;
+    try { m = localStorage.getItem('edm-mode'); } catch (e) {}
+    if (m !== 'light' && m !== 'dark') m = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.mode = m;
+  })();
+</script>
+<style>
+:root {
+  --cream: #fcf8ec; --card: #fffdf6; --ink: #18602a; --ink-soft: #4f7a58; --line: rgba(24, 96, 42, .2);
+  --late: #b3261e; --soon: #8a5a00; --soon-bg: #fbecc8; --late-bg: #f8dcd8; --ok-bg: #e2efe0;
+  --shadow: rgba(24, 96, 42, .12);
+  --display: "Agbalumo", "Cooper Black", Georgia, serif;
+  --ui: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+:root[data-mode="dark"] {
+  --cream: #2b0610; --card: #380b17; --ink: #86d8ef; --ink-soft: #79b3c7; --line: rgba(134, 216, 239, .22);
+  --late: #ff9b8f; --soon: #ffd37a; --soon-bg: rgba(255, 211, 122, .14); --late-bg: rgba(255, 155, 143, .14); --ok-bg: rgba(134, 216, 239, .12);
+  --shadow: rgba(0, 0, 0, .35);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--cream); color: var(--ink); font: 16px/1.45 var(--ui); min-height: 100svh; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 18px 16px 64px; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+h1 { font: 400 clamp(30px, 7vw, 40px)/1 var(--display); margin: 0; }
+h1 a { color: inherit; text-decoration: none; }
+button, input { font: inherit; color: inherit; }
+.btn {
+  border: 2px solid var(--ink); background: var(--cream); color: var(--ink); border-radius: 4px;
+  padding: 8px 14px; font-weight: 600; cursor: pointer; white-space: nowrap;
+}
+.btn:hover, .btn:focus-visible { background: var(--ink); color: var(--cream); outline: none; }
+.btn.solid { background: var(--ink); color: var(--cream); }
+.btn.solid:hover, .btn.solid:focus-visible { filter: brightness(1.12); }
+.btn.small { padding: 5px 10px; font-size: 14px; border-width: 1.5px; }
+.btn:disabled { opacity: .5; cursor: default; }
+.link { background: none; border: 0; padding: 0; color: var(--ink-soft); text-decoration: underline; cursor: pointer; font-size: 14px; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.tab { border: 1.5px solid var(--line); background: none; border-radius: 99px; padding: 6px 14px; font-weight: 600; cursor: pointer; }
+.tab[aria-pressed="true"] { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; color: var(--ink-soft); font-size: 14px; }
+.order { background: var(--card); border: 1.5px solid var(--line); border-radius: 8px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 6px var(--shadow); }
+.order.done { opacity: .78; }
+.top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.badge { display: inline-block; font-weight: 600; font-size: 14px; padding: 3px 10px; border-radius: 99px; background: var(--ok-bg); }
+.badge.soon { background: var(--soon-bg); color: var(--soon); }
+.badge.late { background: var(--late-bg); color: var(--late); }
+.meta { color: var(--ink-soft); font-size: 14px; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 560px) { .cols { grid-template-columns: 1fr; } }
+.items { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.items li { display: flex; gap: 10px; align-items: center; }
+.items img { width: 52px; height: 52px; object-fit: contain; border-radius: 4px; background: var(--cream); border: 1px solid var(--line); flex: none; }
+.qty { font-weight: 700; }
+.opt { color: var(--ink-soft); font-size: 14px; }
+.label { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); font-weight: 600; margin-bottom: 4px; }
+.addr { white-space: pre-line; margin: 0 0 6px; }
+.notes { white-space: pre-line; background: var(--soon-bg); border-radius: 6px; padding: 8px 10px; margin-top: 12px; font-size: 15px; }
+.foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; border-top: 1px solid var(--line); margin-top: 14px; padding-top: 12px; }
+.foot .money { font-size: 14px; color: var(--ink-soft); }
+.ship { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ship input { border: 1.5px solid var(--line); background: var(--cream); border-radius: 4px; padding: 6px 10px; width: 190px; font-size: 14px; }
+.shipped { font-weight: 600; }
+a { color: var(--ink); }
+.gate { max-width: 380px; margin: 12vh auto 0; text-align: center; }
+.gate p { color: var(--ink-soft); }
+.gate input { width: 100%; border: 2px solid var(--ink); background: var(--card); border-radius: 4px; padding: 10px 12px; margin: 6px 0 12px; }
+.msg { color: var(--late); min-height: 1.4em; }
+.empty { text-align: center; color: var(--ink-soft); padding: 40px 0; }
+.mode { background: var(--late-bg); color: var(--late); border-radius: 6px; padding: 8px 12px; margin-bottom: 14px; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><a href="/">ed.mcveigh</a> orders</h1>
+    <button class="link" id="signout" hidden>Sign out</button>
+  </header>
+
+  <form class="gate" id="gate" hidden>
+    <p>Enter your admin key (the ETSY_ADMIN_KEY you saved in Cloudflare). This device remembers it.</p>
+    <input id="key" type="password" autocomplete="current-password" aria-label="Admin key" required>
+    <button class="btn solid" type="submit">Open orders</button>
+    <p class="msg" id="gateMsg"></p>
+  </form>
+
+  <main id="app" hidden>
+    <div class="mode" id="testMode" hidden>These are Stripe test-mode orders.</div>
+    <div class="tabs" role="group" aria-label="Show">
+      <button class="tab" data-tab="todo" aria-pressed="true">To ship</button>
+      <button class="tab" data-tab="shipped" aria-pressed="false">Shipped</button>
+      <button class="tab" data-tab="all" aria-pressed="false">All</button>
+    </div>
+    <div class="toolbar">
+      <span id="summary"></span>
+      <span>
+        <button class="btn small" id="csv">Addresses for Pirate Ship (CSV)</button>
+        <button class="btn small" id="refresh">Refresh</button>
+      </span>
+    </div>
+    <div id="list"></div>
+  </main>
+</div>
+
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const store = { get: (k) => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} } };
+  let key = store.get("edm-admin-key"), orders = [], tab = "todo";
+
+  const day = (iso, opts) => new Date(iso).toLocaleDateString("en-US", { timeZone: "America/New_York", ...opts });
+  const short = (iso) => day(iso, { weekday: "short", month: "short", day: "numeric" });
+  const dayDiff = (iso) => {                                   // whole days from today (Philly) to that date
+    const k = (d) => day(d, { year: "numeric", month: "2-digit", day: "2-digit" });
+    const a = new Date(k(new Date())), b = new Date(k(iso));
+    return Math.round((b - a) / 864e5);
+  };
+
+  async function api(method, body) {
+    const res = await fetch("/api/orders", {
+      method, cache: "no-store",
+      headers: { Authorization: `Bearer ${key}`, ...(body ? { "Content-Type": "application/json" } : {}) },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+    const data = await res.json().catch(() => ({ error: `Error ${res.status}` }));
+    if (res.status === 401) { signOut(data.error); throw new Error(data.error); }
+    if (!res.ok) throw new Error(data.error || `Error ${res.status}`);
+    return data;
+  }
+
+  function signOut(msg) {
+    key = null; store.set("edm-admin-key", null);
+    $("#app").hidden = true; $("#signout").hidden = true; $("#gate").hidden = false;
+    $("#gateMsg").textContent = msg || "";
+  }
+
+  async function load() {
+    $("#gate").hidden = true; $("#app").hidden = false; $("#signout").hidden = false;
+    $("#list").innerHTML = `<p class="empty">Loading orders…</p>`;
+    try {
+      const data = await api("GET");
+      orders = data.orders;
+      $("#testMode").hidden = data.live !== false;
+      render();
+    } catch (e) {
+      if (key) $("#list").innerHTML = `<p class="empty">Couldn't load orders: ${esc(e.message)}</p>`;
+    }
+  }
+
+  const isOpen = (o) => !o.shippedAt && o.refunded !== "full";
+
+  function render() {
+    const todo = orders.filter(isOpen);
+    const shown = tab === "todo" ? [...todo].sort((a, b) => (a.shipBy || "9") < (b.shipBy || "9") ? -1 : 1)
+      : tab === "shipped" ? orders.filter((o) => o.shippedAt) : orders;
+    const late = todo.filter((o) => o.shipBy && dayDiff(o.shipBy) < 0).length;
+    $("#summary").textContent = `${todo.length} to ship${late ? ` · ${late} overdue` : ""} · ${orders.length} orders in all`;
+    document.querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-pressed", String(t.dataset.tab === tab)));
+    $("#csv").disabled = !todo.some((o) => !o.portrait && o.address);
+    $("#list").innerHTML = shown.length ? shown.map(card).join("")
+      : `<p class="empty">${tab === "todo" ? "Nothing to ship. Nice." : "No orders here yet."}</p>`;
+  }
+
+  function due(o) {
+    if (o.refunded === "full") return `<span class="badge late">Refunded</span>`;
+    if (o.shippedAt) return `<span class="badge">Shipped ${esc(short(o.shippedAt))}</span>`;
+    if (o.portrait) return `<span class="badge soon">Commission: ships after the final payment</span>`;
+    const d = dayDiff(o.shipBy);
+    const when = d === 0 ? "today" : d === 1 ? "tomorrow" : short(o.shipBy);
+    return `<span class="badge ${d < 0 ? "late" : d <= 1 ? "soon" : ""}">${d < 0 ? `Overdue: was due ${esc(short(o.shipBy))}` : `Ship by ${esc(when)}`}</span>`;
+  }
+
+  function addressText(o) {
+    const a = o.address || {};
+    return [o.name, a.line1, a.line2, [a.city, a.state].filter(Boolean).join(", ") + (a.postal_code ? " " + a.postal_code : ""), a.country && a.country !== "US" ? a.country : ""]
+      .filter((x) => x && x.trim()).join("\n");
+  }
+
+  function card(o) {
+    const items = o.lines.map((l) => `<li>${l.image ? `<img src="/${esc(l.image.replace(/^\//, ""))}" alt="" loading="lazy">` : ""}
+      <span><span class="qty">${l.qty} ×</span> ${esc(l.name)}${l.option ? `<br><span class="opt">${esc(l.option)}</span>` : ""}</span></li>`).join("");
+    const action = o.refunded === "full" ? "" : o.shippedAt
+      ? `<span class="ship"><span class="shipped">✓ Shipped${o.tracking ? ` · ${esc(o.tracking)}` : ""}</span><button class="link" data-undo="${esc(o.id)}">Undo</button></span>`
+      : `<span class="ship">${o.lines.some((l) => l.oneOfAKind || l.deposit) ? `<input placeholder="Tracking number (optional)" data-track="${esc(o.id)}" aria-label="Tracking number">` : ""}
+          <button class="btn small solid" data-ship="${esc(o.id)}">Mark shipped</button></span>`;
+    return `<article class="order${o.shippedAt || o.refunded === "full" ? " done" : ""}">
+      <div class="top">${due(o)}<div class="meta">Ordered ${esc(short(o.created))} · #${esc(o.number)}</div></div>
+      <div class="cols">
+        <div><div class="label">Items</div><ul class="items">${items}</ul></div>
+        <div><div class="label">Ship to</div><p class="addr">${esc(addressText(o)) || "No address"}</p>
+          <button class="link" data-copy="${esc(o.id)}">Copy address</button>
+          ${o.email ? `<div style="margin-top:8px"><a href="mailto:${esc(o.email)}">${esc(o.email)}</a></div>` : ""}</div>
+      </div>
+      ${o.notes ? `<div class="notes"><strong>Notes:</strong> ${esc(o.notes)}</div>` : ""}
+      <div class="foot">
+        <span class="money">$${o.total.toFixed(2)}${o.tax ? ` (incl. $${o.tax.toFixed(2)} tax)` : ""}${o.refunded === "partial" ? " · partly refunded" : ""} · <a href="${esc(o.stripeUrl)}" target="_blank" rel="noopener">Stripe ↗</a></span>
+        ${action}
+      </div>
+    </article>`;
+  }
+
+  async function setShipped(id, shipped, btn) {
+    const o = orders.find((x) => x.id === id);
+    const tracking = shipped ? (document.querySelector(`[data-track="${id}"]`)?.value || "") : "";
+    if (btn) { btn.disabled = true; btn.textContent = "Saving…"; }
+    try {
+      const r = await api("POST", { order: id, shipped, tracking });
+      o.shippedAt = r.shippedAt; o.tracking = r.tracking;
+      render();
+    } catch (e) {
+      if (btn) { btn.disabled = false; btn.textContent = shipped ? "Mark shipped" : "Undo"; }
+      console.error(e);
+      $("#summary").textContent = `Couldn't save: ${e.message}`;
+    }
+  }
+
+  function csv() {
+    const rows = [["Name", "Address 1", "Address 2", "City", "State", "Zip", "Country", "Email", "Order ID", "Items"]];
+    orders.filter((o) => isOpen(o) && !o.portrait && o.address).forEach((o) => {
+      const a = o.address;
+      rows.push([o.name, a.line1, a.line2, a.city, a.state, a.postal_code, a.country, o.email, o.number,
+        o.lines.map((l) => `${l.qty}x ${l.name}${l.option ? ` (${l.option})` : ""}`).join("; ")]);
+    });
+    const text = rows.map((r) => r.map((v) => `"${String(v ?? "").replace(/"/g, '""')}"`).join(",")).join("\r\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([text], { type: "text/csv" }));
+    a.download = `orders-to-ship-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  document.addEventListener("click", async (e) => {
+    const t = e.target.closest("button");
+    if (!t) return;
+    if (t.dataset.tab) { tab = t.dataset.tab; render(); }
+    else if (t.dataset.ship) setShipped(t.dataset.ship, true, t);
+    else if (t.dataset.undo) setShipped(t.dataset.undo, false, t);
+    else if (t.dataset.copy) {
+      const o = orders.find((x) => x.id === t.dataset.copy);
+      try { await navigator.clipboard.writeText(addressText(o)); t.textContent = "Copied ✓"; } catch { t.textContent = "Couldn't copy"; }
+      setTimeout(() => (t.textContent = "Copy address"), 1500);
+    }
+    else if (t.id === "refresh") load();
+    else if (t.id === "csv") csv();
+    else if (t.id === "signout") signOut();
+  });
+  $("#gate").addEventListener("submit", (e) => {
+    e.preventDefault();
+    key = $("#key").value.trim(); store.set("edm-admin-key", key); $("#key").value = "";
+    load();
+  });
+
+  key ? load() : signOut();
+})();
+</script>
+</body>
+</html>
