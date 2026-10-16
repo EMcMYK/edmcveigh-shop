@@ -10,6 +10,7 @@
       shop.edmcveigh.com/#cat-burger → one product (uses the product's id)
       shop.edmcveigh.com/#thanks     → shown after someone pays
       shop.edmcveigh.com/#policies   → shipping, returns and commission policies (text: data/policies.html)
+      shop.edmcveigh.com/#privacy    → privacy policy (text: data/privacy.html; /privacy redirects here)
   - Keeps a cart in the visitor's browser and sends it to /api/checkout,
     which hands the customer off to Stripe's secure checkout page.
 */
@@ -133,6 +134,7 @@
       <span>Drawn, painted, printed and cut by hand in Philadelphia.</span>
       <nav aria-label="Elsewhere">
         <a href="#policies">Shop policies</a>
+        <a href="#privacy">Privacy</a>
         ${CONFIG.etsyUrl ? `<a href="${esc(CONFIG.etsyUrl)}" target="_blank" rel="noopener">Etsy</a>` : ""}
         ${CONFIG.instagramUrl ? `<a href="${esc(CONFIG.instagramUrl)}" target="_blank" rel="noopener">Instagram</a>` : ""}
         ${CONFIG.contactEmail ? emailLink() : ""}
@@ -772,6 +774,19 @@
     render(false);
   }
 
+  // ---------- privacy (text lives in data/privacy.html) ----------
+  let privacyHtml = null;
+  async function showPrivacy() {
+    app.innerHTML = `<div class="wrap"><article class="policies" id="privacy-body"><p class="fineprint">Loading…</p></article></div>`;
+    try {
+      if (privacyHtml === null) privacyHtml = await (await fetch("data/privacy.html", { cache: "no-cache" })).text();
+      document.getElementById("privacy-body").innerHTML = privacyHtml;
+      document.querySelectorAll("#privacy-body a[href^='mailto:']").forEach((a) => a.classList.add("email-link"));
+    } catch (e) {
+      document.getElementById("privacy-body").innerHTML = `<p class="msg error">This page couldn't load. Please refresh.</p>`;
+    }
+  }
+
   // ---------- about (text lives in data/about.html) ----------
   let aboutHtml = null;
   async function showAbout() {
@@ -1005,6 +1020,13 @@
       app.innerHTML = contactPage(); renderChrome("contact");
       document.title = "Contact · ed.mcveigh shop";
       wireContact();
+    } else if (hash === "privacy") {
+      renderChrome("");
+      document.title = "Privacy · ed.mcveigh shop";
+      showPrivacy();
+      renderCartCount();
+      window.scrollTo(0, 0);
+      return;
     } else if (hash === "about") {
       renderChrome("about");
       document.title = "About · ed.mcveigh shop";
