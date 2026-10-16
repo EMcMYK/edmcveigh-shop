@@ -216,8 +216,10 @@ footer {
 <script>
 /* ---------- Your links: replace each "#" with the real address ---------- */
 // The shop's address. While previewing on the pages.dev address, links go to the preview shop instead.
-// ---- The one switch: false = links go to Etsy (today). Set to true when shop.edmcveigh.com launches. ----
-const SHOP_LIVE = false;
+// ---- The one switch: true = links go to shop.edmcveigh.com (live since Oct 15 2026); false = back to Etsy. ----
+const SHOP_LIVE = true;
+// House portraits: false = the Etsy listing, true = the shop's portrait page.
+const PORTRAITS_ON_SHOP = false;
 
 const SHOP = location.hostname.endsWith('pages.dev') ? 'https://edmcveigh-shop.pages.dev' : 'https://shop.edmcveigh.com';
 const ETSY = 'https://www.etsy.com/shop/EdMcveighArt';
@@ -229,7 +231,7 @@ if (SHOP_LIVE) {
 const LINKS = SHOP_LIVE ? [
   { label: 'Sticker shop',    sub: 'Glossy, waterproof, die-cut',         href: SHOP + '/#stickers' },
   { label: 'Original art',    sub: 'One-of-a-kind gouache paintings',     href: SHOP + '/#originals' },
-  { label: 'House portraits', sub: 'Commission a portrait of your home',  href: SHOP + '/#portraits' },
+  { label: 'House portraits', sub: 'Commission a portrait of your home',  ...(PORTRAITS_ON_SHOP ? { href: SHOP + '/#portraits' } : { href: 'https://www.etsy.com/listing/4587496463', external: true }) },
   { label: 'Shop on Etsy',    sub: 'Prefer Etsy? Same stickers and art',  href: ETSY, external: true },
   { label: 'Wholesale',       sub: 'Faire · for shops and stockists',     href: 'https://faire.com/direct/edmcveighart', external: true },
   // not live yet: set soon to false (or delete the line) once design.edmcveigh.com is up
