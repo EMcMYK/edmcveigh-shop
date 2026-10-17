@@ -11,21 +11,27 @@
 
 export const ORDERS_URL = "https://shop.edmcveigh.com/orders/";
 
-// Sends one push. Never throws: a failed notification must not break a sale.
+// Sends one push, retrying once if ntfy hiccups. Never throws: a failed notification must not break a sale.
+// Returns true, or a short reason string ("ntfy 429: …") so the Orders page can show what went wrong.
 export async function notify(env, { title, message, priority = 3, tags = [], click = ORDERS_URL }) {
-  if (!env.NTFY_TOPIC) return false;
-  try {
-    const res = await fetch(env.NTFY_SERVER || "https://ntfy.sh/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ topic: env.NTFY_TOPIC, title, message, priority, tags, click }),
-    });
-    if (!res.ok) console.error("ntfy refused", res.status, await res.text());
-    return res.ok;
-  } catch (e) {
-    console.error("ntfy failed", e);
-    return false;
+  if (!env.NTFY_TOPIC) return "NTFY_TOPIC isn't set";
+  let why = "";
+  for (let attempt = 0; attempt < 2; attempt++) {
+    if (attempt) await new Promise((r) => setTimeout(r, 1500));
+    try {
+      const res = await fetch(env.NTFY_SERVER || "https://ntfy.sh/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topic: env.NTFY_TOPIC, title, message, priority, tags, click }),
+      });
+      if (res.ok) return true;
+      why = `ntfy ${res.status}: ${(await res.text()).slice(0, 120)}`;
+    } catch (e) {
+      why = `ntfy unreachable: ${String(e.message || e).slice(0, 120)}`;
+    }
+    console.error(why);
   }
+  return why;
 }
 
 // Business days in Philly time (weekends skipped; holidays aren't). Returns noon UTC on that day.

@@ -20,7 +20,7 @@ export async function onRequestPost({ request, env }) {
     if (!due.length && !test) return json({ sent: false, due: 0 });
     if (!due.length) {
       const sent = await notify(env, { title: "Test: notifications work", message: `${open.length ? `${open.length} order${open.length > 1 ? "s" : ""} to ship, none due yet.` : "Nothing to ship right now."}`, tags: ["white_check_mark"] });
-      return json({ sent, due: 0 });
+      return json(sent === true ? { sent: true, due: 0 } : { sent: false, error: sent }, sent === true ? 200 : 502);
     }
     const late = due.filter((x) => x.d < 0).length, today = due.filter((x) => x.d === 0).length, tomorrow = due.filter((x) => x.d === 1).length;
     const parts = [late && `${late} overdue`, today && `${today} due today`, tomorrow && `${tomorrow} due tomorrow`].filter(Boolean);
@@ -35,7 +35,7 @@ export async function onRequestPost({ request, env }) {
       priority: late ? 4 : 3,
       tags: [late ? "warning" : "package"],
     });
-    return json({ sent, due: due.length });
+    return json(sent === true ? { sent: true, due: due.length } : { sent: false, error: sent }, sent === true ? 200 : 502);
   } catch (e) {
     console.error(e);
     return json({ error: String(e.message || e) }, 502);

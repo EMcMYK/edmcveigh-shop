@@ -265,9 +265,9 @@ a { color: var(--ink); }
       try {
         const res = await fetch("/api/order-reminder?test=1", { method: "POST", headers: { Authorization: `Bearer ${key}` } });
         const r = await res.json().catch(() => ({}));
-        t.textContent = res.ok && r.sent ? "Sent ✓ check your phone" : (r.error || "Couldn't send");
+        t.textContent = res.ok && r.sent ? "Sent ✓ check your phone" : `Couldn't send: ${r.error || res.status}`;
       } catch { t.textContent = "Couldn't send"; }
-      setTimeout(() => { t.disabled = false; t.textContent = "Test notification"; }, 4000);
+      setTimeout(() => { t.disabled = false; t.textContent = "Test notification"; }, t.textContent.startsWith("Sent") ? 4000 : 15000);
     }
     else if (t.id === "csv") csv();
     else if (t.id === "signout") signOut();
