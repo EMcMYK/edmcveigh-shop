@@ -17,7 +17,7 @@
     ETSY_*                 the Etsy connection (see functions/_lib/etsy.js); without it you get the reminder instead
 */
 import { etsy, deactivateListing, missingSettings } from "../_lib/etsy.js";
-import { notify, addBusinessDays, shortDate } from "../_lib/notify.js";
+import { notify, newOrderPush } from "../_lib/notify.js";
 
 export async function onRequestPost({ request, env }) {
   const body = await request.text();
@@ -59,21 +59,15 @@ export async function onRequestPost({ request, env }) {
 // "New order · $4.23" push: what was bought and when it ships. No buyer name or address.
 async function notifyNewOrder(env, session, products, live) {
   const cart = String(session.metadata?.cart || "").split(/, (?=\d+x \S+ \()/).filter(Boolean);
-  let portrait = false;
   const lines = cart.map((c) => {
     const m = /^(\d+)x (\S+) \((.*)\)$/.exec(c);
-    if (!m) return `• ${c}`;
-    const p = products.find((x) => x.id === m[2]);
-    if (p?.deposit) portrait = true;
-    return `• ${m[1]}× ${p ? p.name : m[2]}${p && p.variants.length > 1 ? ` (${m[3]})` : ""}${p?.deposit ? ": deposit" : ""}`;
+    const p = m && products.find((x) => x.id === m[2]);
+    if (!m) return { qty: 1, name: c, option: "" };
+    return { qty: Number(m[1]), name: p ? p.name : m[2], option: p && p.variants.length > 1 ? m[3] : "", deposit: Boolean(p?.deposit) };
   });
-  const when = portrait ? "Portrait deposit: watch for their house photo by email" : `Ship by ${shortDate(addBusinessDays(new Date(session.created * 1000), 4))}`;
-  await notify(env, {
-    title: `${live ? "" : "Test "}New order · $${(session.amount_total / 100).toFixed(2)}`,
-    message: [...lines, when].join("\n"),
-    priority: 4,
-    tags: ["tada"],
-  });
+  const push = newOrderPush({ lines, total: session.amount_total / 100, created: session.created * 1000 });
+  if (!live) push.title = "Test " + push.title;
+  await notify(env, push);
 }
 
 // Takes the sold painting off Etsy. Returns a short note for the workflow:

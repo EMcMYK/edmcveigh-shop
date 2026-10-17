@@ -53,3 +53,24 @@ export function daysUntil(iso, now = new Date()) {
 }
 
 export const shortDate = (iso) => new Date(iso).toLocaleDateString("en-US", { timeZone: "America/New_York", weekday: "short", month: "short", day: "numeric" });
+
+// The two pushes the shop sends. Shared by the real alerts and the Orders page's "Test notification",
+// so a test looks exactly like the real thing. lines: [{ qty, name, option, deposit }]
+export function newOrderPush({ lines, total, created }) {
+  const portrait = lines.some((l) => l.deposit);
+  const items = lines.map((l) => `• ${l.qty}× ${l.name.replace(/: 50% deposit$/, "")}${l.option ? ` (${l.option})` : ""}${l.deposit ? ": deposit" : ""}`);
+  const when = portrait ? "Portrait deposit: watch for their house photo by email" : `Ship by ${shortDate(addBusinessDays(new Date(created), 4))}`;
+  return { title: `New order · $${total.toFixed(2)}`, message: [...items, when].join("\n"), priority: 4, tags: ["tada"] };
+}
+
+// due: [{ o: order (lines, shipBy), d: days until ship-by }], most urgent first
+export function reminderPush(due) {
+  const late = due.filter((x) => x.d < 0).length, today = due.filter((x) => x.d === 0).length, tomorrow = due.filter((x) => x.d === 1).length;
+  const parts = [late && `${late} overdue`, today && `${today} due today`, tomorrow && `${tomorrow} due tomorrow`].filter(Boolean);
+  const lines = due.map(({ o, d }) => {
+    const what = o.lines.map((l) => `${l.qty}× ${l.name}${l.option ? ` (${l.option})` : ""}`).join(", ");
+    const when = d < 0 ? `overdue since ${shortDate(o.shipBy)}` : d === 0 ? "due today" : "due tomorrow";
+    return `• ${what}: ${when}`;
+  });
+  return { title: `Orders to ship: ${parts.join(", ")}`, message: lines.join("\n"), priority: late ? 4 : 3, tags: [late ? "warning" : "package"] };
+}

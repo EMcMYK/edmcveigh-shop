@@ -2,10 +2,10 @@
   POST /api/order-reminder — the daily ship-by push. Admin only ("Authorization: Bearer YOUR_ETSY_ADMIN_KEY").
   The "Order reminder" GitHub workflow calls it once a day. It pushes one notification listing the
   unshipped orders that are overdue or due today or tomorrow, and stays quiet when nothing is due.
-  ?test=1 always sends a push (the Orders page's "Test notification" button uses it).
+  ?test=1 sends a sample of both pushes, exactly as real ones look (the Orders page's "Test notification" button).
 */
 import { isAdmin } from "../_lib/etsy.js";
-import { notify, daysUntil, shortDate } from "../_lib/notify.js";
+import { notify, daysUntil, newOrderPush, reminderPush, addBusinessDays } from "../_lib/notify.js";
 import { loadOrders } from "./orders.js";
 
 export async function onRequestPost({ request, env }) {
@@ -18,23 +18,21 @@ export async function onRequestPost({ request, env }) {
     const due = open.map((o) => ({ o, d: daysUntil(o.shipBy) })).filter((x) => x.d <= 1).sort((a, b) => a.d - b.d);
 
     if (!due.length && !test) return json({ sent: false, due: 0 });
-    if (!due.length) {
-      const sent = await notify(env, { title: "Test: notifications work", message: `${open.length ? `${open.length} order${open.length > 1 ? "s" : ""} to ship, none due yet.` : "Nothing to ship right now."}`, tags: ["white_check_mark"] });
-      return json(sent === true ? { sent: true, due: 0 } : { sent: false, error: sent }, sent === true ? 200 : 502);
+
+    // Test: send exactly what you'd get for a real order and a real reminder, using your latest order
+    // (or a sample sticker if there are none yet). "(test)" at the end is the only difference.
+    if (test) {
+      const latest = orders[0] || { lines: [{ qty: 2, name: "Philly Soft Pretzel Sticker", option: "Holographic (sparkly)" }], total: 9.65, created: new Date().toISOString() };
+      const order = newOrderPush({ ...latest, created: Date.now() });
+      const remind = reminderPush(due.length ? due : [{ o: { ...latest, shipBy: addBusinessDays(new Date(), 1).toISOString() }, d: 1 }]);
+      order.message += "\n(test)"; remind.message += "\n(test)";
+      const a = await notify(env, order);
+      const b = await notify(env, remind);
+      const ok = a === true && b === true;
+      return json(ok ? { sent: true } : { sent: false, error: a === true ? b : a }, ok ? 200 : 502);
     }
-    const late = due.filter((x) => x.d < 0).length, today = due.filter((x) => x.d === 0).length, tomorrow = due.filter((x) => x.d === 1).length;
-    const parts = [late && `${late} overdue`, today && `${today} due today`, tomorrow && `${tomorrow} due tomorrow`].filter(Boolean);
-    const lines = due.map(({ o, d }) => {
-      const what = o.lines.map((l) => `${l.qty}× ${l.name}${l.option ? ` (${l.option})` : ""}`).join(", ");
-      const when = d < 0 ? `overdue since ${shortDate(o.shipBy)}` : d === 0 ? "due today" : "due tomorrow";
-      return `• ${what}: ${when}`;
-    });
-    const sent = await notify(env, {
-      title: `${test ? "Test: " : ""}Orders to ship: ${parts.join(", ")}`,
-      message: lines.join("\n"),
-      priority: late ? 4 : 3,
-      tags: [late ? "warning" : "package"],
-    });
+
+    const sent = await notify(env, reminderPush(due));
     return json(sent === true ? { sent: true, due: due.length } : { sent: false, error: sent }, sent === true ? 200 : 502);
   } catch (e) {
     console.error(e);
