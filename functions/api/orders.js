@@ -10,6 +10,7 @@
   so it also shows in the Stripe dashboard and works for every order, including ones placed before this page.
 */
 import { isAdmin } from "../_lib/etsy.js";
+import { addBusinessDays } from "../_lib/notify.js";
 
 const SHIP_DAYS = 4;          // "Please allow 2–4 business days for me to process your order" (policies)
 const MAX_ORDERS = 300;
@@ -17,6 +18,11 @@ const MAX_ORDERS = 300;
 async function getOrders({ request, env }) {
   if (!isAdmin(request, env)) return json({ error: "Wrong or missing admin key." }, 401);
   if (!env.STRIPE_SECRET_KEY) return json({ error: "No Stripe key in Cloudflare." }, 500);
+  return json(await loadOrders(request, env));
+}
+
+// Every paid order, newest first (also used by the daily ship-by reminder).
+export async function loadOrders(request, env) {
 
   let products = [];
   try { products = (await (await env.ASSETS.fetch(new URL("/data/products.json", request.url))).json()).products; } catch {}
@@ -37,7 +43,7 @@ async function getOrders({ request, env }) {
   const orders = sessions
     .filter((s) => s.payment_status === "paid" && s.payment_intent && typeof s.payment_intent === "object")
     .map((s) => toOrder(s, products));
-  return json({ live: sessions[0] ? sessions[0].livemode : null, orders });
+  return { live: sessions[0] ? sessions[0].livemode : null, orders };
 }
 
 async function markShipped({ request, env }) {
@@ -88,18 +94,6 @@ function toOrder(s, products) {
     tracking: pi.metadata?.tracking || "",
     stripeUrl: `https://dashboard.stripe.com/${s.livemode ? "" : "test/"}payments/${pi.id}`,
   };
-}
-
-// Business days in Philly time (weekends skipped; holidays aren't).
-export function addBusinessDays(date, n) {
-  const ny = new Date(date.toLocaleString("en-US", { timeZone: "America/New_York" }));
-  const d = new Date(Date.UTC(ny.getFullYear(), ny.getMonth(), ny.getDate(), 12));
-  while (n > 0) {
-    d.setUTCDate(d.getUTCDate() + 1);
-    const day = d.getUTCDay();
-    if (day !== 0 && day !== 6) n--;
-  }
-  return d;
 }
 
 async function stripe(env, path, form) {

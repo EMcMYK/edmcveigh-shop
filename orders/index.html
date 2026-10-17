@@ -112,6 +112,7 @@ a { color: var(--ink); }
       <span id="summary"></span>
       <span>
         <button class="btn small" id="csv">Addresses for Pirate Ship (CSV)</button>
+        <button class="btn small" id="testPush" title="Sends a push to the ntfy app on your phone">Test notification</button>
         <button class="btn small" id="refresh">Refresh</button>
       </span>
     </div>
@@ -259,6 +260,15 @@ a { color: var(--ink); }
       setTimeout(() => (t.textContent = "Copy address"), 1500);
     }
     else if (t.id === "refresh") load();
+    else if (t.id === "testPush") {
+      t.disabled = true; t.textContent = "Sending…";
+      try {
+        const res = await fetch("/api/order-reminder?test=1", { method: "POST", headers: { Authorization: `Bearer ${key}` } });
+        const r = await res.json().catch(() => ({}));
+        t.textContent = res.ok && r.sent ? "Sent ✓ check your phone" : (r.error || "Couldn't send");
+      } catch { t.textContent = "Couldn't send"; }
+      setTimeout(() => { t.disabled = false; t.textContent = "Test notification"; }, 4000);
+    }
     else if (t.id === "csv") csv();
     else if (t.id === "signout") signOut();
   });

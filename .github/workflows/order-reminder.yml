@@ -1,0 +1,20 @@
+# Pushes a phone notification (ntfy) when unshipped orders are overdue or due today or tomorrow.
+# Quiet on days when nothing is due. Runs once a day, or press "Run workflow" on the Actions tab.
+# Needs the repo secret ETSY_ADMIN_KEY (already set) and NTFY_TOPIC in Cloudflare.
+name: Order reminder
+
+on:
+  schedule:
+    - cron: "47 15 * * *"   # every day around 11:45am Eastern (10:45 in winter)
+  workflow_dispatch:
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check ship-by dates
+        env:
+          ETSY_ADMIN_KEY: ${{ secrets.ETSY_ADMIN_KEY }}
+          SHOP_URL: ${{ vars.SHOP_URL || 'https://shop.edmcveigh.com' }}
+        run: |
+          curl -sS --fail-with-body -X POST -H "Authorization: Bearer $ETSY_ADMIN_KEY" "$SHOP_URL/api/order-reminder"

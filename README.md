@@ -211,3 +211,11 @@ Your packing list: every paid order with what was bought (option and photo), whe
 It reads straight from Stripe, and "shipped" is saved on the payment in Stripe, so nothing else stores order data.
 Sign in with your admin key (ETSY_ADMIN_KEY); the device remembers it. "Addresses for Pirate Ship (CSV)" downloads
 the unshipped sticker and painting orders for Pirate Ship's spreadsheet import.
+
+### Order notifications (ntfy)
+
+Install the free **ntfy** app, subscribe to a long random topic name, and put that name in Cloudflare as
+`NTFY_TOPIC`. Then you get a push for every new order (what was bought and its ship-by date, never the buyer's
+name or address), plus one push a day (around 11:45am, from the "Order reminder" GitHub workflow) when unshipped
+orders are overdue or due today or tomorrow. Tapping a push opens the Orders page. "Test notification" on the
+Orders page checks the setup.
