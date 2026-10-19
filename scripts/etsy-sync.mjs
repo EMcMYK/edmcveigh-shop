@@ -314,9 +314,11 @@ function categoryFor(section, title, settings) {
 }
 
 export function sizeFrom(text) {
-  const dims = /\d+(?:\.\d+)?\s*["”]\s*(?:wide\s*)?[x×]\s*\d+(?:\.\d+)?\s*["”](?:\s*tall)?/i;
-  const m = text.match(dims);
-  return m ? m[0].replace(/\s*[x×]\s*/gi, " × ").trim() : "";
+  const dims = /\d+(?:\.\d+)?\s*["”]\s*(?:wide\s*)?[x×]\s*\d+(?:\.\d+)?\s*["”](?:\s*tall)?/gi;
+  const all = text.match(dims) || [];
+  // A sticker pack lists one size per sticker: say how many instead of showing the first one's size.
+  if (all.length > 1) return `${all.length} stickers (sizes in the description)`;
+  return all[0] ? all[0].replace(/\s*[x×]\s*/gi, " × ").trim() : "";
 }
 
 export function shortName(title) {
