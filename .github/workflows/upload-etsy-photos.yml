@@ -41,7 +41,7 @@ jobs:
         run: |
           git config user.name "Etsy photos"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/etsy-photos.json data/etsy-photos-result.json
+          git add -A data/etsy-photos.json data/etsy-photos-result.json etsy-photos
           if ! git diff --cached --quiet; then
             git commit -m "Etsy photos: results"
             git pull --rebase origin main

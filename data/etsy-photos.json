@@ -5,7 +5,9 @@
       "id": "philly-eats-pack",
       "listing_id": 4598372283,
       "folder": "PhillyEatsPack",
-      "replaceAll": true
+      "replaceAll": true,
+      "done": true,
+      "note": "Photos added by hand on Etsy; used to test the connection (dry run)."
     }
   ]
 }

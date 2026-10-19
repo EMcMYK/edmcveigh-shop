@@ -9,9 +9,10 @@
   Without it, the photos are added after the ones already there.
 
   DRY_RUN=true (the default) only shows what's on Etsy now and what would be uploaded.
-  Finished jobs get "done": true and are skipped next time; results go to data/etsy-photos-result.json.
+  Finished jobs get "done": true and are skipped next time, and their photo folder is deleted (the photos
+  now live on Etsy, and the daily sync brings them to the shop). Results go to data/etsy-photos-result.json.
 */
-import { readFile, writeFile, readdir } from "node:fs/promises";
+import { readFile, writeFile, readdir, rm } from "node:fs/promises";
 
 const base = (process.env.SHOP_URL || "https://edmcveigh-shop.pages.dev").replace(/\/$/, "");
 const key = process.env.ETSY_ADMIN_KEY;
@@ -64,7 +65,7 @@ for (const job of file.jobs) {
       }
       r.after = after.length;
       r.ok = job.replaceAll ? after.length === photos.length : after.length === before.length + photos.length;
-      if (r.ok) job.done = true; else r.error = `Expected ${job.replaceAll ? photos.length : before.length + photos.length} photos, Etsy has ${after.length}.`;
+      if (r.ok) { job.done = true; await rm(dir, { recursive: true, force: true }); r.cleanedUp = true; } else r.error = `Expected ${job.replaceAll ? photos.length : before.length + photos.length} photos, Etsy has ${after.length}.`;
     }
   } catch (e) { r.error = e.message; }
   results.push(r);
