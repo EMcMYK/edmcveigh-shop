@@ -1,0 +1,11 @@
+{
+  "_help": "Photo uploads to Etsy. Put a listing's photos in etsy-photos/<folder>/ named 1_hero.jpg, 2_product.jpg \u2026 (Etsy order), add a job here, then Actions \u2192 Upload Etsy photos (dry run first). replaceAll makes the folder's photos the listing's only photos. Finished jobs are marked done.",
+  "jobs": [
+    {
+      "id": "philly-eats-pack",
+      "listing_id": 4598372283,
+      "folder": "PhillyEatsPack",
+      "replaceAll": true
+    }
+  ]
+}
