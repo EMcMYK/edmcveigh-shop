@@ -1,0 +1,22 @@
+{
+  "ranAt": "2026-10-19T02:45:47.072Z",
+  "dryRun": true,
+  "results": [
+    {
+      "id": "philly-eats-pack",
+      "listing_id": 4598372283,
+      "ok": true,
+      "before": 7,
+      "photos": [
+        "1_hero.jpg",
+        "2_product.jpg",
+        "3_size.jpg",
+        "4_laptop.jpg",
+        "5_bottle.jpg",
+        "6_notebook.jpg",
+        "7_pile.jpg"
+      ],
+      "plan": "replace 7 photo(s) with 7"
+    }
+  ]
+}
