@@ -46,19 +46,24 @@
     return `<a class="email-link" href="mailto:${e}">${e}</a>${esc(after)}`;
   }
   const money = (n) => "$" + n.toFixed(2).replace(/\.00$/, "");
-  // ---------- visit counts (Umami, no cookies; see index.html) ----------
-  // Pages here are # links (/#poppy), so each one is sent as its own path (/poppy), keeping any
-  // ?utm_source=… from a pin or post so Umami can tell which link brought the visit.
-  // Blocked by an ad blocker or not loaded yet? Nothing breaks; that visit just isn't counted.
+  // ---------- visit counts (the shop's own counter, /api/hit: no cookies, see functions/api/hit.js) ----------
+  // Pages here are # links (/#poppy), so each one is sent as its own page (/poppy), with the
+  // utm_source / utm_campaign tag of the pin or post that brought the visit. Previews and testing
+  // aren't counted (the counter only accepts shop.edmcveigh.com), and neither are your own visits
+  // on a device where you've opened the Orders or Stats page.
   function track(event, data) {
-    const send = () => {
-      try {
-        if (event) window.umami.track(event, data);
-        else window.umami.track((props) => ({ ...props, url: "/" + decodeURIComponent(location.hash.slice(1)) + location.search, title: document.title }));
-      } catch (e) { /* counting is optional */ }
-    };
-    if (window.umami) return send();
-    document.getElementById("umami")?.addEventListener("load", send, { once: true });
+    try {
+      if (localStorage.getItem("edm-no-count")) return;
+    } catch (e) { /* storage blocked: count as usual */ }
+    try {
+      const q = new URLSearchParams(location.search);
+      const body = JSON.stringify({
+        kind: event ? "event" : "view", path: "/" + decodeURIComponent(location.hash.slice(1)),
+        event: event || "", product: (data && data.product) || "", ref: document.referrer,
+        source: q.get("utm_source") || "", campaign: q.get("utm_campaign") || "",
+      });
+      if (!(navigator.sendBeacon && navigator.sendBeacon("/api/hit", body))) fetch("/api/hit", { method: "POST", body, keepalive: true }).catch(() => {});
+    } catch (e) { /* counting is optional */ }
   }
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const byId = (id) => PRODUCTS.find((p) => p.id === id);

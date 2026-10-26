@@ -258,6 +258,29 @@ LINKS.forEach((l, i) => {
   list.appendChild(li);
 });
 
+/* ---------- Visit counts ---------- */
+// Sent to the shop's own counter (no cookies; see the shop's functions/api/hit.js) and shown on
+// shop.edmcveigh.com/stats. Open edmcveigh.com/?nocount once on your own devices so they don't count.
+(() => {
+  const HIT = 'https://shop.edmcveigh.com/api/hit';
+  try {
+    if (new URLSearchParams(location.search).has('nocount')) localStorage.setItem('edm-no-count', '1');
+    if (localStorage.getItem('edm-no-count')) return;
+  } catch (e) { /* storage blocked: count as usual */ }
+  const q = new URLSearchParams(location.search);
+  const send = (extra) => {
+    try {
+      const body = JSON.stringify({ path: '/', ref: document.referrer, source: q.get('utm_source') || '', campaign: q.get('utm_campaign') || '', ...extra });
+      if (!(navigator.sendBeacon && navigator.sendBeacon(HIT, body))) fetch(HIT, { method: 'POST', body, keepalive: true, mode: 'no-cors' }).catch(() => {});
+    } catch (e) { /* counting is optional */ }
+  };
+  send({ kind: 'view' });
+  list.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (a) send({ kind: 'event', event: 'Link click', product: (a.querySelector('.label') || {}).textContent || a.href });
+  });
+})();
+
 /* ---------- Light / dark toggle ---------- */
 (() => {
   const btn = document.getElementById('modeToggle');

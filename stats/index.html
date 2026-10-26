@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stats · ed.mcveigh shop</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
+<meta name="theme-color" content="#18602a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Instrument+Sans:wght@400;500;600&display=swap">
+<script>
+  (() => {
+    let m = null;
+    try { m = localStorage.getItem('edm-mode'); } catch (e) {}
+    if (m !== 'light' && m !== 'dark') m = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.mode = m;
+  })();
+</script>
+<style>
+:root {
+  --cream: #fcf8ec; --card: #fffdf6; --ink: #18602a; --ink-soft: #4f7a58; --line: rgba(24, 96, 42, .2);
+  --late: #b3261e; --soon: #8a5a00; --soon-bg: #fbecc8; --late-bg: #f8dcd8; --ok-bg: #e2efe0;
+  --shadow: rgba(24, 96, 42, .12);
+  --display: "Agbalumo", "Cooper Black", Georgia, serif;
+  --ui: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+:root[data-mode="dark"] {
+  --cream: #2b0610; --card: #380b17; --ink: #86d8ef; --ink-soft: #79b3c7; --line: rgba(134, 216, 239, .22);
+  --late: #ff9b8f; --soon: #ffd37a; --soon-bg: rgba(255, 211, 122, .14); --late-bg: rgba(255, 155, 143, .14); --ok-bg: rgba(134, 216, 239, .12);
+  --shadow: rgba(0, 0, 0, .35);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--cream); color: var(--ink); font: 16px/1.45 var(--ui); min-height: 100svh; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 18px 16px 64px; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+h1 { font: 400 clamp(30px, 7vw, 40px)/1 var(--display); margin: 0; }
+h1 a { color: inherit; text-decoration: none; }
+button, input { font: inherit; color: inherit; }
+.btn {
+  border: 2px solid var(--ink); background: var(--cream); color: var(--ink); border-radius: 4px;
+  padding: 8px 14px; font-weight: 600; cursor: pointer; white-space: nowrap;
+}
+.btn:hover, .btn:focus-visible { background: var(--ink); color: var(--cream); outline: none; }
+.btn.solid { background: var(--ink); color: var(--cream); }
+.btn.solid:hover, .btn.solid:focus-visible { filter: brightness(1.12); }
+.btn.small { padding: 5px 10px; font-size: 14px; border-width: 1.5px; }
+.btn:disabled { opacity: .5; cursor: default; }
+.link { background: none; border: 0; padding: 0; color: var(--ink-soft); text-decoration: underline; cursor: pointer; font-size: 14px; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.tab { border: 1.5px solid var(--line); background: none; border-radius: 99px; padding: 6px 14px; font-weight: 600; cursor: pointer; }
+.tab[aria-pressed="true"] { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; color: var(--ink-soft); font-size: 14px; }
+.order { background: var(--card); border: 1.5px solid var(--line); border-radius: 8px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 6px var(--shadow); }
+.order.done { opacity: .78; }
+.top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.badge { display: inline-block; font-weight: 600; font-size: 14px; padding: 3px 10px; border-radius: 99px; background: var(--ok-bg); }
+.badge.soon { background: var(--soon-bg); color: var(--soon); }
+.badge.late { background: var(--late-bg); color: var(--late); }
+.meta { color: var(--ink-soft); font-size: 14px; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 560px) { .cols { grid-template-columns: 1fr; } }
+.items { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.items li { display: flex; gap: 10px; align-items: center; }
+.items img { width: 52px; height: 52px; object-fit: contain; border-radius: 4px; background: var(--cream); border: 1px solid var(--line); flex: none; }
+.qty { font-weight: 700; }
+.opt { color: var(--ink-soft); font-size: 14px; }
+.label { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); font-weight: 600; margin-bottom: 4px; }
+.addr { white-space: pre-line; margin: 0 0 6px; }
+.notes { white-space: pre-line; background: var(--soon-bg); border-radius: 6px; padding: 8px 10px; margin-top: 12px; font-size: 15px; }
+.foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; border-top: 1px solid var(--line); margin-top: 14px; padding-top: 12px; }
+.foot .money { font-size: 14px; color: var(--ink-soft); }
+.ship { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ship input { border: 1.5px solid var(--line); background: var(--cream); border-radius: 4px; padding: 6px 10px; width: 190px; font-size: 14px; }
+.shipped { font-weight: 600; }
+a { color: var(--ink); }
+.gate { max-width: 380px; margin: 12vh auto 0; text-align: center; }
+.gate p { color: var(--ink-soft); }
+.gate input { width: 100%; border: 2px solid var(--ink); background: var(--card); border-radius: 4px; padding: 10px 12px; margin: 6px 0 12px; }
+.msg { color: var(--late); min-height: 1.4em; }
+.empty { text-align: center; color: var(--ink-soft); padding: 40px 0; }
+.mode { background: var(--late-bg); color: var(--late); border-radius: 6px; padding: 8px 12px; margin-bottom: 14px; font-size: 14px; }
+
+/* Stats page */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 10px; margin-bottom: 18px; }
+.tile { background: var(--card); border: 1.5px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+.tile .n { font-size: 30px; font-weight: 600; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.tile .k { font-size: 13px; color: var(--ink-soft); }
+.panel { background: var(--card); border: 1.5px solid var(--line); border-radius: 8px; padding: 14px 16px; margin-bottom: 14px; }
+.panel h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); font-weight: 600; margin: 0 0 10px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 620px) { .grid2 { grid-template-columns: 1fr; } }
+.grid2 .panel { margin-bottom: 0; }
+.rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.rows li { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; font-size: 15px; }
+.rows .num { font-variant-numeric: tabular-nums; font-weight: 600; }
+.rows .sub { color: var(--ink-soft); font-size: 13px; }
+.bar { grid-column: 1 / -1; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--ink); border-radius: 3px; }
+.none { color: var(--ink-soft); font-size: 14px; margin: 0; }
+.chart { position: relative; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart .axis { fill: var(--ink-soft); font-size: 11px; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .b { fill: var(--ink); }
+.chart .hit { fill: transparent; cursor: default; }
+.chart .hit:hover + .b, .chart .b.on { opacity: .75; }
+.tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--cream); font-size: 13px; padding: 6px 9px; border-radius: 5px; white-space: nowrap; transform: translate(-50%, -100%); margin-top: -8px; }
+.tip[hidden] { display: none; }
+.fine { color: var(--ink-soft); font-size: 13px; margin-top: 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><a href="/">ed.mcveigh</a> stats</h1>
+    <span><a class="link" href="/orders/">Orders</a> &nbsp; <button class="link" id="signout" hidden>Sign out</button></span>
+  </header>
+
+  <form class="gate" id="gate" hidden>
+    <p>Enter your admin key (the same one as the Orders page). This device remembers it.</p>
+    <input id="key" type="password" autocomplete="current-password" aria-label="Admin key" required>
+    <button class="btn solid" type="submit">Open stats</button>
+    <p class="msg" id="gateMsg"></p>
+  </form>
+
+  <main id="app" hidden>
+    <div class="toolbar">
+      <div class="tabs" role="group" aria-label="Time range" style="margin:0">
+        <button class="tab" data-days="7" aria-pressed="false">7 days</button>
+        <button class="tab" data-days="30" aria-pressed="true">30 days</button>
+        <button class="tab" data-days="90" aria-pressed="false">90 days</button>
+      </div>
+      <button class="btn small" id="refresh">Refresh</button>
+    </div>
+    <div id="out"><p class="empty">Loading…</p></div>
+    <p class="fine">A visit is one person on one day. Not counted: bots, and your own visits on any device where you've opened Orders or Stats. No cookies are used and no IP addresses are stored.</p>
+  </main>
+</div>
+
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const store = { get: (k) => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} } };
+  let key = store.get("edm-admin-key"), days = Number(store.get("edm-stats-days")) || 30, products = {};
+  store.set("edm-no-count", "1"); // your own visits to the shop on this device aren't counted
+  const fmt = (n) => Number(n || 0).toLocaleString("en-US");
+  const country = (() => { let dn = null; try { dn = new Intl.DisplayNames(["en"], { type: "region" }); } catch {} return (c) => !c ? "Unknown" : (dn ? (dn.of(c) || c) : c); })();
+  const pageName = (path) => {
+    const id = String(path || "/").replace(/^\//, "");
+    if (!id) return "Home page";
+    if (products[id]) return products[id];
+    const named = { stickers: "Stickers section", originals: "Original paintings section", portraits: "House portraits section", about: "About", contact: "Contact", policies: "Shop policies", privacy: "Privacy", thanks: "Thank-you page (after an order)" };
+    return named[id] || named[id.split("-")[0]] || "/" + id;
+  };
+  const EVENT_NAMES = { "Add to cart": "Added to cart", "Checkout": "Started checkout", "Order complete": "Finished an order", "Email about painting": "Emailed about an on-view painting" };
+
+  function rows(list, label, value, sub) {
+    if (!list.length) return `<p class="none">Nothing yet.</p>`;
+    const max = Math.max(...list.map(value), 1);
+    return `<ul class="rows">${list.map((x) => `<li><span>${label(x)}${sub && sub(x) ? `<br><span class="sub">${sub(x)}</span>` : ""}</span><span class="num">${fmt(value(x))}</span><span class="bar"><i style="width:${Math.max(3, value(x) / max * 100)}%"></i></span></li>`).join("")}</ul>`;
+  }
+  const panel = (title, html) => `<section class="panel"><h2>${title}</h2>${html}</section>`;
+
+  // One bar per day: shop visits. Hover (or tap) a day for its numbers.
+  function chart(d) {
+    const byDay = {};
+    for (const r of d.daily) if (r.site === "shop") byDay[r.day] = r;
+    const list = [];
+    for (let i = d.days - 1; i >= 0; i--) {
+      const day = new Date(Date.now() - i * 864e5).toLocaleDateString("en-CA", { timeZone: "America/New_York" });
+      list.push({ day, visits: byDay[day]?.visits || 0, views: byDay[day]?.views || 0 });
+    }
+    const W = Math.max(280, Math.round(($("#out").clientWidth || 700) - 34)), H = 150, pad = 22, max = Math.max(4, ...list.map((x) => x.visits));
+    const top = Math.ceil(max / 4) * 4, bw = (W - pad) / list.length, gap = Math.min(2, bw * .25);
+    const y = (v) => H - v / top * (H - 10);
+    const label = (day) => new Date(day + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    const ticks = [0, top / 2, top].map((v) => `<line class="grid" x1="${pad}" x2="${W}" y1="${y(v)}" y2="${y(v)}"/><text class="axis" x="${pad - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`).join("");
+    const every = Math.ceil(list.length / Math.max(2, Math.floor(W / 110)));
+    const bars = list.map((x, i) => {
+      const bx = pad + i * bw + gap / 2, w = Math.max(1, bw - gap), h = H - y(x.visits);
+      const r = Math.min(4, w / 2, h);
+      const path = h > 0 ? `M${bx},${H} V${H - h + r} Q${bx},${H - h} ${bx + r},${H - h} H${bx + w - r} Q${bx + w},${H - h} ${bx + w},${H - h + r} V${H} Z` : "";
+      return `<rect class="hit" data-i="${i}" x="${pad + i * bw}" y="0" width="${bw}" height="${H}"/>${path ? `<path class="b" data-i="${i}" d="${path}"/>` : ""}` +
+        (i % every === 0 ? `<text class="axis" x="${bx + w / 2}" y="${H + 15}" text-anchor="middle">${label(x.day)}</text>` : "");
+    }).join("");
+    return { html: `<div class="chart" id="chart"><svg viewBox="0 0 ${W} ${H + 20}" role="img" aria-label="Shop visits per day">${ticks}${bars}</svg><div class="tip" id="tip" hidden></div></div>`, list, W };
+  }
+  function wireChart(c) {
+    const box = $("#chart"); if (!box) return;
+    const tip = $("#tip"), svg = box.querySelector("svg");
+    const show = (i) => {
+      const x = c.list[i]; const r = svg.querySelector(`.hit[data-i="${i}"]`).getBBox();
+      const scale = svg.getBoundingClientRect().width / c.W;
+      tip.innerHTML = `<b>${new Date(x.day + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</b> · ${fmt(x.visits)} visit${x.visits === 1 ? "" : "s"}, ${fmt(x.views)} page view${x.views === 1 ? "" : "s"}`;
+      tip.hidden = false;
+      const half = tip.offsetWidth / 2;
+      tip.style.left = Math.min(Math.max((r.x + r.width / 2) * scale, half), box.clientWidth - half) + "px"; tip.style.top = "10px";
+    };
+    svg.addEventListener("pointermove", (e) => { const t = e.target.closest("[data-i]"); if (t) show(Number(t.dataset.i)); });
+    svg.addEventListener("pointerleave", () => { tip.hidden = true; });
+  }
+
+  function render(d) {
+    const total = (site, k) => d.daily.filter((r) => r.site === site).reduce((a, r) => a + (r[k] || 0), 0);
+    const ev = (name) => d.events.filter((e) => e.event === name).reduce((a, e) => a + e.times, 0);
+    const shopSources = d.sources.filter((s) => s.site === "shop");
+    const c = chart(d);
+    // Several events per product: group them under the event name, list the products underneath.
+    const evGroups = {};
+    for (const e of d.events) (evGroups[e.event] ||= { event: e.event, times: 0, products: [] }, evGroups[e.event].times += e.times, e.product && evGroups[e.event].products.push(`${products[e.product] || e.product} (${e.times})`));
+    $("#out").innerHTML = `
+      <div class="tiles">
+        <div class="tile"><div class="n">${fmt(total("shop", "visits"))}</div><div class="k">Shop visits</div></div>
+        <div class="tile"><div class="n">${fmt(total("shop", "views"))}</div><div class="k">Pages viewed</div></div>
+        <div class="tile"><div class="n">${fmt(ev("Add to cart"))}</div><div class="k">Added to cart</div></div>
+        <div class="tile"><div class="n">${fmt(ev("Order complete"))}</div><div class="k">Orders finished</div></div>
+        <div class="tile"><div class="n">${fmt(total("links", "visits"))}</div><div class="k">Links page visits</div></div>
+      </div>
+      ${panel("Shop visits per day", c.html)}
+      <div class="grid2">
+        ${panel("Where shop visits came from", rows(shopSources, (x) => esc(x.source), (x) => x.visits))}
+        ${panel("Pins and posts that brought visits", rows(d.campaigns, (x) => esc(x.campaign), (x) => x.visits, (x) => esc(x.source)))}
+        ${panel("Most viewed pages", rows(d.pages, (x) => esc(pageName(x.path)), (x) => x.visits))}
+        ${panel("What visitors did", rows(Object.values(evGroups), (x) => esc(EVENT_NAMES[x.event] || x.event), (x) => x.times, (x) => esc(x.products.slice(0, 4).join(", "))))}
+        ${panel("Links page clicks", rows(d.links, (x) => esc(x.link || "?"), (x) => x.clicks))}
+        ${panel("Phone or computer", rows(d.devices, (x) => esc(x.device || "unknown"), (x) => x.visits))}
+        ${panel("Countries", rows(d.countries, (x) => esc(country(x.country)), (x) => x.visits))}
+      </div>`;
+    wireChart(c);
+  }
+
+  async function load() {
+    $("#gate").hidden = true; $("#app").hidden = false; $("#signout").hidden = false;
+    document.querySelectorAll("[data-days]").forEach((b) => b.setAttribute("aria-pressed", String(Number(b.dataset.days) === days)));
+    try {
+      if (!Object.keys(products).length) {
+        try { (await (await fetch("/data/products.json", { cache: "no-cache" })).json()).products.forEach((p) => products[p.id] = p.name); } catch {}
+      }
+      const res = await fetch(`/api/stats?days=${days}`, { headers: { Authorization: `Bearer ${key}` }, cache: "no-store" });
+      const d = await res.json().catch(() => ({}));
+      if (res.status === 401) return signOut("That admin key didn't work.");
+      if (!res.ok) throw new Error(d.error || `error ${res.status}`);
+      render(d);
+    } catch (e) {
+      $("#out").innerHTML = `<p class="empty">Couldn't load stats: ${esc(e.message)}</p>`;
+    }
+  }
+  function signOut(msg) {
+    key = null; store.set("edm-admin-key", null);
+    $("#app").hidden = true; $("#signout").hidden = true; $("#gate").hidden = false; $("#gateMsg").textContent = msg || "";
+  }
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest("button"); if (!t) return;
+    if (t.dataset.days) { days = Number(t.dataset.days); store.set("edm-stats-days", days); load(); }
+    else if (t.id === "refresh") load();
+    else if (t.id === "signout") signOut();
+  });
+  $("#gate").addEventListener("submit", (e) => {
+    e.preventDefault();
+    key = $("#key").value.trim(); store.set("edm-admin-key", key); $("#key").value = "";
+    load();
+  });
+  key ? load() : signOut();
+})();
+</script>
+</body>
+</html>

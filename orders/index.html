@@ -91,7 +91,7 @@ a { color: var(--ink); }
 <div class="wrap">
   <header>
     <h1><a href="/">ed.mcveigh</a> orders</h1>
-    <button class="link" id="signout" hidden>Sign out</button>
+    <span><a class="link" href="/stats/">Stats</a> &nbsp; <button class="link" id="signout" hidden>Sign out</button></span>
   </header>
 
   <form class="gate" id="gate" hidden>
@@ -126,6 +126,7 @@ a { color: var(--ink); }
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const store = { get: (k) => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} } };
   let key = store.get("edm-admin-key"), orders = [], tab = "todo";
+  store.set("edm-no-count", "1"); // your own visits to the shop on this device aren't counted in Stats
 
   const day = (iso, opts) => new Date(iso).toLocaleDateString("en-US", { timeZone: "America/New_York", ...opts });
   const short = (iso) => day(iso, { weekday: "short", month: "short", day: "numeric" });
