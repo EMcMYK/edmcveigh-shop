@@ -222,6 +222,8 @@ const SHOP_LIVE = true;
 const PORTRAITS_ON_SHOP = true;
 
 const SHOP = location.hostname.endsWith('pages.dev') ? 'https://edmcveigh-shop.pages.dev' : 'https://shop.edmcveigh.com';
+// Tags visits from this page so the shop's visit counts (Umami) show they came from the links page.
+const FROM_LINKS = '/?utm_source=links-page&utm_medium=social';
 const ETSY = 'https://www.etsy.com/shop/EdMcveighArt';
 if (SHOP_LIVE) {
   document.getElementById('policiesLink').href = SHOP + '/#policies';
@@ -229,9 +231,9 @@ if (SHOP_LIVE) {
 }
 
 const LINKS = SHOP_LIVE ? [
-  { label: 'Sticker shop',    sub: 'Glossy, waterproof, die-cut',         href: SHOP + '/#stickers' },
-  { label: 'Original art',    sub: 'One-of-a-kind gouache paintings',     href: SHOP + '/#originals' },
-  { label: 'House portraits', sub: 'Commission a portrait of your home',  ...(PORTRAITS_ON_SHOP ? { href: SHOP + '/#portraits' } : { href: 'https://www.etsy.com/listing/4587496463', external: true }) },
+  { label: 'Sticker shop',    sub: 'Glossy, waterproof, die-cut',         href: SHOP + FROM_LINKS + '#stickers' },
+  { label: 'Original art',    sub: 'One-of-a-kind gouache paintings',     href: SHOP + FROM_LINKS + '#originals' },
+  { label: 'House portraits', sub: 'Commission a portrait of your home',  ...(PORTRAITS_ON_SHOP ? { href: SHOP + FROM_LINKS + '#portraits' } : { href: 'https://www.etsy.com/listing/4587496463', external: true }) },
   { label: 'Shop on Etsy',    sub: 'Prefer Etsy? Same stickers and art',  href: ETSY, external: true },
   { label: 'Wholesale',       sub: 'Faire · for shops and stockists',     href: 'https://faire.com/direct/edmcveighart', external: true },
   // not live yet: set soon to false (or delete the line) once design.edmcveigh.com is up

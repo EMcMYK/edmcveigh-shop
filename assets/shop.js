@@ -46,6 +46,20 @@
     return `<a class="email-link" href="mailto:${e}">${e}</a>${esc(after)}`;
   }
   const money = (n) => "$" + n.toFixed(2).replace(/\.00$/, "");
+  // ---------- visit counts (Umami, no cookies; see index.html) ----------
+  // Pages here are # links (/#poppy), so each one is sent as its own path (/poppy), keeping any
+  // ?utm_source=… from a pin or post so Umami can tell which link brought the visit.
+  // Blocked by an ad blocker or not loaded yet? Nothing breaks; that visit just isn't counted.
+  function track(event, data) {
+    const send = () => {
+      try {
+        if (event) window.umami.track(event, data);
+        else window.umami.track((props) => ({ ...props, url: "/" + decodeURIComponent(location.hash.slice(1)) + location.search, title: document.title }));
+      } catch (e) { /* counting is optional */ }
+    };
+    if (window.umami) return send();
+    document.getElementById("umami")?.addEventListener("load", send, { once: true });
+  }
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const byId = (id) => PRODUCTS.find((p) => p.id === id);
   const CATEGORIES = CONFIG.categories || [
@@ -559,6 +573,7 @@
       openCart(result === "replaced" ? { text: `There's only one ${p.name}, so this choice replaced the one already in your cart.` } : null);
     };
     document.getElementById("add")?.addEventListener("click", buy);
+    document.querySelector("#on-view .btn")?.addEventListener("click", () => track("Email about painting", { product: p.id }));
     // Phone buy bar: adds straight away, or takes you to the options first when there are some.
     const bar = document.getElementById("buybar");
     if (bar && "IntersectionObserver" in window) {
@@ -825,6 +840,7 @@
     try { order = JSON.parse(sessionStorage.getItem(CHECKOUT_KEY)); sessionStorage.removeItem(CHECKOUT_KEY); } catch { /* not saved */ }
     const paid = Boolean(order) || /[?&]checkout=done\b/.test(location.search);
     if (paid) {
+      track("Order complete");
       celebrate = true; // the "e." spins once when the page appears (route() plays it)
       cart = []; saveCart();
       if (location.search) history.replaceState(null, "", location.pathname + location.hash);
@@ -854,6 +870,7 @@
   // Returns "replaced" when a one-of-a-kind's earlier choice was swapped out.
   function addToCart(id, variant, qty) {
     const p = byId(id);
+    track("Add to cart", { product: id });
     if (p.oneOfAKind) {
       // Only one exists, so a second framing choice replaces the first instead of adding another.
       const had = cart.find((l) => l.id === id);
@@ -987,6 +1004,7 @@
   // Sends items to Stripe's checkout page. `msg` shows errors (or null to show them in the cart).
   async function startCheckout(items, btn, msg) {
     const label = btn.innerHTML;
+    track("Checkout", { items: items.length });
     btn.disabled = true; btn.textContent = "Opening checkout…";
     if (msg) msg.hidden = true;
     try {
@@ -1081,8 +1099,8 @@
       console.error(e);
       return;
     }
-    window.addEventListener("hashchange", route);
-    route();
+    window.addEventListener("hashchange", () => { route(); track(); });
+    route(); track();
   }
   // Header pieces work even before the products load.
   renderChrome(""); renderFooter(); wireModeToggle(); wireMenu(); renderCartCount();
