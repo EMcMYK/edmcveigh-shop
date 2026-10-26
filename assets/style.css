@@ -438,6 +438,12 @@ button { font: inherit; color: inherit; }
 .btn-secondary { background: var(--cream); color: var(--ink); box-shadow: none; font-weight: 600; }
 .btn-secondary:hover, .btn-secondary:focus-visible { background: var(--tint); }
 .buy-row #add { font-size: 17px; }
+/* A painting hanging in a show: where to see it, and an email button in place of Add to cart */
+.on-view { display: grid; gap: 10px; justify-items: start; padding: 16px 18px; background: var(--tint); border-left: 3px solid var(--ink); border-radius: 2px; }
+.on-view-title { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+.on-view-text { margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.on-view .btn { text-decoration: none; text-align: center; margin-top: 4px; }
+.on-view-meta { color: var(--ink); font-weight: 600; }
 .jump-target { scroll-margin-top: calc(var(--header-h) + 24px); }
 .prose { display: grid; gap: 12px; max-width: 62ch; }
 .prose p { margin: 0; white-space: pre-line; }   /* keeps the line breaks in Etsy descriptions */

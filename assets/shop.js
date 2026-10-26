@@ -56,6 +56,10 @@
   // One-of-a-kind originals and portrait deposits are sold one at a time (more than one house
   // is a custom quote by email).
   const singleOnly = (p) => Boolean(p.oneOfAKind || p.deposit);
+  // A painting hanging in a show (data/products.json "onView"): shown with its price, but people
+  // email about it instead of buying it here, so it can't sell twice. Remove "onView" after the show.
+  const onView = (p) => (p.onView && !p.soldOut ? p.onView : null);
+  const viewMail = (p) => `mailto:${CONFIG.contactEmail || ""}?subject=${encodeURIComponent(`Interested in ${p.name}`)}`;
   const inCategory = (id) => PRODUCTS.filter((p) => p.category === id);
   // A section with a single product (house portraits) links straight to that product.
   const sectionHref = (c) => { const list = inCategory(c.id); return "#" + (list.length === 1 ? list[0].id : c.id); };
@@ -163,10 +167,11 @@
     const priceText = low === high ? money(low) : `${money(low)}–${money(high)}`;
     return `
       <a class="card ${p.soldOut ? "sold-out" : ""}" href="#${esc(p.id)}">
-        <div class="frame">${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ""}${picture(p)}</div>
+        <div class="frame">${onView(p) ? `<span class="badge">On view</span>` : p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ""}${picture(p)}</div>
         <div class="card-body">
           <span class="card-title">${esc(p.category === "stickers" ? p.name.replace(/ Sticker$/, "") : p.name)}</span>
-          ${p.oneOfAKind && !p.soldOut ? `<span class="card-meta">One of a kind</span>` : ""}
+          ${onView(p) ? `<span class="card-meta on-view-meta">On view at ${esc(onView(p).where)}</span>`
+            : p.oneOfAKind && !p.soldOut ? `<span class="card-meta">One of a kind</span>` : ""}
           ${p.size ? `<span class="card-meta">${esc(p.size)}</span>` : ""}
           <span class="card-price">${p.soldOut ? (p.oneOfAKind ? `Sold <span class="found">· found a home</span>` : "Sold out") : priceText}</span>
         </div>
@@ -362,6 +367,18 @@
     </section>`;
   }
 
+  // "On view at Abington Art Center · Small Works To-Go II, through Jan 4" and an email button.
+  function viewBox(p) {
+    const v = onView(p);
+    const prices = p.variants.length > 1 ? p.variants.map((x) => `${esc(optName(x.name).split(":")[0])} ${money(x.price)}`).join(" · ") : "";
+    return `<div class="on-view" id="on-view">
+      <p class="on-view-title">On view at ${esc(v.where)}</p>
+      <p class="on-view-text">${v.show ? `In <i>${esc(v.show)}</i>` : "Hanging in a show"}${v.until ? `, through ${esc(v.until)}` : ""}.${v.address ? ` ${esc(v.address)}.` : ""} You can see it there, or if you're interested in it, email me and I'll let you know how to get it.</p>
+      ${prices ? `<p class="on-view-text">${prices}</p>` : ""}
+      ${CONFIG.contactEmail ? `<a class="btn" href="${esc(viewMail(p))}">Email me about this painting</a>` : ""}
+    </div>`;
+  }
+
   function productPage(p) {
     const v0 = p.variants[0];
     const many = p.variants.length > 1;
@@ -396,7 +413,7 @@
             ${axes && axes.additive ? `<p class="price-math" id="price-math">${esc(priceIntro(p, axes))}</p>` : ""}
             ${p.size ? `<div class="size">Size: <b>${esc(p.size)}</b></div>` : ""}
             ${p.oneOfAKind && !p.soldOut ? `<div class="size">One of a kind: <b>only 1 available</b></div>` : ""}
-            <div class="buy" id="buy" style="--cols:${cols}">
+            ${onView(p) ? viewBox(p) : `<div class="buy" id="buy" style="--cols:${cols}">
               ${axes ? axes.values.map((vals, i) => `<fieldset class="choice" id="axis-${i}">
                 <legend>${esc(axes.names[i])}<span class="choice-need"> · choose one</span></legend>
                 <div class="choices">${vals.map((val) => `<label><input type="radio" name="axis-${i}" value="${esc(val)}"><span class="opt"><svg class="tick" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.6 3.4 7.4-8"/></svg><span class="opt-text">${esc(axes.label(val))}${axes.adds[i][val] > 0 ? ` <span class="opt-add">+${money(axes.adds[i][val])}</span>` : ""}</span></span></label>`).join("")}</div>
@@ -415,13 +432,13 @@
               </div>
               ${p.faireUrl ? `<p class="wholesale-note">Want to sell this item in your own shop?<br><a href="${esc(p.faireUrl)}" target="_blank" rel="noopener">Order wholesale on Faire ↗</a></p>` : ""}
               ${p.deposit && !p.soldOut ? `<p class="buy-note">More than one house? Add each one to your cart, or ${CONFIG.contactEmail ? `<a class="email-link" href="mailto:${esc(CONFIG.contactEmail)}">email me</a>` : "email me"} about a multi-house discount.</p>` : ""}
-            </div>
+            </div>`}
             ${p.steps && p.steps.length ? `<section class="steps" aria-labelledby="how-it-works">
               <h2 id="how-it-works">How it works</h2>
               <ol class="steps-list">${p.steps.map((t) => `<li><span>${escMail(t)}</span></li>`).join("")}</ol>
               ${p.deposit ? `<p class="steps-note">${p.stepsNote ? `${escMail(p.stepsNote).replace(/\{email\}/g, CONFIG.contactEmail ? emailLink() : "me")} ` : ""}<a class="policy-link" href="#policies-commissions">Full commission policy</a></p>` : ""}
             </section>` : ""}
-            ${p.soldOut ? "" : trustLine(p)}
+            ${p.soldOut || onView(p) ? "" : trustLine(p)}
             <div class="prose">
               ${proseWithDetails(p)}
               ${p.policy ? `<p class="fineprint">${escMail(p.policy)}</p>` : ""}
@@ -430,7 +447,7 @@
           </div>
         </div>
         ${related(p)}
-        ${p.soldOut ? "" : `<div class="buybar" id="buybar" hidden>
+        ${p.soldOut || onView(p) ? "" : `<div class="buybar" id="buybar" hidden>
           <div class="buybar-text"><span class="buybar-name">${esc(p.name)}</span><span class="buybar-price" id="buybar-price">${barPrice(p, vStart, "")}</span></div>
           <button class="btn" type="button" id="buybar-btn">${many ? `Choose ${esc((p.variantLabel || "options").toLowerCase())}` : p.deposit ? buyLabel(p, v0) : "Add to cart"}</button>
         </div>`}
@@ -541,7 +558,7 @@
       // the open cart is the confirmation; say so when a one-of-a-kind's earlier choice was swapped out
       openCart(result === "replaced" ? { text: `There's only one ${p.name}, so this choice replaced the one already in your cart.` } : null);
     };
-    document.getElementById("add").addEventListener("click", buy);
+    document.getElementById("add")?.addEventListener("click", buy);
     // Phone buy bar: adds straight away, or takes you to the options first when there are some.
     const bar = document.getElementById("buybar");
     if (bar && "IntersectionObserver" in window) {
@@ -858,7 +875,7 @@
   }
   function validLines() {
     // Drops anything that's no longer in products.json (renamed, removed, sold out).
-    return cart.filter((l) => { const p = byId(l.id); return p && !p.soldOut && p.variants[l.variant]; });
+    return cart.filter((l) => { const p = byId(l.id); return p && !p.soldOut && !onView(p) && p.variants[l.variant]; });
   }
   function renderCartCount() {
     const el = document.getElementById("cart-count");

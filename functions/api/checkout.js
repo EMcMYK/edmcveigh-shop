@@ -40,6 +40,7 @@ export async function onRequestPost({ request, env }) {
       const variant = product && product.variants[Number(item.variant)];
       if (!product || !variant) throw new UserError("Something in your cart is no longer available. Please remove it and try again.");
       if (product.soldOut) throw new UserError(`${product.name} just sold out. Please remove it and try again.`);
+      if (product.onView) throw new UserError(`${product.name} is on view in a show right now, so it can't be bought here. Please email me about it.`);
 
       if (product.oneOfAKind && seen.has(product.id)) throw new UserError(`There's only one ${product.name}. Please keep just one in your cart.`);
       seen.add(product.id);

@@ -55,7 +55,7 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
   const data = JSON.parse(await readFile(productsPath, "utf8"));
   const settings = JSON.parse(await readFile(path.join(root, "data/etsy-sync.json"), "utf8"));
   const products = data.products;
-  const report = { added: [], updated: [], soldOut: [], back: [], skipped: [], problems: [], held: [] };
+  const report = { added: [], updated: [], soldOut: [], back: [], skipped: [], onView: [], problems: [], held: [] };
 
   // Options, prices and attributes through the shop's Etsy connection (read-only).
   const shopUrl = (process.env.SHOP_URL || "https://edmcveigh-shop.pages.dev").replace(/\/$/, "");
@@ -123,6 +123,8 @@ export async function sync({ root = process.cwd(), fetch = globalThis.fetch, tod
   for (const p of products) {
     const lid = String(p.etsyListingId || "");
     if (!lid || active.has(lid) || ignored.has(lid) || p.soldOut) continue;
+    // On view in a show: taken off Etsy on purpose so it can't sell twice, not sold.
+    if (p.onView) { report.onView.push(p.name); continue; }
     const res = await fetch(`${API}/listings/${lid}`, { headers });
     if (res.status === 404) { gone.push([p, "removed"]); continue; }
     if (!res.ok) { report.problems.push(`${p.name}: couldn't check its Etsy listing (${res.status}), left as is.`); continue; }
@@ -364,6 +366,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     `- Marked sold out: ${report.soldOut.join(", ") || "none"}`,
     `- Available again: ${report.back.join(", ") || "none"}`,
     `- Skipped on purpose: ${report.skipped.join(", ") || "none"}`,
+    `- On view in a show (left as is): ${report.onView.join(", ") || "none"}`,
     ...report.held.map((p) => `- ✋ Held back: ${p}`),
     ...report.problems.map((p) => `- ⚠️ ${p}`),
   ].join("\n");
