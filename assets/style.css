@@ -461,6 +461,9 @@ button { font: inherit; color: inherit; }
   display: flex; flex-direction: column;
   padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+/* Phones (up to 600px, which covers the larger 428-440px iPhones): the cart fills the screen,
+   with no left outline or shadow showing as a strip down the side */
+@media (max-width: 600px) { .drawer { width: 100%; border-left: 0; box-shadow: none; } }
 .drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1.5px solid color-mix(in srgb, var(--ink) 60%, transparent); }
 .drawer-head h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 26px; }
 .icon-btn { border: 0; background: none; font-size: 26px; line-height: 1; cursor: pointer; padding: 4px 8px; color: var(--ink); }
