@@ -2180,6 +2180,108 @@
       "etsySection": "Stickers",
       "badge": "New",
       "newUntil": "2026-11-18"
+    },
+    {
+      "id": "cape-may-lighthouse-print",
+      "name": "Cape May Lighthouse Print",
+      "category": "originals",
+      "variantLabel": "Framing",
+      "variants": [
+        {
+          "name": "Matted",
+          "price": 20
+        },
+        {
+          "name": "Framed",
+          "price": 45
+        }
+      ],
+      "size": "5\" wide × 7\" tall",
+      "images": [
+        "images/cape-may-lighthouse-print/8811974533.jpg",
+        "images/cape-may-lighthouse-print/8764157520.jpg",
+        "images/cape-may-lighthouse-print/8811975017.jpg"
+      ],
+      "soldOut": false,
+      "description": [
+        "The Cape May Lighthouse, standing tall over the dune grass on a blue summer day. I painted the original in pen and ink and watercolor in July 2024. It sold at my Upper Dublin library show, so now it lives on as a print.",
+        "Choose your option:\n• Matted: the print in a white 8x10 mat with a backing board, sealed in a clear sleeve. Fits a standard 8x10 frame.\n• Framed: the matted print in a simple black 8x10 frame, ready to hang.",
+        "• 5x7 inch print with a white border, printed and signed by me\n• Shipped flat in a rigid mailer (framed prints ship boxed)\n• The framed photo is a mockup to show how it looks on a wall",
+        "Painted by me, who I am told is a human. No AI was used to create this painting.",
+        "Colors may look a little different on your screen than in person."
+      ],
+      "details": [],
+      "tags": [
+        "cape may lighthouse",
+        "lighthouse print",
+        "jersey shore art",
+        "cape may art",
+        "watercolor print",
+        "pen and ink art",
+        "lighthouse wall art",
+        "new jersey art",
+        "beach house decor",
+        "coastal wall art",
+        "5x7 art print",
+        "shore house gift",
+        "nautical decor"
+      ],
+      "disclaimer": "",
+      "etsyListingId": 4605754355,
+      "etsySection": "Original Art and Prints",
+      "badge": "New",
+      "newUntil": "2026-11-28"
+    },
+    {
+      "id": "alverthorpe-park-print",
+      "name": "Alverthorpe Park Print",
+      "category": "originals",
+      "variantLabel": "Framing",
+      "variants": [
+        {
+          "name": "Matted",
+          "price": 30
+        },
+        {
+          "name": "Framed",
+          "price": 65
+        }
+      ],
+      "size": "10\" wide × 8\" tall",
+      "images": [
+        "images/alverthorpe-park-print/8811957733.jpg",
+        "images/alverthorpe-park-print/8811957917.jpg",
+        "images/alverthorpe-park-print/8811958209.jpg"
+      ],
+      "soldOut": false,
+      "description": [
+        "A calm summer afternoon at Alverthorpe Park, with the tree line reflected in the still lake. I painted the original in gouache. It sold at my Upper Dublin library show, so now it lives on as a print for anyone who loves this little corner of Montgomery County.",
+        "Choose your option:\n• Matted: the print in a white 11x14 mat with a backing board, sealed in a clear sleeve. Fits a standard 11x14 frame.\n• Framed: the matted print in a simple black 11x14 frame, ready to hang.",
+        "• 8x10 inch print with a white border, printed and signed by me\n• Shipped flat in a rigid mailer (framed prints ship boxed)\n• The framed photo is a mockup to show how it looks on a wall",
+        "Painted by me, who I am told is a human. No AI was used to create this painting.",
+        "Colors may look a little different on your screen than in person."
+      ],
+      "details": [],
+      "tags": [
+        "alverthorpe park",
+        "abington pa",
+        "philly area art",
+        "lake painting print",
+        "gouache painting",
+        "landscape print",
+        "montgomery county",
+        "pennsylvania art",
+        "lake wall art",
+        "nature wall art",
+        "8x10 art print",
+        "green wall art",
+        "local artist gift"
+      ],
+      "disclaimer": "",
+      "etsyListingId": 4605775784,
+      "etsySection": "Original Art and Prints",
+      "badge": "New",
+      "newUntil": "2026-11-28"
     }
   ]
 }
