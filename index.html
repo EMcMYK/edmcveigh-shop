@@ -40,6 +40,14 @@
       // The logo intro plays once per visit, only on the shop's front page, and never for reduced motion.
       var played = false;
       try { played = sessionStorage.getItem("edm-intro") === "1"; } catch (e) {}
+      // Coming from the links page (edmcveigh.com), the visitor just watched the same intro there,
+      // so it doesn't play again here, now or later in this visit.
+      var from = "";
+      try { from = document.referrer ? new URL(document.referrer).hostname : ""; } catch (e) {}
+      if (/[?&]utm_source=links-page\b/.test(location.search) || from === "edmcveigh.com" || from === "www.edmcveigh.com") {
+        played = true;
+        try { sessionStorage.setItem("edm-intro", "1"); } catch (e) {}
+      }
       var page = location.hash.slice(1);
       var front = page === "" || page === "stickers" || page === "originals";
       if (!played && front && !matchMedia("(prefers-reduced-motion: reduce)").matches) root.classList.add("intro");

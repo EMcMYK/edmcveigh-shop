@@ -23,8 +23,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Instrument+Sans:wght@400;500;600&display=swap">
 <script>
-  // hide the page content until the intro hands over (only when the intro will actually run)
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('intro');
+  // hide the page content until the intro hands over (only when the intro will actually run).
+  // It plays once per visit: not again on a reload or when someone comes Back from a link.
+  (() => {
+    let played = false;
+    try { played = sessionStorage.getItem('edm-links-intro') === '1'; } catch (e) {}
+    if (!played && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('intro');
+  })();
   // pick light or dark before anything paints: saved choice, else the viewer's own setting
   (() => {
     let m = null;
@@ -301,6 +306,7 @@ LINKS.forEach((l, i) => {
 (() => {
   const root = document.documentElement;
   if (!root.classList.contains('intro')) return;
+  try { sessionStorage.setItem('edm-links-intro', '1'); } catch (e) { /* plays again next load; harmless */ }
 
   const slot = document.getElementById('logoSlot');
   const logoStatic = document.getElementById('logoStatic');
