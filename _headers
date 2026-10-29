@@ -1,0 +1,10 @@
+# Browser caching (Cloudflare Pages). Pages, scripts, styles and data have no rule here, so browsers
+# check for a newer copy on every visit (a quick "not changed" reply when nothing changed) and updates
+# show up right away. That relies on Cloudflare → Caching → Browser Cache TTL = "Respect Existing Headers".
+# Photos keep their name for life (a changed photo gets a new file name), so they're kept for a week.
+/images/*
+  Cache-Control: public, max-age=604800
+/assets/brand/*
+  Cache-Control: public, max-age=604800
+/social/*
+  Cache-Control: public, max-age=86400
