@@ -308,6 +308,9 @@ export function optionsFrom(inventory, basePrice, settings = {}) {
 }
 
 function categoryFor(section, title, settings) {
+  // Prints share the "Original Art and Prints" Etsy section with the paintings, so the title decides
+  // first: a print isn't one of a kind and must never be taken off Etsy when one sells.
+  if (/\bprints?\b/i.test(title)) return "prints";
   const map = settings.sectionCategories || {};
   for (const [needle, cat] of Object.entries(map)) if (section.toLowerCase().includes(needle.toLowerCase())) return cat;
   if (/painting|original/i.test(title)) return "originals";
