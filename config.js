@@ -25,10 +25,9 @@ window.SHOP_CONFIG = {
     { id: "stickers", title: "Stickers", note: "Waterproof, die cut, glossy or holographic",
       otherTitle: "Philly", groups: [{ title: "Cats", match: "\\bcats?\\b" }],
       ships: "Ships in 2–4 business days" },
-    { id: "originals", title: "Original paintings", note: "One-of-a-kind art",
+    { id: "originals", title: "Original art", note: "One-of-a-kind paintings, and signed prints",
+      otherTitle: "Originals", groups: [{ title: "Prints", match: "\\bprints?\\b" }],
       ships: "Ships in 2–4 business days", returns: "30-day returns" },
-    { id: "prints", title: "Art prints", note: "Prints of my paintings, signed by me",
-      ships: "Ships in 2–4 business days" },
     { id: "portraits", title: "House portraits", note: "Original 8×10 pen and ink",
       feature: true, cta: "Commission a portrait" }
   ]
