@@ -234,7 +234,7 @@
       <section class="ws-intro" aria-labelledby="ws-title">
         <div class="ws-text">
           <h1 id="ws-title">Wholesale</h1>
-          <p>Carry my hand-drawn Philly and cat stickers in your shop. Every sticker is glossy laminated, waterproof and die cut, and I draw, design, print and cut them all myself in the Philly area. No AI was used to create these stickers.</p>
+          <p>Carry my hand-drawn Philly and cat stickers in your shop. Every design comes in your choice of two finishes, Glossy or Holographic glitter, at the same price. They're all laminated, waterproof and die cut, and I draw, design, print and cut them all myself in the Philly area. No AI was used to create these stickers.</p>
           <p>Orders go through Faire. Questions, or want to talk first? ${CONFIG.contactEmail ? `Email me at ${emailLink(" or use the ")}` : "Use the "}<a href="#contact">contact form</a>.</p>
           <div class="ws-actions">
             ${WS.faireUrl ? `<a class="btn btn-link" href="${esc(WS.faireUrl)}" target="_blank" rel="noopener">Order on Faire ${out}</a>` : ""}

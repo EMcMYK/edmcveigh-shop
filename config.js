@@ -25,12 +25,12 @@ window.SHOP_CONFIG = {
     faireUrl: "https://www.faire.com/direct/edmcveighart",
     prices: { default: 2.00, "its-a-philly-thing-sheet": 3.50 },
     minimumPerDesign: 10,
-    minimums: {},
+    minimums: { "its-a-philly-thing-sheet": 6 },
     terms: [
       ["Wholesale", "$2 per sticker, $3.50 per 9-sticker sheet"],
       ["Suggested retail", "$3.99 per sticker, $6.99 per sheet"],
-      ["Minimums", "10 of each design, $60 per order"],
-      ["Finishes", "Glossy or holographic glitter, same price"]
+      ["Minimums", "10 of each sticker design, 6 of the sticker sheet, $60 per order"],
+      ["Finishes", "Every design comes in your choice of Glossy or Holographic glitter, same price"]
     ],
     catalogPdf: ""
   },
