@@ -653,6 +653,7 @@ button { font: inherit; color: inherit; }
 .wholesale-note a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
 
 /* ---------- Wholesale page (#wholesale) ---------- */
+.no-banner .banner { display: none; }
 .wholesale { padding-block: 40px 64px; display: grid; gap: 44px; }
 .ws-intro { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px 44px; align-items: start; }
 @media (max-width: 760px) { .ws-intro { grid-template-columns: 1fr; } }

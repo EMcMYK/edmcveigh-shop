@@ -50,6 +50,8 @@
       }
       var page = location.hash.slice(1);
       var front = page === "" || page === "stickers" || page === "originals";
+      // The wholesale page is for shops, so the free-shipping banner (a retail offer) is hidden there.
+      if (page === "wholesale") root.classList.add("no-banner");
       if (!played && front && !matchMedia("(prefers-reduced-motion: reduce)").matches) root.classList.add("intro");
     })();
   </script>

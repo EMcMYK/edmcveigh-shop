@@ -124,6 +124,7 @@
   // The header itself lives in index.html so the logo intro can land in it; this fills it in.
   function renderChrome(active) {
     document.getElementById("banner").textContent = CONFIG.shippingNote || "Free US shipping";
+    document.documentElement.classList.toggle("no-banner", active === "wholesale"); // a retail offer, not for shops
     const current = (c) => active === c.id ? 'aria-current="page"' : "";
     document.getElementById("nav").innerHTML = CATEGORIES.map((c) =>
       `<a href="${esc(sectionHref(c))}" ${current(c)}>${esc(c.title)}</a>`).join("") +
@@ -1119,7 +1120,7 @@
       document.title = "Contact · ed.mcveigh shop";
       wireContact();
     } else if (hash === "wholesale" && CONFIG.wholesale) {
-      app.innerHTML = wholesalePage(); renderChrome("");
+      app.innerHTML = wholesalePage(); renderChrome("wholesale");
       document.title = "Wholesale · ed.mcveigh shop";
     } else if (hash === "privacy") {
       renderChrome("");
