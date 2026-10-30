@@ -27,9 +27,9 @@ window.SHOP_CONFIG = {
     minimumPerDesign: 10,
     minimums: { "its-a-philly-thing-sheet": 6 },
     terms: [
-      ["Wholesale", "$2 per sticker, $3.50 per 9-sticker sheet"],
-      ["Suggested retail", "$3.99 per sticker, $6.99 per sheet"],
-      ["Minimums", "10 of each sticker design, 6 of the sticker sheet, $60 per order"],
+      ["Wholesale", "$2 each for single stickers. $3.50 for the It's A Philly Thing Sticker Sheet (9 stickers on one sheet)"],
+      ["Suggested retail", "$3.99 each for single stickers. $6.99 for the It's A Philly Thing Sticker Sheet"],
+      ["Minimums", "10 of each single sticker design, 6 of the It's A Philly Thing Sticker Sheet, $60 per order"],
       ["Finishes", "Every design comes in your choice of Glossy or Holographic glitter, same price"]
     ],
     catalogPdf: ""
