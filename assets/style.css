@@ -651,3 +651,20 @@ button { font: inherit; color: inherit; }
 /* tucked up under the button, with room before the trust line below */
 .wholesale-note { margin: -6px 0 10px; font-size: 14px; line-height: 1.5; color: var(--ink-soft); text-align: right; }
 .wholesale-note a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+
+/* ---------- Wholesale page (#wholesale) ---------- */
+.wholesale { padding-block: 40px 64px; display: grid; gap: 44px; }
+.ws-intro { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px 44px; align-items: start; }
+@media (max-width: 760px) { .ws-intro { grid-template-columns: 1fr; } }
+.ws-text { display: grid; gap: 14px; max-width: 62ch; }
+.ws-text h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(36px, 6vw, 52px); line-height: 1.05; }
+.ws-text p { margin: 0; }
+.ws-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+.ws-actions .ext { margin-left: 4px; }
+.ws-terms { margin: 0; border: 2px solid var(--ink); border-radius: var(--radius); background: var(--tint); padding: 4px 20px; display: grid; }
+.ws-terms div { display: grid; gap: 2px; padding: 14px 0; }
+.ws-terms div + div { border-top: 1px solid color-mix(in srgb, var(--ink) 22%, transparent); }
+.ws-terms dt { font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink); }
+.ws-terms dd { margin: 0; font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ws-card .card-price .ws-unit { font-weight: 500; font-size: 13px; color: var(--ink-soft); }
+.ws-fine { margin: 28px 0 0; }

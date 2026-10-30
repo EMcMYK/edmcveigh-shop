@@ -3,3 +3,6 @@
 /shop/p/kvsfrzg2pqe6uiarlu13hf6blc978y https://shop.edmcveigh.com/#portraits 302
 /shop https://shop.edmcveigh.com/ 302
 /shop/* https://shop.edmcveigh.com/ 302
+
+# edmcveigh.com/wholesale -> the wholesale page in the shop (easy link to send to store owners).
+/wholesale https://shop.edmcveigh.com/#wholesale 302

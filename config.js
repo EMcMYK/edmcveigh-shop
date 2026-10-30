@@ -14,6 +14,27 @@ window.SHOP_CONFIG = {
   // Text shown in the banner and cart.
   shippingNote: "Free US shipping on everything",
 
+  // The wholesale page (shop.edmcveigh.com/#wholesale, also edmcveigh.com/wholesale) for shops that
+  // want to carry the stickers. It lists every sticker that has a "faireUrl" in products.json.
+  // Keep these matching what's set on Faire.
+  //   prices:   wholesale price of each product by its id; "default" covers the rest.
+  //   minimums: a product whose minimum differs from "minimumPerDesign", by its id.
+  //   terms:    the lines in the box at the top, in plain words.
+  //   catalogPdf: the catalog PDF to download (put the file in wholesale/), or "" for no button.
+  wholesale: {
+    faireUrl: "https://www.faire.com/direct/edmcveighart",
+    prices: { default: 2.00, "its-a-philly-thing-sheet": 3.50 },
+    minimumPerDesign: 10,
+    minimums: {},
+    terms: [
+      ["Wholesale", "$2 per sticker, $3.50 per 9-sticker sheet"],
+      ["Suggested retail", "$3.99 per sticker, $6.99 per sheet"],
+      ["Minimums", "10 of each design, $60 per order"],
+      ["Finishes", "Glossy or holographic glitter, same price"]
+    ],
+    catalogPdf: ""
+  },
+
   // Shop sections, in the order they appear. Each product's "category" must match one of these ids.
   //   groups:  splits a section into smaller groups by product name (a regular expression);
   //            anything that matches no group goes first, under "otherTitle".

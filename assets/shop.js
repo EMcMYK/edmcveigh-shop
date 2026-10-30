@@ -11,6 +11,7 @@
       shop.edmcveigh.com/#thanks     → shown after someone pays
       shop.edmcveigh.com/#policies   → shipping, returns, commission policies and terms (text: data/policies.html)
       shop.edmcveigh.com/#privacy    → privacy policy (text: data/privacy.html; /privacy redirects here)
+      shop.edmcveigh.com/#wholesale  → wholesale info for shops, ordering on Faire (settings: config.js "wholesale")
   - Keeps a cart in the visitor's browser and sends it to /api/checkout,
     which hands the customer off to Stripe's secure checkout page.
 */
@@ -158,6 +159,7 @@
       <nav aria-label="Elsewhere">
         <a href="#policies">Shop policies &amp; terms</a>
         <a href="#privacy">Privacy</a>
+        ${CONFIG.wholesale ? `<a href="#wholesale">Wholesale</a>` : ""}
         ${CONFIG.etsyUrl ? `<a href="${esc(CONFIG.etsyUrl)}" target="_blank" rel="noopener">Etsy</a>` : ""}
         ${CONFIG.instagramUrl ? `<a href="${esc(CONFIG.instagramUrl)}" target="_blank" rel="noopener">Instagram</a>` : ""}
         ${CONFIG.contactEmail ? emailLink() : ""}
@@ -195,6 +197,62 @@
           <span class="card-price">${p.soldOut ? (p.oneOfAKind ? `Sold <span class="found">· found a home</span>` : "Sold out") : priceText}</span>
         </div>
       </a>`;
+  }
+
+  // ---------- wholesale (for shops that want to carry the stickers; settings in config.js) ----------
+  const WS = CONFIG.wholesale || {};
+  const wsPrice = (p) => (WS.prices && WS.prices[p.id]) ?? (WS.prices && WS.prices.default);
+  const wsMinimum = (p) => (WS.minimums && WS.minimums[p.id]) ?? WS.minimumPerDesign;
+  const wsList = () => PRODUCTS.filter((p) => p.faireUrl && !p.soldOut);
+
+  // A product card that opens the product on Faire, with its wholesale and suggested retail price.
+  function wholesaleCard(p) {
+    const ws = wsPrice(p), min = wsMinimum(p);
+    const name = p.category === "stickers" ? p.name.replace(/ Sticker$/, "") : p.name;
+    return `
+      <a class="card ws-card" href="${esc(p.faireUrl)}" target="_blank" rel="noopener" aria-label="${esc(name)} on Faire (opens a new tab)">
+        <div class="frame">${/best seller/i.test(p.badge || "") ?`<span class="badge">${esc(p.badge)}</span>` : ""}${picture(p)}</div>
+        <div class="card-body">
+          <span class="card-title">${esc(name)}</span>
+          ${p.size ? `<span class="card-meta">${esc(p.size)}</span>` : ""}
+          <span class="card-price">${ws != null ? `${money(ws)} <span class="ws-unit">wholesale</span>` : ""}</span>
+          <span class="card-meta">${money(lowest(p))} suggested retail${min && min !== WS.minimumPerDesign ? ` · minimum ${esc(min)}` : ""}</span>
+        </div>
+      </a>`;
+  }
+
+  function wholesalePage() {
+    const list = wsList();
+    const c = categoryOf("stickers");
+    const tests = (c.groups || []).map((g) => ({ ...g, re: new RegExp(g.match, "i") }));
+    const groupOf = (p) => tests.find((g) => g.re.test(p.name));
+    const parts = [{ title: c.otherTitle || "Stickers", items: list.filter((p) => !groupOf(p)) }]
+      .concat(tests.map((g) => ({ title: g.title, items: list.filter((p) => groupOf(p) === g) })))
+      .filter((g) => g.items.length);
+    const out = `<span class="ext" aria-hidden="true">↗</span>`;
+    return `<div class="wrap"><div class="wholesale">
+      <section class="ws-intro" aria-labelledby="ws-title">
+        <div class="ws-text">
+          <h1 id="ws-title">Wholesale</h1>
+          <p>Carry my hand-drawn Philly and cat stickers in your shop. Every sticker is glossy laminated, waterproof and die cut, and I draw, design, print and cut them all myself in the Philly area. No AI was used to create these stickers.</p>
+          <p>Orders go through Faire. Questions, or want to talk first? ${CONFIG.contactEmail ? `Email me at ${emailLink(" or use the ")}` : "Use the "}<a href="#contact">contact form</a>.</p>
+          <div class="ws-actions">
+            ${WS.faireUrl ? `<a class="btn btn-link" href="${esc(WS.faireUrl)}" target="_blank" rel="noopener">Order on Faire ${out}</a>` : ""}
+            ${WS.catalogPdf ? `<a class="btn btn-secondary btn-link" href="${esc(WS.catalogPdf)}" download>Download the catalog (PDF)</a>` : ""}
+          </div>
+        </div>
+        ${(WS.terms || []).length ? `<dl class="ws-terms">${WS.terms.map(([k, v]) =>
+          `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>` : ""}
+      </section>
+      <section class="ws-line" aria-labelledby="ws-line-title">
+        <div class="section-head"><h2 id="ws-line-title">The designs</h2><p>${list.length} designs · tap one to see it on Faire</p></div>
+        ${parts.map((g) => `<div class="group">
+          ${parts.length > 1 ? `<h3 class="group-head">${esc(g.title)}</h3>` : ""}
+          <div class="grid">${g.items.map(wholesaleCard).join("")}</div>
+        </div>`).join("")}
+        <p class="fineprint ws-fine">Not affiliated with, endorsed by, or sponsored by any professional sports team, league, or brand.</p>
+      </section>
+    </div></div>`;
   }
 
   // In the description's finish list, "• Holographic: …" uses the shop's label too.
@@ -1060,6 +1118,9 @@
       app.innerHTML = contactPage(); renderChrome("contact");
       document.title = "Contact · ed.mcveigh shop";
       wireContact();
+    } else if (hash === "wholesale" && CONFIG.wholesale) {
+      app.innerHTML = wholesalePage(); renderChrome("");
+      document.title = "Wholesale · ed.mcveigh shop";
     } else if (hash === "privacy") {
       renderChrome("");
       document.title = "Privacy · ed.mcveigh shop";
