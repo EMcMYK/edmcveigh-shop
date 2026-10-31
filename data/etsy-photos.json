@@ -13,13 +13,15 @@
       "id": "philly-statue",
       "listing_id": 4607232485,
       "folder": "PhillyStatue",
-      "replaceAll": true
+      "replaceAll": true,
+      "done": true
     },
     {
       "id": "philly-hockey-emblem",
       "listing_id": 4607255056,
       "folder": "PhillyHockeyEmblem",
-      "replaceAll": true
+      "replaceAll": true,
+      "done": true
     }
   ]
 }

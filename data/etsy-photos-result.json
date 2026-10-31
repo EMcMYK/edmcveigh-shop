@@ -1,6 +1,6 @@
 {
-  "ranAt": "2026-10-31T21:48:52.460Z",
-  "dryRun": true,
+  "ranAt": "2026-10-31T21:50:47.813Z",
+  "dryRun": false,
   "results": [
     {
       "id": "philly-statue",
@@ -18,7 +18,8 @@
         "8_holographic.jpg",
         "9_process.jpg"
       ],
-      "plan": "replace 0 photo(s) with 9"
+      "after": 9,
+      "cleanedUp": true
     },
     {
       "id": "philly-hockey-emblem",
@@ -35,7 +36,8 @@
         "7_pile.jpg",
         "8_holographic.jpg"
       ],
-      "plan": "replace 0 photo(s) with 8"
+      "after": 8,
+      "cleanedUp": true
     }
   ]
 }
