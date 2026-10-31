@@ -1,12 +1,12 @@
 {
-  "ranAt": "2026-10-19T02:45:47.072Z",
+  "ranAt": "2026-10-31T21:48:52.460Z",
   "dryRun": true,
   "results": [
     {
-      "id": "philly-eats-pack",
-      "listing_id": 4598372283,
+      "id": "philly-statue",
+      "listing_id": 4607232485,
       "ok": true,
-      "before": 7,
+      "before": 0,
       "photos": [
         "1_hero.jpg",
         "2_product.jpg",
@@ -14,9 +14,28 @@
         "4_laptop.jpg",
         "5_bottle.jpg",
         "6_notebook.jpg",
-        "7_pile.jpg"
+        "7_pile.jpg",
+        "8_holographic.jpg",
+        "9_process.jpg"
       ],
-      "plan": "replace 7 photo(s) with 7"
+      "plan": "replace 0 photo(s) with 9"
+    },
+    {
+      "id": "philly-hockey-emblem",
+      "listing_id": 4607255056,
+      "ok": true,
+      "before": 0,
+      "photos": [
+        "1_hero.jpg",
+        "2_product.jpg",
+        "3_size.jpg",
+        "4_laptop.jpg",
+        "5_bottle.jpg",
+        "6_notebook.jpg",
+        "7_pile.jpg",
+        "8_holographic.jpg"
+      ],
+      "plan": "replace 0 photo(s) with 8"
     }
   ]
 }
