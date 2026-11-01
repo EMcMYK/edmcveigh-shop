@@ -2282,6 +2282,124 @@
       "etsySection": "Original Art and Prints",
       "badge": "New",
       "newUntil": "2026-11-28"
+    },
+    {
+      "id": "philly-hockey-emblem-sticker",
+      "name": "Philly Hockey Emblem Sticker",
+      "category": "stickers",
+      "variantLabel": "Finish",
+      "variants": [
+        {
+          "name": "Glossy",
+          "price": 3.99
+        },
+        {
+          "name": "Holographic",
+          "price": 3.99
+        }
+      ],
+      "size": "3\" wide × 1.57\" tall",
+      "images": [
+        "images/philly-hockey-emblem-sticker/8824062657.jpg",
+        "images/philly-hockey-emblem-sticker/8824062809.jpg",
+        "images/philly-hockey-emblem-sticker/8776237744.jpg",
+        "images/philly-hockey-emblem-sticker/8824062987.jpg",
+        "images/philly-hockey-emblem-sticker/8776237944.jpg",
+        "images/philly-hockey-emblem-sticker/8824063167.jpg",
+        "images/philly-hockey-emblem-sticker/8776238148.jpg",
+        "images/philly-hockey-emblem-sticker/8776238274.jpg"
+      ],
+      "soldOut": false,
+      "description": [
+        "I took the classic Philly hockey emblem and drew it as a 3D block letter. Good on a laptop, a water bottle, or the cooler at the tailgate.",
+        "Choose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)",
+        "Drawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.",
+        "Some photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.",
+        "Not affiliated with, endorsed by, or sponsored by any professional sports team or league."
+      ],
+      "details": [
+        "Glossy laminated waterproof vinyl, or a sparkly holographic finish",
+        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used to create these stickers."
+      ],
+      "tags": [
+        "philly sticker",
+        "philadelphia decal",
+        "philly hockey",
+        "hockey sticker",
+        "orange and black",
+        "philly sports",
+        "3d sticker",
+        "hockey fan gift",
+        "hand drawn sticker",
+        "laptop sticker",
+        "water bottle decal",
+        "waterproof sticker",
+        "holographic sticker"
+      ],
+      "disclaimer": "",
+      "etsyListingId": 4607255056,
+      "etsySection": "Stickers",
+      "badge": "New",
+      "newUntil": "2026-12-01"
+    },
+    {
+      "id": "philly-boxer-statue-sticker",
+      "name": "Philly Boxer Statue Sticker",
+      "category": "stickers",
+      "variantLabel": "Finish",
+      "variants": [
+        {
+          "name": "Glossy",
+          "price": 3.99
+        },
+        {
+          "name": "Holographic",
+          "price": 3.99
+        }
+      ],
+      "size": "2.95\" wide × 3\" tall",
+      "images": [
+        "images/philly-boxer-statue-sticker/8776236298.jpg",
+        "images/philly-boxer-statue-sticker/8824061543.jpg",
+        "images/philly-boxer-statue-sticker/8776236560.jpg",
+        "images/philly-boxer-statue-sticker/8824061829.jpg",
+        "images/philly-boxer-statue-sticker/8776236774.jpg",
+        "images/philly-boxer-statue-sticker/8824062041.jpg",
+        "images/philly-boxer-statue-sticker/8776237004.jpg",
+        "images/philly-boxer-statue-sticker/8824062321.jpg"
+      ],
+      "soldOut": false,
+      "description": [
+        "Arms up at the top of the Art Museum steps. I drew the famous boxer statue in marker and stood him on a cracked stone PHILLY, reminiscent of the stone that the art museum is made out of.",
+        "Choose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)",
+        "Drawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.",
+        "Some photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light. One photo and the video show my drawing, printing, and cutting process.",
+        "Not affiliated with, endorsed by, or sponsored by any film studio, professional sports team, or league."
+      ],
+      "details": [
+        "Glossy laminated waterproof vinyl, or a sparkly holographic finish",
+        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used to create these stickers."
+      ],
+      "tags": [
+        "philly sticker",
+        "philadelphia decal",
+        "boxer statue",
+        "art museum steps",
+        "philly boxing",
+        "philly sports",
+        "philly gift",
+        "hand drawn sticker",
+        "laptop sticker",
+        "water bottle decal",
+        "waterproof sticker",
+        "holographic sticker",
+        "philly pride"
+      ],
+      "disclaimer": "",
+      "etsyListingId": 4607232485,
+      "etsySection": "Stickers",
+      "badge": "New",
+      "newUntil": "2026-12-01"
     }
   ]
 }
