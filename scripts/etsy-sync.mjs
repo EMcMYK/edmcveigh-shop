@@ -35,7 +35,23 @@ import path from "node:path";
 
 const API = process.env.ETSY_API_BASE || "https://openapi.etsy.com/v3/application";
 
+// When Etsy says "too many requests" (429) or has a hiccup (5xx), wait and try again instead of failing
+// the whole run. The shop and Mom's site share one Etsy app key, so their syncs can overlap and hit the limit.
+const RETRY_WAITS = [2, 5, 15, 30];   // seconds; Etsy's Retry-After wins when it's longer
+export function withEtsyRetry(fetch, log = console.log, sleep = (s) => new Promise((r) => setTimeout(r, s * 1000))) {
+  return async (url, opts) => {
+    for (let attempt = 0; ; attempt++) {
+      const res = await fetch(url, opts);
+      if (!String(url).startsWith(API) || (res.status !== 429 && res.status < 500) || attempt >= RETRY_WAITS.length) return res;
+      const wait = Math.max(RETRY_WAITS[attempt], Math.min(Number(res.headers?.get?.("retry-after")) || 0, 120));
+      log(`Etsy said ${res.status}; waiting ${wait}s and trying again (${attempt + 1}/${RETRY_WAITS.length})`);
+      await sleep(wait);
+    }
+  };
+}
+
 export async function sync({ root = process.cwd(), fetch = globalThis.fetch, today = new Date(), log = console.log } = {}) {
+  fetch = withEtsyRetry(fetch, log);
   const key = process.env.ETSY_API_KEY, secret = process.env.ETSY_SHARED_SECRET;
   if (!key || !secret) throw new Error("Missing ETSY_API_KEY or ETSY_SHARED_SECRET (add them under GitHub → Settings → Secrets and variables → Actions).");
   const headers = { "x-api-key": `${key}:${secret}`, accept: "application/json" };
