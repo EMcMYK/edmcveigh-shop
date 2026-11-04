@@ -32,7 +32,7 @@ window.SHOP_CONFIG = {
       ["Minimums", "10 of each single sticker design, 6 of the It's A Philly Thing Sticker Sheet, $60 per order"],
       ["Finishes", "Every design comes in your choice of Glossy or Holographic glitter, same price"]
     ],
-    catalogPdf: ""
+    catalogPdf: "wholesale/ed-mcveigh-wholesale-catalog-2026.pdf"
   },
 
   // Shop sections, in the order they appear. Each product's "category" must match one of these ids.
