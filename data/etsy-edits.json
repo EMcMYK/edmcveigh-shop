@@ -591,7 +591,8 @@
       "setSkus": {
         "glossy": "EM-PH-SHT-G",
         "holographic": "EM-PH-SHT-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-i76ers-highway-sign",
@@ -599,7 +600,8 @@
       "setSkus": {
         "glossy": "EM-PH-I76-G",
         "holographic": "EM-PH-I76-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-cheesesteak",
@@ -607,7 +609,8 @@
       "setSkus": {
         "glossy": "EM-PH-CHST-G",
         "holographic": "EM-PH-CHST-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-wooder-ice",
@@ -615,7 +618,8 @@
       "setSkus": {
         "glossy": "EM-PH-WICE-G",
         "holographic": "EM-PH-WICE-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-pork-roll",
@@ -623,7 +627,8 @@
       "setSkus": {
         "glossy": "EM-PH-PROL-G",
         "holographic": "EM-PH-PROL-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-scrapple",
@@ -631,7 +636,8 @@
       "setSkus": {
         "glossy": "EM-PH-SCRP-G",
         "holographic": "EM-PH-SCRP-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-butterscotch-snack-cake",
@@ -639,7 +645,8 @@
       "setSkus": {
         "glossy": "EM-PH-BTSC-G",
         "holographic": "EM-PH-BTSC-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-philly-candy-bar",
@@ -647,7 +654,8 @@
       "setSkus": {
         "glossy": "EM-PH-CNDY-G",
         "holographic": "EM-PH-CNDY-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-peanut-butter-cup",
@@ -655,7 +663,8 @@
       "setSkus": {
         "glossy": "EM-PH-PBCP-G",
         "holographic": "EM-PH-PBCP-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-philly-goose",
@@ -663,7 +672,8 @@
       "setSkus": {
         "glossy": "EM-PH-GOOS-G",
         "holographic": "EM-PH-GOOS-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-independence-hall",
@@ -671,7 +681,8 @@
       "setSkus": {
         "glossy": "EM-PH-INDH-G",
         "holographic": "EM-PH-INDH-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-spectrum-arena",
@@ -679,7 +690,8 @@
       "setSkus": {
         "glossy": "EM-PH-SPEC-G",
         "holographic": "EM-PH-SPEC-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-fly-eagles-fly",
@@ -687,7 +699,8 @@
       "setSkus": {
         "glossy": "EM-PH-WING-G",
         "holographic": "EM-PH-WING-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-philly-boxer-statue-sticker",
@@ -695,7 +708,8 @@
       "setSkus": {
         "glossy": "EM-PH-BOXR-G",
         "holographic": "EM-PH-BOXR-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-philly-hockey-emblem-sticker",
@@ -703,7 +717,8 @@
       "setSkus": {
         "glossy": "EM-PH-HOCK-G",
         "holographic": "EM-PH-HOCK-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-ninja-cat",
@@ -711,7 +726,8 @@
       "setSkus": {
         "glossy": "EM-CT-NINJ-G",
         "holographic": "EM-CT-NINJ-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-cat-burger",
@@ -719,7 +735,8 @@
       "setSkus": {
         "glossy": "EM-CT-BRGR-G",
         "holographic": "EM-CT-BRGR-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-reading-cat",
@@ -727,7 +744,8 @@
       "setSkus": {
         "glossy": "EM-CT-READ-G",
         "holographic": "EM-CT-READ-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-bread-cat",
@@ -735,7 +753,8 @@
       "setSkus": {
         "glossy": "EM-CT-BRED-G",
         "holographic": "EM-CT-BRED-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-sushi-cats",
@@ -743,7 +762,8 @@
       "setSkus": {
         "glossy": "EM-CT-SUSH-G",
         "holographic": "EM-CT-SUSH-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-orange-cat",
@@ -751,7 +771,8 @@
       "setSkus": {
         "glossy": "EM-CT-ORNG-G",
         "holographic": "EM-CT-ORNG-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-ghost-cat",
@@ -759,7 +780,8 @@
       "setSkus": {
         "glossy": "EM-CT-GHST-G",
         "holographic": "EM-CT-GHST-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-philly-eats-sticker-pack",
@@ -767,7 +789,8 @@
       "setSkus": {
         "glossy": "EM-PK-EATS-G",
         "holographic": "EM-PK-EATS-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-philly-sweets-sticker-pack",
@@ -775,7 +798,8 @@
       "setSkus": {
         "glossy": "EM-PK-SWTS-G",
         "holographic": "EM-PK-SWTS-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-philly-feast-sticker-pack",
@@ -783,7 +807,8 @@
       "setSkus": {
         "glossy": "EM-PK-FEST-G",
         "holographic": "EM-PK-FEST-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-philly-icons-sticker-pack",
@@ -791,7 +816,8 @@
       "setSkus": {
         "glossy": "EM-PK-ICON-G",
         "holographic": "EM-PK-ICON-H"
-      }
+      },
+      "applied": "2026-11-06"
     },
     {
       "id": "sku-cat-sticker-pack",
@@ -799,7 +825,8 @@
       "setSkus": {
         "glossy": "EM-PK-CATS-G",
         "holographic": "EM-PK-CATS-H"
-      }
+      },
+      "applied": "2026-11-06"
     }
   ]
 }
