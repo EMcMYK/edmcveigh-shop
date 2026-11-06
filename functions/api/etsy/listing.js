@@ -10,6 +10,7 @@
     "removeOption": "Clear",                                           optional: drop a variation option
     "renameOption": { "from": "regular", "to": "glossy" },             optional: rename words in option names
     "enableOption": "holographic",                                     optional: turn an option on (stock = the others')
+    "setSkus": { "glossy": "EM-PH-CHST-G", "holographic": "EM-PH-CHST-H" }, optional: a SKU for each option
     "dryRun": true                                                     optional: show what would change, change nothing
   }
   Returns the listing's before and after (title, description, tags, options).
@@ -21,7 +22,7 @@ export async function onRequestPost({ request, env }) {
   if (missing.length) return Response.json({ error: `Missing in Cloudflare: ${missing.join(", ")}` }, { status: 500 });
   if (!isAdmin(request, env)) return new Response("Forbidden", { status: 403 });
   try {
-    const { listing_id, expect = {}, set = {}, titleReplace, removeOption, renameOption, enableOption, dryRun } = await request.json();
+    const { listing_id, expect = {}, set = {}, titleReplace, removeOption, renameOption, enableOption, setSkus, dryRun } = await request.json();
     if (!listing_id) return Response.json({ error: "listing_id is required" }, { status: 400 });
     const before = await snapshot(env, listing_id);
 
@@ -41,11 +42,12 @@ export async function onRequestPost({ request, env }) {
     if (patch.title && patch.title.length > 140) return Response.json({ error: "Etsy titles are up to 140 characters." }, { status: 400 });
 
     let inventory = null;
-    if (removeOption || renameOption || enableOption) {
-      inventory = rebuildInventory(before._inventory, removeOption, renameOption, before._readiness, enableOption);
+    if (setSkus && (typeof setSkus !== "object" || Object.values(setSkus).some((v) => typeof v !== "string" || !v || v.length > 32))) return Response.json({ error: "setSkus needs a SKU (up to 32 characters) for each option." }, { status: 400 });
+    if (removeOption || renameOption || enableOption || setSkus) {
+      inventory = rebuildInventory(before._inventory, removeOption, renameOption, before._readiness, enableOption, setSkus);
       if (inventory.error) return Response.json({ error: inventory.error, before: strip(before) }, { status: 400 });
     }
-    if (dryRun) return Response.json({ dryRun: true, before: strip(before), patch, options: inventory ? optionNames(inventory) : null, readiness: inventory ? inventory.products.flatMap((p) => p.offerings.map((o) => o.readiness_state_id ?? null)) : null });
+    if (dryRun) return Response.json({ dryRun: true, before: strip(before), patch, options: inventory ? optionNames(inventory) : null, readiness: inventory ? inventory.products.flatMap((p) => p.offerings.map((o) => o.readiness_state_id ?? null)) : null, skus: inventory ? inventory.products.map((p) => p.sku) : null });
 
     // Options first: if Etsy refuses them, nothing else on the listing has changed yet.
     if (inventory) await etsy(env, `/listings/${listing_id}/inventory`, { method: "PUT", body: inventory });
@@ -53,7 +55,8 @@ export async function onRequestPost({ request, env }) {
     const after = await snapshot(env, listing_id);
     const ok = Object.entries(patch).every(([k, v]) => JSON.stringify(norm(after[k])) === JSON.stringify(norm(v)))
       && (!inventory || JSON.stringify(after.options.map((o) => o.toLowerCase())) === JSON.stringify(optionNames(inventory).map((o) => o.toLowerCase())))
-      && (!enableOption || after.available.some((o) => o.toLowerCase().includes(enableOption.toLowerCase())));
+      && (!enableOption || after.available.some((o) => o.toLowerCase().includes(enableOption.toLowerCase())))
+      && (!setSkus || JSON.stringify(after.skus) === JSON.stringify(inventory.products.map((p) => p.sku)));
     return Response.json({ ok, before: strip(before), after: strip(after) });
   } catch (e) {
     return Response.json({ error: e.message }, { status: 502 });
@@ -66,7 +69,8 @@ async function snapshot(env, id) {
   const options = (inv.products || []).filter((p) => !p.is_deleted).map((p) => (p.property_values || []).map((pv) => (pv.values || []).join(" ")).join(", ") || "Standard");
   const available = (inv.products || []).filter((p) => !p.is_deleted && (p.offerings || []).some((o) => o.is_enabled !== false && !o.is_deleted && Number(o.quantity ?? 1) > 0))
     .map((p) => (p.property_values || []).map((pv) => (pv.values || []).join(" ")).join(", ") || "Standard");
-  return { title: l.title, description: l.description, tags: l.tags || [], state: l.state, options, available, _inventory: inv, _readiness: l.readiness_state_id ?? null };
+  const skus = (inv.products || []).filter((p) => !p.is_deleted).map((p) => p.sku || "");
+  return { title: l.title, description: l.description, tags: l.tags || [], state: l.state, options, available, skus, _inventory: inv, _readiness: l.readiness_state_id ?? null };
 }
 const strip = ({ _inventory, _readiness, ...rest }) => rest;
 // Compare the way the shop sync reads Etsy: entities decoded, paragraphs trimmed.
@@ -79,7 +83,8 @@ const norm = (v) => (typeof v === "string"
 
 // The inventory as Etsy wants it back, minus any product whose option matches `remove`,
 // and with `rename.from` swapped for `rename.to` inside option names (e.g. "regular" → "glossy").
-function rebuildInventory(inv, remove, rename, listingReadiness, enable) {
+// `skus` ({ "glossy": "EM-…-G", … }) gives each option whose name contains a key that SKU.
+function rebuildInventory(inv, remove, rename, listingReadiness, enable, skus) {
   const all = (inv.products || []).filter((p) => !p.is_deleted);
   const has = (p, name) => (p.property_values || []).some((pv) => (pv.values || []).some((v) => v.toLowerCase().includes(name.toLowerCase())));
   const keep = remove ? all.filter((p) => !has(p, remove)) : all;
@@ -87,12 +92,14 @@ function rebuildInventory(inv, remove, rename, listingReadiness, enable) {
   if (!keep.length) return { error: "That would remove every option." };
   if (rename && !keep.some((p) => has(p, rename.from))) return { error: `No "${rename.from}" option to rename on this listing.` };
   if (enable && !keep.some((p) => has(p, enable))) return { error: `No "${enable}" option to turn on on this listing.` };
+  const skuFor = (p) => { const k = Object.keys(skus).filter((key) => has(p, key)); return k.length === 1 ? skus[k[0]] : null; };
+  if (skus && keep.some((p) => !skuFor(p))) return { error: `Every option needs exactly one SKU; options here: ${keep.map((p) => (p.property_values || []).map((pv) => (pv.values || []).join(" ")).join(", ")).join(" / ")}.` };
   // Turning an option on: it gets the same stock count as the options already on sale (at least 1).
   const onSale = keep.filter((p) => !(enable && has(p, enable))).flatMap((p) => p.offerings || []).filter((o) => o.is_enabled !== false && !o.is_deleted);
   const stock = Math.max(1, ...onSale.map((o) => Number(o.quantity) || 0));
   return {
     products: keep.map((p) => ({
-      sku: p.sku || "",
+      sku: skus ? skuFor(p) : (p.sku || ""),
       property_values: (p.property_values || []).map((pv) => {
         const values = (pv.values || []).map((v) => (rename ? v.replace(new RegExp(rename.from.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"), rename.to) : v));
         const renamed = JSON.stringify(values) !== JSON.stringify(pv.values || []);
@@ -108,7 +115,8 @@ function rebuildInventory(inv, remove, rename, listingReadiness, enable) {
     })),
     price_on_property: inv.price_on_property || [],
     quantity_on_property: inv.quantity_on_property || [],
-    sku_on_property: inv.sku_on_property || []
+    // SKUs that differ per option must say which option property they follow.
+    sku_on_property: skus ? [...new Set(keep.flatMap((p) => (p.property_values || []).map((pv) => pv.property_id)))] : (inv.sku_on_property || [])
   };
 }
 const optionNames = (inv) => inv.products.map((p) => p.property_values.map((pv) => pv.values.join(" ")).join(", ") || "Standard");

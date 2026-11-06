@@ -12,11 +12,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 6.99
+          "price": 6.99,
+          "sku": "EM-PH-SHT-G"
         },
         {
           "name": "Holographic",
-          "price": 6.99
+          "price": 6.99,
+          "sku": "EM-PH-SHT-H"
         }
       ],
       "size": "3.06\" wide × 4.57\" tall sheet, 9 stickers",
@@ -73,11 +75,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-WING-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-WING-H"
         }
       ],
       "size": "3.23\" wide × 1.32\" tall",
@@ -136,11 +140,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-GOOS-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-GOOS-H"
         }
       ],
       "size": "2.7\" wide × 2.03\" tall",
@@ -194,11 +200,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-I76-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-I76-H"
         }
       ],
       "size": "2.98\" wide × 3\" tall",
@@ -252,11 +260,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-CHST-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-CHST-H"
         }
       ],
       "size": "3.22\" wide × 1.76\" tall",
@@ -309,11 +319,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-WICE-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-WICE-H"
         }
       ],
       "size": "1.76\" wide × 3.2\" tall",
@@ -368,11 +380,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-PROL-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-PROL-H"
         }
       ],
       "size": "1.95\" × 1.95\"",
@@ -426,11 +440,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-SCRP-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-SCRP-H"
         }
       ],
       "size": "1.95\" × 1.95\"",
@@ -485,11 +501,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-BTSC-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-BTSC-H"
         }
       ],
       "size": "3.04\" wide × 1.98\" tall",
@@ -544,11 +562,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-CNDY-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-CNDY-H"
         }
       ],
       "size": "3.31\" wide × 1.45\" tall",
@@ -602,11 +622,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-PBCP-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-PBCP-H"
         }
       ],
       "size": "2.77\" wide × 1.24\" tall",
@@ -660,11 +682,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-SPEC-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-SPEC-H"
         }
       ],
       "size": "2.9\" wide × 1.84\" tall",
@@ -719,11 +743,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-INDH-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-INDH-H"
         }
       ],
       "size": "2.52\" wide × 3.18\" tall",
@@ -776,11 +802,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-SUSH-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-SUSH-H"
         }
       ],
       "size": "3\" wide × 1.64\" tall",
@@ -834,11 +862,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-GHST-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-GHST-H"
         }
       ],
       "size": "2.15\" wide × 2.69\" tall",
@@ -892,11 +922,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-BRGR-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-BRGR-H"
         }
       ],
       "size": "2.98\" wide × 3\" tall",
@@ -949,11 +981,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-BRED-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-BRED-H"
         }
       ],
       "size": "3\" wide × 2.64\" tall",
@@ -1006,11 +1040,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-NINJ-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-NINJ-H"
         }
       ],
       "size": "2.79\" wide × 3.03\" tall",
@@ -1063,11 +1099,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-ORNG-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-ORNG-H"
         }
       ],
       "size": "1.87\" wide × 3\" tall",
@@ -1120,11 +1158,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-READ-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-CT-READ-H"
         }
       ],
       "size": "1.79\" wide × 3.07\" tall",
@@ -1898,11 +1938,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 10
+          "price": 10,
+          "sku": "EM-PK-SWTS-G"
         },
         {
           "name": "Holographic",
-          "price": 10
+          "price": 10,
+          "sku": "EM-PK-SWTS-H"
         }
       ],
       "size": "3 stickers (sizes in the description)",
@@ -1957,11 +1999,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 21
+          "price": 21,
+          "sku": "EM-PK-FEST-G"
         },
         {
           "name": "Holographic",
-          "price": 21
+          "price": 21,
+          "sku": "EM-PK-FEST-H"
         }
       ],
       "size": "7 stickers (sizes in the description)",
@@ -2015,11 +2059,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 16
+          "price": 16,
+          "sku": "EM-PK-ICON-G"
         },
         {
           "name": "Holographic",
-          "price": 16
+          "price": 16,
+          "sku": "EM-PK-ICON-H"
         }
       ],
       "size": "5 stickers (sizes in the description)",
@@ -2073,11 +2119,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 21
+          "price": 21,
+          "sku": "EM-PK-CATS-G"
         },
         {
           "name": "Holographic",
-          "price": 21
+          "price": 21,
+          "sku": "EM-PK-CATS-H"
         }
       ],
       "size": "7 stickers (sizes in the description)",
@@ -2130,11 +2178,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 13
+          "price": 13,
+          "sku": "EM-PK-EATS-G"
         },
         {
           "name": "Holographic",
-          "price": 13
+          "price": 13,
+          "sku": "EM-PK-EATS-H"
         }
       ],
       "size": "4 stickers (sizes in the description)",
@@ -2291,11 +2341,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-HOCK-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-HOCK-H"
         }
       ],
       "size": "3\" wide × 1.57\" tall",
@@ -2351,11 +2403,13 @@
       "variants": [
         {
           "name": "Glossy",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-BOXR-G"
         },
         {
           "name": "Holographic",
-          "price": 3.99
+          "price": 3.99,
+          "sku": "EM-PH-BOXR-H"
         }
       ],
       "size": "2.95\" wide × 3\" tall",

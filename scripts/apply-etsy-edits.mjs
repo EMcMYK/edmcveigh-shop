@@ -21,11 +21,11 @@ for (const e of edits) {
   const res = await fetch(`${base}/api/etsy/listing`, {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ listing_id: e.listing_id, expect: e.expect, set: e.set, titleReplace: e.titleReplace, removeOption: e.removeOption, renameOption: e.renameOption, enableOption: e.enableOption, dryRun })
+    body: JSON.stringify({ listing_id: e.listing_id, expect: e.expect, set: e.set, titleReplace: e.titleReplace, removeOption: e.removeOption, renameOption: e.renameOption, enableOption: e.enableOption, setSkus: e.setSkus, dryRun })
   });
   const body = await res.json().catch(async () => ({ error: (await res.text()).slice(0, 300) }));
   const ok = res.ok && (dryRun || body.ok === true);
-  results.push({ id: e.id, listing_id: e.listing_id, ok, status: res.status, error: body.error || null, before: body.before || null, after: body.after || null, options: body.options || null, readiness: body.readiness || null });
+  results.push({ id: e.id, listing_id: e.listing_id, ok, status: res.status, error: body.error || null, before: body.before || null, after: body.after || null, options: body.options || null, readiness: body.readiness || null, skus: body.skus || null });
   console.log(`${ok ? "OK  " : "FAIL"} ${e.id}${body.error ? ": " + body.error : ""}`);
   await new Promise((r) => setTimeout(r, 400));
 }

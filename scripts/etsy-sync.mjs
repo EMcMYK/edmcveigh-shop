@@ -319,7 +319,7 @@ export function optionsFrom(inventory, basePrice, settings = {}) {
     const props = pr.property_values || [];
     if (!label && props.length) label = props.map((pv) => rename(settings.optionLabels, decode(pv.property_name))).join(" and ");
     const name = props.map((pv) => (pv.values || []).map((v) => rename(settings.optionNames, decode(v))).join(" ")).join(", ") || "Standard";
-    variants.push({ name, price: money(offer.price) });
+    variants.push({ name, price: money(offer.price), ...(pr.sku ? { sku: pr.sku } : {}) });
   }
   if (!variants.length) variants.push({ name: "Standard", price: basePrice });
   return { label: variants.length > 1 ? label : "", variants };

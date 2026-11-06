@@ -584,6 +584,222 @@
       "listing_id": 4554781190,
       "enableOption": "holographic",
       "applied": "2026-10-07"
+    },
+    {
+      "id": "sku-its-a-philly-thing-sheet",
+      "listing_id": 4573529209,
+      "setSkus": {
+        "glossy": "EM-PH-SHT-G",
+        "holographic": "EM-PH-SHT-H"
+      }
+    },
+    {
+      "id": "sku-i76ers-highway-sign",
+      "listing_id": 4523073134,
+      "setSkus": {
+        "glossy": "EM-PH-I76-G",
+        "holographic": "EM-PH-I76-H"
+      }
+    },
+    {
+      "id": "sku-cheesesteak",
+      "listing_id": 4523622850,
+      "setSkus": {
+        "glossy": "EM-PH-CHST-G",
+        "holographic": "EM-PH-CHST-H"
+      }
+    },
+    {
+      "id": "sku-wooder-ice",
+      "listing_id": 4524176429,
+      "setSkus": {
+        "glossy": "EM-PH-WICE-G",
+        "holographic": "EM-PH-WICE-H"
+      }
+    },
+    {
+      "id": "sku-pork-roll",
+      "listing_id": 4583406243,
+      "setSkus": {
+        "glossy": "EM-PH-PROL-G",
+        "holographic": "EM-PH-PROL-H"
+      }
+    },
+    {
+      "id": "sku-scrapple",
+      "listing_id": 4583350067,
+      "setSkus": {
+        "glossy": "EM-PH-SCRP-G",
+        "holographic": "EM-PH-SCRP-H"
+      }
+    },
+    {
+      "id": "sku-butterscotch-snack-cake",
+      "listing_id": 4565805514,
+      "setSkus": {
+        "glossy": "EM-PH-BTSC-G",
+        "holographic": "EM-PH-BTSC-H"
+      }
+    },
+    {
+      "id": "sku-philly-candy-bar",
+      "listing_id": 4565779525,
+      "setSkus": {
+        "glossy": "EM-PH-CNDY-G",
+        "holographic": "EM-PH-CNDY-H"
+      }
+    },
+    {
+      "id": "sku-peanut-butter-cup",
+      "listing_id": 4583358662,
+      "setSkus": {
+        "glossy": "EM-PH-PBCP-G",
+        "holographic": "EM-PH-PBCP-H"
+      }
+    },
+    {
+      "id": "sku-philly-goose",
+      "listing_id": 4583415144,
+      "setSkus": {
+        "glossy": "EM-PH-GOOS-G",
+        "holographic": "EM-PH-GOOS-H"
+      }
+    },
+    {
+      "id": "sku-independence-hall",
+      "listing_id": 4521818727,
+      "setSkus": {
+        "glossy": "EM-PH-INDH-G",
+        "holographic": "EM-PH-INDH-H"
+      }
+    },
+    {
+      "id": "sku-spectrum-arena",
+      "listing_id": 4583363725,
+      "setSkus": {
+        "glossy": "EM-PH-SPEC-G",
+        "holographic": "EM-PH-SPEC-H"
+      }
+    },
+    {
+      "id": "sku-fly-eagles-fly",
+      "listing_id": 4561330082,
+      "setSkus": {
+        "glossy": "EM-PH-WING-G",
+        "holographic": "EM-PH-WING-H"
+      }
+    },
+    {
+      "id": "sku-philly-boxer-statue-sticker",
+      "listing_id": 4607232485,
+      "setSkus": {
+        "glossy": "EM-PH-BOXR-G",
+        "holographic": "EM-PH-BOXR-H"
+      }
+    },
+    {
+      "id": "sku-philly-hockey-emblem-sticker",
+      "listing_id": 4607255056,
+      "setSkus": {
+        "glossy": "EM-PH-HOCK-G",
+        "holographic": "EM-PH-HOCK-H"
+      }
+    },
+    {
+      "id": "sku-ninja-cat",
+      "listing_id": 4583908924,
+      "setSkus": {
+        "glossy": "EM-CT-NINJ-G",
+        "holographic": "EM-CT-NINJ-H"
+      }
+    },
+    {
+      "id": "sku-cat-burger",
+      "listing_id": 4583901395,
+      "setSkus": {
+        "glossy": "EM-CT-BRGR-G",
+        "holographic": "EM-CT-BRGR-H"
+      }
+    },
+    {
+      "id": "sku-reading-cat",
+      "listing_id": 4583903333,
+      "setSkus": {
+        "glossy": "EM-CT-READ-G",
+        "holographic": "EM-CT-READ-H"
+      }
+    },
+    {
+      "id": "sku-bread-cat",
+      "listing_id": 4561322795,
+      "setSkus": {
+        "glossy": "EM-CT-BRED-G",
+        "holographic": "EM-CT-BRED-H"
+      }
+    },
+    {
+      "id": "sku-sushi-cats",
+      "listing_id": 4588662487,
+      "setSkus": {
+        "glossy": "EM-CT-SUSH-G",
+        "holographic": "EM-CT-SUSH-H"
+      }
+    },
+    {
+      "id": "sku-orange-cat",
+      "listing_id": 4583915710,
+      "setSkus": {
+        "glossy": "EM-CT-ORNG-G",
+        "holographic": "EM-CT-ORNG-H"
+      }
+    },
+    {
+      "id": "sku-ghost-cat",
+      "listing_id": 4554781190,
+      "setSkus": {
+        "glossy": "EM-CT-GHST-G",
+        "holographic": "EM-CT-GHST-H"
+      }
+    },
+    {
+      "id": "sku-philly-eats-sticker-pack",
+      "listing_id": 4598372283,
+      "setSkus": {
+        "glossy": "EM-PK-EATS-G",
+        "holographic": "EM-PK-EATS-H"
+      }
+    },
+    {
+      "id": "sku-philly-sweets-sticker-pack",
+      "listing_id": 4598395310,
+      "setSkus": {
+        "glossy": "EM-PK-SWTS-G",
+        "holographic": "EM-PK-SWTS-H"
+      }
+    },
+    {
+      "id": "sku-philly-feast-sticker-pack",
+      "listing_id": 4598395652,
+      "setSkus": {
+        "glossy": "EM-PK-FEST-G",
+        "holographic": "EM-PK-FEST-H"
+      }
+    },
+    {
+      "id": "sku-philly-icons-sticker-pack",
+      "listing_id": 4598395980,
+      "setSkus": {
+        "glossy": "EM-PK-ICON-G",
+        "holographic": "EM-PK-ICON-H"
+      }
+    },
+    {
+      "id": "sku-cat-sticker-pack",
+      "listing_id": 4598374083,
+      "setSkus": {
+        "glossy": "EM-PK-CATS-G",
+        "holographic": "EM-PK-CATS-H"
+      }
     }
   ]
 }
