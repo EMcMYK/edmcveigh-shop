@@ -2456,6 +2456,70 @@
       "badge": "New",
       "newUntil": "2026-12-01",
       "faireUrl": "https://www.faire.com/product/p_zrzx986sut?fdb=edmcveighart"
+    },
+    {
+      "id": "clap-your-hands-everybody-philly-sticker",
+      "name": "Clap Your Hands Everybody Philly Sticker",
+      "category": "stickers",
+      "variantLabel": "Finish",
+      "variants": [
+        {
+          "name": "Glossy",
+          "price": 3.99,
+          "sku": "EM-PH-CLAP-G"
+        },
+        {
+          "name": "Holographic",
+          "price": 3.99,
+          "sku": "EM-PH-CLAP-H"
+        }
+      ],
+      "size": "2.67\" wide × 1.84\" tall",
+      "images": [
+        "images/clap-your-hands-everybody-philly-sticker/8870177595.jpg",
+        "images/clap-your-hands-everybody-philly-sticker/8822373806.jpg",
+        "images/clap-your-hands-everybody-philly-sticker/8822374052.jpg",
+        "images/clap-your-hands-everybody-philly-sticker/8870178097.jpg",
+        "images/clap-your-hands-everybody-philly-sticker/8822374364.jpg",
+        "images/clap-your-hands-everybody-philly-sticker/8870178373.jpg",
+        "images/clap-your-hands-everybody-philly-sticker/8870178475.jpg",
+        "images/clap-your-hands-everybody-philly-sticker/8822374762.jpg",
+        "images/clap-your-hands-everybody-philly-sticker/8870178791.jpg",
+        "images/clap-your-hands-everybody-philly-sticker/8870178971.jpg"
+      ],
+      "soldOut": false,
+      "description": [
+        "If you've been to a game in South Philly, you already know this one by heart. Retro lettering, red, white and blue, and loud enough for the upper deck. Stick it on your laptop, water bottle, or anything that needs more noise.",
+        "Choose your finish:\n• Glossy: glossy laminated, waterproof vinyl\n• Holographic: sparkly, light-catching finish (sparkle looks different in every light)",
+        "Size: 2.67\" wide × 1.84\" tall",
+        "Drawn, designed, printed, and cut by me, who I am told is a human. No AI was used in the creation of these stickers.",
+        "Some photos are digital mockups showing the actual size. Colors and sparkle vary by screen and light.",
+        "Not affiliated with, endorsed by, or sponsored by any professional sports team or league."
+      ],
+      "details": [
+        "Glossy laminated waterproof vinyl, or a sparkly holographic finish",
+        "Drawn, designed, printed and cut by me, who I am told is a human. No AI was used to create these stickers."
+      ],
+      "tags": [
+        "clap your hands",
+        "philly sticker",
+        "philadelphia decal",
+        "basketball sticker",
+        "philly sports gift",
+        "laptop sticker",
+        "water bottle decal",
+        "waterproof sticker",
+        "holographic sticker",
+        "philly fan gift",
+        "retro sticker",
+        "sports fan sticker",
+        "south philly"
+      ],
+      "disclaimer": "",
+      "etsyListingId": 4612946470,
+      "etsySection": "Stickers",
+      "badge": "New",
+      "newUntil": "2026-12-09"
     }
   ]
 }
